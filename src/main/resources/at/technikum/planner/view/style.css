@@ -1,3 +1,7 @@
+.tab:selected .tab-label {
+    -fx-text-fill: white;
+}
+
 .tab:selected {
-    -fx-background-color: blue;
+    -fx-background-color: #0073ff;
 }

@@ -19,6 +19,10 @@ public class TourListController {
     }
 
     public void onButtonRemove() {
+        int selectedIndex = tourNameListView.getSelectionModel().getSelectedIndex();
+        if (selectedIndex != -1) {
+            tourNameListView.getItems().remove(selectedIndex);
+        }
     }
 
     public void onShowMore() {

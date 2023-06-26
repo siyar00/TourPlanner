@@ -8,17 +8,17 @@
       fx:controller="at.technikum.planner.view.RouteMapController" prefHeight="400.0" prefWidth="600.0">
     <SplitPane dividerPositions="0.5" orientation="horizontal" VBox.vgrow="ALWAYS">
         <TabPane tabClosingPolicy="UNAVAILABLE">
-            <Tab text="%MediaDetails_Tab_General" style="-fx-background-color: transparent;">
+            <Tab text="%MediaDetails_Tab_General" styleClass="tab">
                 <content>
                     <TextArea fx:id="contentTextArea"/>
                 </content>
             </Tab>
-            <Tab text="%MediaDetails_Tab_Route" style="-fx-background-color: transparent;">
+            <Tab text="%MediaDetails_Tab_Route" styleClass="tab">
                 <content>
                     <TextArea/>
                 </content>
             </Tab>
-            <Tab text="%MediaDetails_Tab_Misc" style="-fx-background-color: transparent;">
+            <Tab text="%MediaDetails_Tab_Misc" styleClass="tab">
                 <content>
                     <TextArea/>
                 </content>
