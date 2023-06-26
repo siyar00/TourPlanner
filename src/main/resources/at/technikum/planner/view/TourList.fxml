@@ -4,13 +4,19 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import java.net.URL?>
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="at.technikum.planner.view.TourListController" prefHeight="400.0" prefWidth="600.0">
-    <ToolBar>
+    <ToolBar styleClass="tool-bar">
         <Label text="%TourList"/>
         <Pane HBox.hgrow="ALWAYS"/>
         <Button fx:id="addButton" text="+" onAction="#onButtonAdd"/>
         <Button fx:id="deleteButton" text="-" onAction="#onButtonRemove"/>
         <Button fx:id="showMoreButton" text="..." onAction="#onShowMore"/>
     </ToolBar>
-    <ListView fx:id="tourNameListView" VBox.vgrow="ALWAYS"/>
+    <ListView styleClass="list-cell" fx:id="tourNameListView" VBox.vgrow="ALWAYS"/>
+
+    <stylesheets>
+        <URL value="@style.css"/>
+    </stylesheets>
+
 </VBox>
