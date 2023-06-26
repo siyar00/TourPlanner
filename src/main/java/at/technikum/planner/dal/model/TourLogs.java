@@ -1,4 +1,4 @@
-package at.technikum.planner.model;
+package at.technikum.planner.dal.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
