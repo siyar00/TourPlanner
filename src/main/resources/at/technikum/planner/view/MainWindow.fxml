@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.VBox?>
-<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="at.technikum.planner.view.MainWindowController"
-      prefHeight="400.0" prefWidth="600.0">
+<?import javafx.scene.layout.*?>
+<VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="at.technikum.planner.view.MainWindowController">
     <MenuBar>
         <Menu text="%Menu_File">
             <MenuItem text="%Menu_File_Import"/>
             <MenuItem text="%Menu_File_Export"/>
-            <MenuItem text="%Menu_File_Quit" onAction="#onMenuFileQuitClicked"/>
+            <MenuItem onAction="#onMenuFileQuitClicked" text="%Menu_File_Quit"/>
         </Menu>
         <Menu text="%Menu_Edit">
             <MenuItem text="%Menu_Edit_Duplicate"/>
@@ -17,12 +17,21 @@
             <MenuItem mnemonicParsing="false" text="%Menu_Options_Settings"/>
         </Menu>
         <Menu text="%Menu_Help">
-            <MenuItem text="%Menu_Help_About" onAction="#onMenuHelpAboutClicked"/>
+            <MenuItem onAction="#onMenuHelpAboutClicked" text="%Menu_Help_About"/>
         </Menu>
     </MenuBar>
-<!--    <fx:include fx:id="searchBar" source="SearchBar.fxml"/>-->
-<!--    <SplitPane dividerPositions="0.3" VBox.vgrow="ALWAYS">-->
-<!--        <fx:include fx:id="mediaOverview" source="MediaOverview.fxml"/>-->
-<!--        <fx:include fx:id="mediaDetails" source="MediaDetails.fxml"/>-->
-<!--    </SplitPane>-->
+    <fx:include source="SearchBar.fxml"/>
+    <SplitPane dividerPositions="0.3" prefHeight="400" prefWidth="600.0" VBox.vgrow="ALWAYS">
+        <items>
+            <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0"
+                        minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+            </AnchorPane>
+            <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+                <items>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0"/>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0"/>
+                </items>
+            </SplitPane>
+        </items>
+    </SplitPane>
 </VBox>
