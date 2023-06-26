@@ -5,7 +5,6 @@ module at.technikum.planner {
     requires spring.boot;
     requires spring.context;
 
-
     opens at.technikum.planner.view to javafx.fxml;
     opens at.technikum.planner to javafx.fxml;
     exports at.technikum.planner;
