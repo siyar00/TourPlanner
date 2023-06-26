@@ -12,5 +12,6 @@
         <Button fx:id="deleteButton" text="-" onAction="#onButtonRemove"/>
         <Button text="..." onAction="#giveMoreOptions"/>
     </ToolBar>
-    <ListView fx:id="mediaItemList" VBox.vgrow="ALWAYS"/>
+    <TableView fx:id="logTable" VBox.vgrow="ALWAYS">
+    </TableView>
 </VBox>
