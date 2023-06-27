@@ -2,19 +2,31 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.VBox?>
+<?import java.net.URL?>
+
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
       fx:controller="at.technikum.planner.view.RouteMapController" prefHeight="400.0" prefWidth="600.0">
     <SplitPane dividerPositions="0.5" orientation="horizontal" VBox.vgrow="ALWAYS">
         <TabPane tabClosingPolicy="UNAVAILABLE">
-            <Tab text="%MediaDetails_Tab_General">
-                <TextArea fx:id="contentTextArea"/>
+            <Tab text="%MediaDetails_Tab_General" styleClass="tab">
+                <content>
+                    <TextArea fx:id="contentTextArea"/>
+                </content>
             </Tab>
-            <Tab text="%MediaDetails_Tab_Route">
-                <TextArea/>
+            <Tab text="%MediaDetails_Tab_Route" styleClass="tab">
+                <content>
+                    <TextArea/>
+                </content>
             </Tab>
-            <Tab text="%MediaDetails_Tab_Misc">
-                <TextArea/>
+            <Tab text="%MediaDetails_Tab_Misc" styleClass="tab">
+                <content>
+                    <TextArea/>
+                </content>
             </Tab>
         </TabPane>
     </SplitPane>
+
+    <stylesheets>
+        <URL value="@style.css"/>
+    </stylesheets>
 </VBox>

@@ -1,0 +1,39 @@
+.tab:selected .tab-label {
+    -fx-text-fill: white;
+}
+
+.tab:selected {
+    -fx-background-color: #0099ce;
+}
+
+.tool-bar {
+    -fx-background-color: #0099ce;
+}
+
+.tool-bar .label {
+    -fx-text-fill: white;
+}
+
+.searchButton:selected .label {
+    -fx-text-fill: white;
+}
+
+.searchButton:selected {
+    -fx-background-color: #0099ce;
+}
+
+.list-cell:odd {
+    -fx-background-color: #e8f2d0;
+}
+
+.list-cell:even {
+    -fx-background-color: #ffffff;
+}
+
+.list-cell:selected {
+    -fx-background-color: #0099ce;
+}
+
+.list-cell:selected .list-cell-label {
+    -fx-text-fill: white;
+}

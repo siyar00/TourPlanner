@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
+<?import java.net.URL?>
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="at.technikum.planner.view.TourLogsController" prefHeight="400.0" prefWidth="600.0">
-    <ToolBar>
+    <ToolBar styleClass="tool-bar">
         <Label text="%TourLogs"/>
         <Pane HBox.hgrow="ALWAYS"/>
         <Button accessibleText="Add" onAction="#onButtonAdd" text="+"/>
@@ -23,4 +22,9 @@
     </ToolBar>
     <TableView fx:id="logTable" VBox.vgrow="ALWAYS">
     </TableView>
+
+    <stylesheets>
+    <URL value="@style.css"/>
+    </stylesheets>
+
 </VBox>
