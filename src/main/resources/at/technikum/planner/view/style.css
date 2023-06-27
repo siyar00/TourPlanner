@@ -37,7 +37,3 @@
 .list-cell:selected .list-cell-label {
     -fx-text-fill: white;
 }
-
-.menu-bar {
-    -fx-background-color: #a0cc14;
-}

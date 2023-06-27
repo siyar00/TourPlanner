@@ -1,4 +1,4 @@
-package at.technikum.planner.model.dal;
+package at.technikum.planner.dal;
 
 import at.technikum.planner.model.Tour;
 
