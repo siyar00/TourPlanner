@@ -9,24 +9,18 @@
     <SplitPane dividerPositions="0.5" orientation="horizontal" VBox.vgrow="ALWAYS">
         <TabPane tabClosingPolicy="UNAVAILABLE">
             <Tab text="%MediaDetails_Tab_General" styleClass="tab">
-                <content>
-                    <TextArea fx:id="contentTextArea"/>
-                </content>
+                <TextArea fx:id="contentTextArea"/>
             </Tab>
             <Tab text="%MediaDetails_Tab_Route" styleClass="tab">
-                <content>
-                    <TextArea/>
-                </content>
+                <TextArea/>
             </Tab>
             <Tab text="%MediaDetails_Tab_Misc" styleClass="tab">
-                <content>
-                    <TextArea/>
-                </content>
+                <TextArea/>
             </Tab>
         </TabPane>
     </SplitPane>
 
     <stylesheets>
-        <URL value="@style.css"/>
+        <URL value="@../stylesheets/style.css"/>
     </stylesheets>
 </VBox>

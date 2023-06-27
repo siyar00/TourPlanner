@@ -8,9 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -25,6 +23,10 @@ public class TourEditModalController {
     @FXML
     private ComboBox<String> transportComboBox;
     @FXML
+    private ComboBox<String> tourStartComboBox;
+    @FXML
+    private ComboBox<String> tourEndComboBox;
+    @FXML
     private TextField TourName;
     @FXML
     private TextField TourStartStreet;
@@ -33,20 +35,17 @@ public class TourEditModalController {
     @FXML
     private TextField TourStartCity;
     @FXML
-    private TextField TourStartCountry;
-    @FXML
     private TextField TourEndStreet;
     @FXML
     private TextField TourEndZip;
     @FXML
     private TextField TourEndCity;
     @FXML
-    private TextField TourEndCountry;
-    @FXML
     private Button editButton;
     @FXML
     private Button exitButton;
     private final Tour tour;
+    private ResourceBundle resourceBundle;
 
     public TourEditModalController(Tour tour) {
         this.tour = tour;
@@ -58,16 +57,18 @@ public class TourEditModalController {
 
     @FXML
     void initialize() {
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("at.technikum.planner.view.gui_strings_de");
+        resourceBundle = ResourceBundle.getBundle("at.technikum.planner.view.gui_strings_de");
         this.transportComboBox.getItems().addAll(resourceBundle.getString("Car"), resourceBundle.getString("Pedestrian"));
+        this.tourStartComboBox.getItems().addAll(resourceBundle.getString("Austria"), resourceBundle.getString("Germany"), resourceBundle.getString("Switzerland"));
+        this.tourEndComboBox.getItems().addAll(resourceBundle.getString("Austria"), resourceBundle.getString("Germany"), resourceBundle.getString("Switzerland"));
         TourName.setText(tour.getName());
         TourStartStreet.setText(tour.getStartAddress().getStreet());
         TourStartCity.setText(tour.getStartAddress().getCity());
-        TourStartCountry.setText(tour.getStartAddress().getCountry());
         TourEndStreet.setText(tour.getEndAddress().getStreet());
         TourEndCity.setText(tour.getEndAddress().getCity());
-        TourEndCountry.setText(tour.getEndAddress().getCountry());
         transportComboBox.getSelectionModel().select(tour.getTransportation());
+        tourStartComboBox.getSelectionModel().select(tour.getStartAddress().getCountry());
+        tourEndComboBox.getSelectionModel().select(tour.getEndAddress().getCountry());
         if (tour.getStartAddress().getZip() != null)
             TourStartZip.setText(String.valueOf(tour.getStartAddress().getZip()));
         if (tour.getEndAddress().getZip() != null)
@@ -95,14 +96,14 @@ public class TourEditModalController {
                 Tour tour = Tour.builder().name(TourName.getText().trim())
                         .startAddress(Address.builder()
                                 .street(TourStartStreet.getText().trim())
-                                .zip(Integer.getInteger(TourStartZip.getText().trim()))
+                                .zip(Integer.valueOf(TourStartZip.getText().trim()))
                                 .city(TourStartCity.getText().trim())
-                                .country(TourStartCountry.getText().trim()).build())
+                                .country(tourStartComboBox.getValue()).build())
                         .endAddress(Address.builder()
                                 .street(TourEndStreet.getText().trim())
-                                .zip(Integer.getInteger(TourEndZip.getText().trim()))
+                                .zip(Integer.valueOf(TourEndZip.getText().trim()))
                                 .city(TourEndCity.getText().trim())
-                                .country(TourEndCountry.getText().trim()).build())
+                                .country(tourEndComboBox.getValue()).build())
                         .transportation(transportComboBox.getValue())
                         .route(null)
                         .misc(null)
@@ -110,8 +111,13 @@ public class TourEditModalController {
                 exitButton.getScene().getWindow().setUserData(tour);
                 onCloseWindow();
             }
-        } catch (Exception e) {
-            System.out.println("Please enter a valid zip code.");
+        } catch (NumberFormatException ignored) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initOwner(exitButton.getScene().getWindow());
+            alert.setTitle(resourceBundle.getString("TourEditModal_ZipErrorTitle"));
+            alert.setHeaderText(null);
+            alert.setContentText(resourceBundle.getString("TourEditModal_ZipErrorText"));
+            alert.showAndWait();
         }
     }
 
@@ -120,12 +126,15 @@ public class TourEditModalController {
         TourStartStreet.clear();
         TourStartZip.clear();
         TourStartCity.clear();
-        TourStartCountry.clear();
         TourEndStreet.clear();
         TourEndZip.clear();
         TourEndCity.clear();
-        TourEndCountry.clear();
         transportComboBox.getSelectionModel().clearSelection();
+        transportComboBox.setPromptText(resourceBundle.getString("TourModal_Transportation"));
+        tourStartComboBox.getSelectionModel().clearSelection();
+        tourStartComboBox.setPromptText(resourceBundle.getString("TourModal_Country"));
+        tourEndComboBox.getSelectionModel().clearSelection();
+        tourEndComboBox.setPromptText(resourceBundle.getString("TourModal_Country"));
         editButton.setDisable(true);
     }
 

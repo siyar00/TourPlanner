@@ -6,15 +6,17 @@ import at.technikum.planner.view.modal.TourModalController;
 import at.technikum.planner.viewmodel.TourListViewModel;
 import at.technikum.planner.viewmodel.TourModalViewModel;
 import javafx.fxml.FXML;
-
 import javafx.scene.control.*;
-import javafx.util.Callback;
 
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 public class TourListController {
     @FXML
+    private Button addButton;
+    @FXML
     private ListView<Tour> tourNameListView = new ListView<>();
+    ResourceBundle bundle = ResourceBundle.getBundle("at.technikum.planner.view.gui_strings_de");
 
     public TourListController(TourListViewModel tourListViewModel) {
     }
@@ -22,38 +24,43 @@ public class TourListController {
     public void onButtonAdd() throws IOException {
         TourModalController tourModalController = new TourModalController(new TourModalViewModel());
         Tour tour = tourModalController.stage(tourModalController);
-        if(tour != null)
-            tourNameListView.getItems().add(tour);
-        /*TourModalController tourModalController = new TourModalController();
-        String tourName = tourModalController.stage();
-
-        if (tourName != null) {
-            if (tourNameListView.getItems().contains(tourName)) {
-                // Show modal with existing tour name message
+        if (tour != null) {
+            if (tourNameListView.getItems().stream().anyMatch(t -> t.getName().equals(tour.getName()))) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Tour Name Exists");
+                alert.initOwner(addButton.getScene().getWindow());
+                alert.setTitle(bundle.getString("TourList_ExistingTitle"));
                 alert.setHeaderText(null);
-                alert.setContentText("Eine Tour mit diesem Namen existiert bereits.");
+                alert.setContentText(bundle.getString("TourList_ExistingText"));
                 alert.showAndWait();
-            } else {
-                tourNameListView.getItems().add(tourName);
+                return;
             }
-        }*/
+            tourNameListView.getItems().add(tour);
+            tourNameListView.setCellFactory(param -> new ListCell<>() {
+                @Override
+                protected void updateItem(Tour item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null || item.getName() == null) {
+                        setText(null);
+                    } else {
+                        setText(item.getName());
+                    }
+                }
+            });
+        }
     }
 
     public void onButtonRemove() {
         int selectedIndex = tourNameListView.getSelectionModel().getSelectedIndex();
         if (selectedIndex != -1) {
-            // Show confirmation modal
             Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
-            confirmationAlert.setTitle("Tour löschen");
+            confirmationAlert.initOwner(addButton.getScene().getWindow());
+            confirmationAlert.setTitle(bundle.getString("TourList_DeleteTitle"));
             confirmationAlert.setHeaderText(null);
-            confirmationAlert.setContentText("Möchten Sie diese Tour wirklich löschen?");
-            ButtonType deleteButton = new ButtonType("Löschen");
-            ButtonType cancelButton = new ButtonType("Abbrechen");
+            confirmationAlert.setContentText(bundle.getString("TourList_DeleteText"));
+            ButtonType deleteButton = new ButtonType(bundle.getString("TourModal_Delete"));
+            ButtonType cancelButton = new ButtonType(bundle.getString("TourModal_Cancel"));
             confirmationAlert.getButtonTypes().setAll(deleteButton, cancelButton);
 
-            // Handle user's response
             confirmationAlert.showAndWait().ifPresent(response -> {
                 if (response == deleteButton) {
                     tourNameListView.getItems().remove(selectedIndex);
@@ -64,11 +71,11 @@ public class TourListController {
 
     public void onEditButton() throws IOException {
         Tour tour;
-        if((tour = tourNameListView.getSelectionModel().getSelectedItem()) == null)
+        if ((tour = tourNameListView.getSelectionModel().getSelectedItem()) == null)
             return;
         TourEditModalController tourEditModalController = new TourEditModalController(tour);
         tour = tourEditModalController.stage(tourEditModalController);
-        if(tour != null)
+        if (tour != null)
             tourNameListView.getItems().set(tourNameListView.getSelectionModel().getSelectedIndex(), tour);
     }
 }

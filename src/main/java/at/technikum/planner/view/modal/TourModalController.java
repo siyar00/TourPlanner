@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -27,6 +28,10 @@ public class TourModalController implements Initializable {
     @FXML
     private ComboBox<String> transportComboBox;
     @FXML
+    private ComboBox<String> tourStartCountryComboBox;
+    @FXML
+    private ComboBox<String> tourEndCountryComboBox;
+    @FXML
     private TextField TourName;
     @FXML
     private TextField TourStartStreet;
@@ -35,26 +40,26 @@ public class TourModalController implements Initializable {
     @FXML
     private TextField TourStartCity;
     @FXML
-    private TextField TourStartCountry;
-    @FXML
     private TextField TourEndStreet;
     @FXML
     private TextField TourEndZip;
     @FXML
     private TextField TourEndCity;
     @FXML
-    private TextField TourEndCountry;
-    @FXML
     private Button okayButton;
     @FXML
     private Button exitButton;
+    private ResourceBundle resourceBundle;
 
     public TourModalController(TourModalViewModel tourModalViewModel) {
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.resourceBundle = resourceBundle;
         transportComboBox.getItems().addAll(resourceBundle.getString("Car"), resourceBundle.getString("Pedestrian"));
+        tourStartCountryComboBox.getItems().addAll(resourceBundle.getString("Austria"), resourceBundle.getString("Germany"), resourceBundle.getString("Switzerland"));
+        tourEndCountryComboBox.getItems().addAll(resourceBundle.getString("Austria"), resourceBundle.getString("Germany"), resourceBundle.getString("Switzerland"));
     }
 
     public void enterKey(KeyEvent keyEvent) {
@@ -80,12 +85,12 @@ public class TourModalController implements Initializable {
                                 .street(TourStartStreet.getText().trim())
                                 .zip(Integer.valueOf(TourStartZip.getText().trim()))
                                 .city(TourStartCity.getText().trim())
-                                .country(TourStartCountry.getText().trim()).build())
+                                .country(tourStartCountryComboBox.getValue()).build())
                         .endAddress(Address.builder()
                                 .street(TourEndStreet.getText().trim())
                                 .zip(Integer.valueOf(TourEndZip.getText().trim()))
                                 .city(TourEndCity.getText().trim())
-                                .country(TourEndCountry.getText().trim()).build())
+                                .country(tourEndCountryComboBox.getValue()).build())
                         .transportation(transportComboBox.getValue())
                         .route(null)
                         .misc(null)
@@ -94,7 +99,12 @@ public class TourModalController implements Initializable {
                 onCloseWindow();
             }
         } catch (NumberFormatException e) {
-            System.out.println("Please enter a valid zip code.");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initOwner(exitButton.getScene().getWindow());
+            alert.setTitle(resourceBundle.getString("TourEditModal_ZipErrorTitle"));
+            alert.setHeaderText(null);
+            alert.setContentText(resourceBundle.getString("TourEditModal_ZipErrorText"));
+            alert.showAndWait();
         }
     }
 
@@ -103,12 +113,14 @@ public class TourModalController implements Initializable {
         TourStartStreet.clear();
         TourStartZip.clear();
         TourStartCity.clear();
-        TourStartCountry.clear();
         TourEndStreet.clear();
         TourEndZip.clear();
         TourEndCity.clear();
-        TourEndCountry.clear();
-        transportComboBox.getSelectionModel().clearSelection();
+        transportComboBox.setPromptText(resourceBundle.getString("TourModal_Transportation"));
+        tourStartCountryComboBox.getSelectionModel().clearSelection();
+        tourStartCountryComboBox.setPromptText(resourceBundle.getString("TourModal_Country"));
+        tourEndCountryComboBox.getSelectionModel().clearSelection();
+        tourEndCountryComboBox.setPromptText(resourceBundle.getString("TourModal_Country"));
         okayButton.setDisable(true);
     }
 
