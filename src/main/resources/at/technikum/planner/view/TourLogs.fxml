@@ -9,12 +9,13 @@
     <ToolBar styleClass="tool-bar">
         <Label text="%TourLogs"/>
         <Pane HBox.hgrow="ALWAYS"/>
-        <Button text="+" onAction="#onButtonAdd"/>
+        <Button fx:id="addButton" text="+" onAction="#onButtonAdd"/>
         <Button fx:id="deleteButton" text="-" onAction="#onButtonRemove"/>
         <Button text="..." onAction="#giveMoreOptions"/>
     </ToolBar>
     <TableView fx:id="logTable" VBox.vgrow="ALWAYS">
     </TableView>
+
     <stylesheets>
     <URL value="@style.css"/>
     </stylesheets>

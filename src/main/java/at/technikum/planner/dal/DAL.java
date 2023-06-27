@@ -1,6 +1,6 @@
 package at.technikum.planner.dal;
 
-import at.technikum.planner.dal.model.Tour;
+import at.technikum.planner.model.Tour;
 
 public class DAL {
 
