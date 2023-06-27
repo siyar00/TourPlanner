@@ -2,9 +2,10 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import java.net.URL?>
 <VBox prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="at.technikum.planner.view.MainWindowController">
-    <MenuBar>
+    <MenuBar styleClass="menu-bar">
         <Menu text="%Menu_File">
             <MenuItem text="%Menu_File_Import"/>
             <MenuItem text="%Menu_File_Export"/>
@@ -28,4 +29,9 @@
             <fx:include source="TourLogs.fxml"/>
         </SplitPane>
     </SplitPane>
+
+    <stylesheets>
+        <URL value="@style.css"/>
+    </stylesheets>
+
 </VBox>
