@@ -1,6 +1,6 @@
 package at.technikum.planner.dal;
 
-import at.technikum.planner.dal.model.Tour;
+import at.technikum.planner.model.Tour;
 
 import java.io.IOException;
 import java.util.List;
@@ -32,7 +32,7 @@ public class TourDao implements Dao<Tour>{
     }
 
     @Override
-    public void update(Tour tour) throws Exception, IOException {
+    public void update(Tour tour) {
 
     }
 

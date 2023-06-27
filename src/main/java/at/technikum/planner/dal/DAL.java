@@ -1,10 +1,10 @@
 package at.technikum.planner.dal;
 
-import at.technikum.planner.dal.model.Tour;
+import at.technikum.planner.model.Tour;
 
 public class DAL {
 
-    private Dao<Tour> tourDao;
+    private final Dao<Tour> tourDao;
 
     private DAL() {
         tourDao = new TourDao();
@@ -17,7 +17,7 @@ public class DAL {
     //
     // Singleton-Pattern for DAL with early-binding
     //
-    private static DAL instance = new DAL();
+    private static final DAL instance = new DAL();
 
     public static DAL getInstance() {
         return instance;
