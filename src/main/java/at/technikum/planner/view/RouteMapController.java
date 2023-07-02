@@ -2,8 +2,13 @@ package at.technikum.planner.view;
 
 import at.technikum.planner.viewmodel.RouteMapViewModel;
 import javafx.fxml.FXML;
+import javafx.scene.text.Text;
+
 
 public class RouteMapController {
+
+    @FXML
+    private Text generalContentText;
 
     private final RouteMapViewModel viewModel;
 
@@ -17,5 +22,6 @@ public class RouteMapController {
 
     @FXML
     void initialize() {
+        generalContentText.textProperty().bindBidirectional(viewModel.contenteProperty());
     }
 }
