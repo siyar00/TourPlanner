@@ -4,12 +4,12 @@
 <?import javafx.scene.layout.VBox?>
 <?import java.net.URL?>
 
-<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="at.technikum.planner.view.RouteMapController" prefHeight="400.0" prefWidth="600.0">
+<?import javafx.scene.text.Text?>
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" prefHeight="400.0" prefWidth="600.0" fx:controller="at.technikum.planner.view.RouteMapController">
     <SplitPane dividerPositions="0.5" orientation="horizontal" VBox.vgrow="ALWAYS">
         <TabPane tabClosingPolicy="UNAVAILABLE">
             <Tab text="%MediaDetails_Tab_General" styleClass="tab">
-                <TextArea fx:id="contentTextArea"/>
+                <Text fx:id="generalContentText"/>
             </Tab>
             <Tab text="%MediaDetails_Tab_Route" styleClass="tab">
                 <TextArea/>

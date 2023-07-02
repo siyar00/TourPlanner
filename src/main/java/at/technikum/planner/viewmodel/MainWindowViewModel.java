@@ -1,5 +1,7 @@
 package at.technikum.planner.viewmodel;
 
+import at.technikum.planner.model.Tour;
+
 public class MainWindowViewModel {
     private final TourListViewModel tourListViewModel;
     private final SearchBarViewModel searchBarViewModel;
@@ -11,5 +13,11 @@ public class MainWindowViewModel {
         this.searchBarViewModel = searchBarViewModel;
         this.tourLogsViewModel = tourLogsViewModel;
         this.routeMapViewModel = routeMapViewModel;
+        
+        this.tourListViewModel.addSelectionChangedListener(this::selectTour);
+    }
+
+    private void selectTour(Tour selectedTour) {
+        routeMapViewModel.setTour(selectedTour);
     }
 }

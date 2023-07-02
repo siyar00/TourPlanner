@@ -16,9 +16,17 @@ public class TourListController {
     private Button addButton;
     @FXML
     private ListView<Tour> tourNameListView = new ListView<>();
-    ResourceBundle bundle = ResourceBundle.getBundle("at.technikum.planner.view.gui_strings_de");
+    private final ResourceBundle bundle = ResourceBundle.getBundle("at.technikum.planner.view.gui_strings_de");
+    private final TourListViewModel tourListViewModel;
 
     public TourListController(TourListViewModel tourListViewModel) {
+        this.tourListViewModel = tourListViewModel;
+    }
+
+    @FXML
+    void initialize(){
+        tourNameListView.setItems(tourListViewModel.getObservableTours());
+        tourNameListView.getSelectionModel().selectedItemProperty().addListener(tourListViewModel.getChangeListener());
     }
 
     public void onButtonAdd() throws IOException {
@@ -34,7 +42,7 @@ public class TourListController {
                 alert.showAndWait();
                 return;
             }
-            tourNameListView.getItems().add(tour);
+            tourListViewModel.addNewTour(tour);
             tourNameListView.setCellFactory(param -> new ListCell<>() {
                 @Override
                 protected void updateItem(Tour item, boolean empty) {
@@ -60,10 +68,9 @@ public class TourListController {
             ButtonType deleteButton = new ButtonType(bundle.getString("TourModal_Delete"));
             ButtonType cancelButton = new ButtonType(bundle.getString("TourModal_Cancel"));
             confirmationAlert.getButtonTypes().setAll(deleteButton, cancelButton);
-
             confirmationAlert.showAndWait().ifPresent(response -> {
                 if (response == deleteButton) {
-                    tourNameListView.getItems().remove(selectedIndex);
+                    tourListViewModel.removeTour(tourNameListView.getSelectionModel().getSelectedItem());
                 }
             });
         }
