@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" prefHeight="400.0" prefWidth="600.0" fx:controller="at.technikum.planner.view.RouteMapController">
+    <SplitPane dividerPositions="0.5" orientation="horizontal" VBox.vgrow="ALWAYS">
+        <TabPane tabClosingPolicy="UNAVAILABLE">
+            <Tab text="%MediaDetails_Tab_General" styleClass="tab">
+                <Text fx:id="generalContentText"/>
+            </Tab>
+            <Tab text="%MediaDetails_Tab_Route" styleClass="tab">
+                <Pane VBox.vgrow="ALWAYS">
+                    <ImageView fx:id="mapImage" fitHeight="-Infinity" fitWidth="-Infinity" pickOnBounds="true" />
+                </Pane>
+            </Tab>
+            <Tab text="%MediaDetails_Tab_Misc" styleClass="tab">
+                <TextArea/>
+            </Tab>
+        </TabPane>
+    </SplitPane>
+</VBox>
