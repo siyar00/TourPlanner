@@ -7,7 +7,22 @@ import lombok.Data;
 @Builder
 public class Address {
     private String street;
+    private Integer zip;
     private String city;
     private String country;
-    private Integer zip;
+
+    @Override
+    public String toString() {
+        if (street == null) {
+            return zip + " " + city + ", " + country;
+        } else if (zip == null) {
+            return street + ", " + city + ", " + country;
+        } else if (city == null) {
+            return street + ", " + zip + " " + country;
+        } else if (country == null) {
+            return street + ", " + zip + " " + city;
+        } else {
+            return street + ", " + zip + " " + city + ", " + country;
+        }
+    }
 }

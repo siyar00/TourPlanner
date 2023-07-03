@@ -105,7 +105,6 @@ public class TourEditModalController {
                                 .city(TourEndCity.getText().trim())
                                 .country(tourEndComboBox.getValue()).build())
                         .transportation(transportComboBox.getValue())
-                        .route(null)
                         .misc(null)
                         .build();
                 exitButton.getScene().getWindow().setUserData(tour);

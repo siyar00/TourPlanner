@@ -83,16 +83,15 @@ public class TourModalController implements Initializable {
                 Tour tour = Tour.builder().name(TourName.getText().trim())
                         .startAddress(Address.builder()
                                 .street(TourStartStreet.getText().trim())
-                                .zip(Integer.valueOf(TourStartZip.getText().trim()))
+                                .zip(TourStartZip.getText().isEmpty() ? null : Integer.valueOf(TourStartZip.getText().trim()))
                                 .city(TourStartCity.getText().trim())
                                 .country(tourStartCountryComboBox.getValue()).build())
                         .endAddress(Address.builder()
                                 .street(TourEndStreet.getText().trim())
-                                .zip(Integer.valueOf(TourEndZip.getText().trim()))
+                                .zip(TourEndZip.getText().isEmpty() ? null : Integer.valueOf(TourEndZip.getText().trim()))
                                 .city(TourEndCity.getText().trim())
                                 .country(tourEndCountryComboBox.getValue()).build())
                         .transportation(transportComboBox.getValue())
-                        .route(null)
                         .misc(null)
                         .build();
                 exitButton.getScene().getWindow().setUserData(tour);
