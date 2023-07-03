@@ -14,7 +14,7 @@ public class Tour implements Serializable {
     private Address startAddress;
     private Address endAddress;
     private String transportation;
-    private Image route;
+    private Image map;
     private String misc;
 
 }

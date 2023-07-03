@@ -1,5 +1,6 @@
 package at.technikum.planner.view;
 
+import at.technikum.planner.businessLayer.RouteServiceImpl;
 import at.technikum.planner.view.modal.TourEditModalController;
 import at.technikum.planner.view.modal.TourModalController;
 import at.technikum.planner.viewmodel.*;
@@ -17,7 +18,8 @@ public class ControllerFactory {
     public ControllerFactory(ConfigurableApplicationContext applicationContext) {
         searchBarViewModel = new SearchBarViewModel();
         routeMapViewModel = new RouteMapViewModel();
-        tourListViewModel = new TourListViewModel();
+        RouteServiceImpl routeService = new RouteServiceImpl();
+        tourListViewModel = new TourListViewModel(routeService);
         tourLogsViewModel = new TourLogsViewModel();
         tourModalViewModel = new TourModalViewModel();
         tourEditModalViewModel = new TourEditModalViewModel();
