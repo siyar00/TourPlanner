@@ -1,7 +1,7 @@
 package at.technikum.planner.businessLayer;
 
-import at.technikum.planner.dal.dto.RouteResponse;
-import at.technikum.planner.dal.repository.MapAPI;
+import at.technikum.planner.dataAccessLayer.dataTransferObject.RouteResponse;
+import at.technikum.planner.dataAccessLayer.repository.MapAPI;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.Retrofit;

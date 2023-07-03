@@ -1,8 +1,7 @@
-package at.technikum.planner.dal.repository;
+package at.technikum.planner.dataAccessLayer.repository;
 
-import at.technikum.planner.dal.dto.RouteResponse;
+import at.technikum.planner.dataAccessLayer.dataTransferObject.RouteResponse;
 import okhttp3.ResponseBody;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
