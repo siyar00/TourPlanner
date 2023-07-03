@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+<VBox fx:id="scene" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.technikum.planner.view.MainWindowController">
+    <MenuBar styleClass="menu-bar">
+        <Menu text="%Menu_File">
+            <MenuItem text="%Menu_File_Import"/>
+            <MenuItem text="%Menu_File_Export"/>
+            <MenuItem onAction="#onMenuFileQuitClicked" text="%Menu_File_Quit"/>
+        </Menu>
+        <Menu text="%Menu_Edit">
+            <MenuItem text="%Menu_Edit_Duplicate"/>
+        </Menu>
+        <Menu text="%Menu_Options">
+            <MenuItem mnemonicParsing="false" text="%Menu_Options_Settings"/>
+        </Menu>
+        <Menu text="%Menu_Help">
+            <MenuItem onAction="#onMenuHelpAboutClicked" text="%Menu_Help_About"/>
+        </Menu>
+    </MenuBar>
+    <fx:include fx:id="searchBar" source="SearchBar.fxml"/>
+    <SplitPane dividerPositions="0.3" prefHeight="400" prefWidth="600.0" VBox.vgrow="ALWAYS">
+        <fx:include fx:id="tourList" source="TourList.fxml"/>
+        <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+            <fx:include fx:id="routeMap" source="RouteMap.fxml"/>
+            <fx:include fx:id="tourLogs" source="TourLogs.fxml"/>
+        </SplitPane>
+    </SplitPane>
+</VBox>
