@@ -16,23 +16,23 @@ spring:
             non_contextual_creation: true
   main:
     allow-bean-definition-overriding: true
-log4j:
-    rootLogger: INFO, file
-    appender:
-        file:
-        type: File
-        name: fileLogger
-        fileName: TourPlanner.log
-        append: true
-        layout:
-            type: PatternLayout
-            pattern: "%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"
-    logger:
-      org:
-        hibernate:
-          SQL: DEBUG
-          type: trace
-        springframework: DEBUG
-logging:
-  file:
-    name: TourPlanner.log
+#log4j:
+#    rootLogger: INFO, file
+#    appender:
+#        file:
+#        type: File
+#        name: fileLogger
+#        fileName: TourPlanner.log
+#        append: true
+#        layout:
+#            type: PatternLayout
+#            pattern: "%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"
+#    logger:
+#      org:
+#        hibernate:
+#          SQL: DEBUG
+#          type: trace
+#        springframework: DEBUG
+#logging:
+#  file:
+#    name: TourPlanner.log
