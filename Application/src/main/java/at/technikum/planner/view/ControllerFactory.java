@@ -1,6 +1,8 @@
 package at.technikum.planner.view;
 
 import at.technikum.bl.RouteServiceImpl;
+import at.technikum.dal.repository.TourRepository;
+import at.technikum.dal.repository.UserRepository;
 import at.technikum.planner.view.modal.TourEditModalController;
 import at.technikum.planner.view.modal.TourModalController;
 import at.technikum.planner.viewmodel.*;
@@ -19,7 +21,9 @@ public class ControllerFactory {
         searchBarViewModel = new SearchBarViewModel();
         routeMapViewModel = new RouteMapViewModel();
         RouteServiceImpl routeService = new RouteServiceImpl();
-        tourListViewModel = new TourListViewModel(routeService);
+        UserRepository userRepository = applicationContext.getBean(UserRepository.class);
+        TourRepository tourRepository = applicationContext.getBean(TourRepository.class);
+        tourListViewModel = new TourListViewModel(routeService, userRepository, tourRepository);
         tourLogsViewModel = new TourLogsViewModel();
         tourModalViewModel = new TourModalViewModel();
         tourEditModalViewModel = new TourEditModalViewModel();

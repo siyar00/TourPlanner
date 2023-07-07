@@ -46,7 +46,7 @@ public class RouteServiceImpl implements RouteService {
         try (ResponseBody body = response.body()) {
             byte[] bytes = body.bytes();
             String uuid = UUID.randomUUID().toString();
-            FileOutputStream fos = new FileOutputStream("../downloads/" +  uuid + ".png");
+            FileOutputStream fos = new FileOutputStream("downloads/" +  uuid + ".png");
             fos.write(bytes);
             fos.close();
             return uuid;

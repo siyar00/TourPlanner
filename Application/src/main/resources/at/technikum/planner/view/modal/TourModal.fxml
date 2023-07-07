@@ -3,7 +3,7 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<VBox prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" >
+<VBox prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
     <SplitPane prefHeight="50.0" prefWidth="400.0">
         <TextField fx:id="TourName" alignment="CENTER" onKeyPressed="#enterKey" prefHeight="32.0" prefWidth="380.0" promptText="%TourModal_TourName" />
         <padding>

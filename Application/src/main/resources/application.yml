@@ -1,0 +1,38 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/tourPlanner
+    username: postgres
+    password: admin
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          lob:
+            non_contextual_creation: true
+  main:
+    allow-bean-definition-overriding: true
+log4j:
+    rootLogger: INFO, file
+    appender:
+        file:
+        type: File
+        name: fileLogger
+        fileName: TourPlanner.log
+        append: true
+        layout:
+            type: PatternLayout
+            pattern: "%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"
+    logger:
+      org:
+        hibernate:
+          SQL: DEBUG
+          type: trace
+        springframework: DEBUG
+logging:
+  file:
+    name: TourPlanner.log

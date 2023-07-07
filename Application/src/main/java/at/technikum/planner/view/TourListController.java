@@ -30,6 +30,7 @@ public class TourListController {
     }
 
     public void onButtonAdd() throws IOException {
+        //Change it to DialogPane
         TourModalController tourModalController = new TourModalController(new TourModalViewModel());
         Tour tour = tourModalController.stage(tourModalController);
         if (tour != null) {
@@ -80,9 +81,10 @@ public class TourListController {
         Tour tour;
         if ((tour = tourNameListView.getSelectionModel().getSelectedItem()) == null)
             return;
+        //Change it to DialogPane
         TourEditModalController tourEditModalController = new TourEditModalController(tour);
         tour = tourEditModalController.stage(tourEditModalController);
-        if (tour != null)
+        if (tour != null) //Improve it so if you edit, you use the view-model
             tourNameListView.getItems().set(tourNameListView.getSelectionModel().getSelectedIndex(), tour);
     }
 }
