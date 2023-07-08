@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Blob;
+
 
 @Data
 @Builder
@@ -20,19 +22,19 @@ public class Tour {
     @Column
     private String name;
     @Column
-    private String description;
-    @Column
     private String start;
     @Column
     private String destination;
     @Column
     private String distance;
     @Column
-    private String duration;
+    private String time;
     @Column
-    private String route;
+    private String hasTollRoad;
     @Column
-    private String image;
+    private String hasHighway;
     @Column
     private String transportation;
+    @Column
+    private Blob image;
 }

@@ -11,10 +11,13 @@ import java.io.Serializable;
 public class Tour implements Serializable {
 
     private String name;
-    private Address startAddress;
-    private Address endAddress;
-    private String transportation;
+    private String startAddress;
+    private String endAddress;
+    private RouteType transportation;
+    private String time;
+    private String distance;
+    private String toll;
+    private String highway;
     private Image map;
-    private String misc;
 
 }

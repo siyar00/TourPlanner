@@ -1,6 +1,8 @@
 package at.technikum.planner.view;
 
 import at.technikum.planner.viewmodel.SearchBarViewModel;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 
 public class SearchBarController {

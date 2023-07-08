@@ -1,6 +1,9 @@
 package at.technikum.bl;
 
+import at.technikum.dal.dto.BoundingBoxDto;
+import at.technikum.dal.dto.RouteDto;
+
 public interface RouteService {
-    String getRoute(String start, String end);
-    String getImage(String sessionId);
+    RouteDto getRoute(String start, String end, String routeType);
+    String getImage(String sessionId, BoundingBoxDto boundingBox);
 }

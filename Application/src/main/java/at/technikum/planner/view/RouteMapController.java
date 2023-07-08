@@ -9,9 +9,21 @@ import javafx.scene.text.Text;
 public class RouteMapController {
 
     @FXML
-    private ImageView mapImage;
+    private Text transportation;
     @FXML
-    private Text generalContentText;
+    private Text toll;
+    @FXML
+    private Text highway;
+    @FXML
+    private Text time;
+    @FXML
+    private Text distance;
+    @FXML
+    private Text destinationAddress;
+    @FXML
+    private Text startingAddress;
+    @FXML
+    private ImageView mapImage;
     private final RouteMapViewModel viewModel;
 
     public RouteMapController(RouteMapViewModel viewModel) {
@@ -20,7 +32,13 @@ public class RouteMapController {
 
     @FXML
     void initialize() {
-        generalContentText.textProperty().bindBidirectional(viewModel.contenteProperty());
+        startingAddress.textProperty().bindBidirectional(viewModel.getStartingAddress());
+        destinationAddress.textProperty().bindBidirectional(viewModel.getDestinationAddress());
+        distance.textProperty().bindBidirectional(viewModel.getDistance());
+        time.textProperty().bindBidirectional(viewModel.getTime());
+        highway.textProperty().bindBidirectional(viewModel.getHighway());
+        toll.textProperty().bindBidirectional(viewModel.getToll());
+        transportation.textProperty().bindBidirectional(viewModel.getTransportation());
         mapImage.imageProperty().bindBidirectional(viewModel.mapImageProperty());
     }
 

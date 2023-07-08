@@ -6,6 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import jfxtras.styles.jmetro.JMetro;
+import jfxtras.styles.jmetro.Style;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -44,7 +46,9 @@ public class TourPlannerApplication extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLDependencyInjection.load("MainWindow.fxml", Locale.forLanguageTag(System.getProperties().getProperty("user.language")), applicationContext);
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("stylesheets/style.css")).toExternalForm());
+        JMetro jMetro = new JMetro(Style.DARK);
+        jMetro.setScene(scene);
+        stage.setScene(jMetro.getScene());
         stage.setTitle("Dora the Explorer");
         stage.getIcons().add(new Image(Objects.requireNonNull(TourPlannerApplication.class.getResourceAsStream("images/dora.png"))));
         stage.setScene(scene);
