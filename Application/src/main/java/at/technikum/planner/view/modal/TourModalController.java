@@ -1,11 +1,10 @@
 package at.technikum.planner.view.modal;
 
 import at.technikum.planner.model.Tour;
+import at.technikum.planner.transformer.RouteTypeTransformer;
 import at.technikum.planner.viewmodel.TourModalViewModel;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
@@ -41,7 +40,8 @@ public class TourModalController {
     }
 
     public void enterKey(KeyEvent keyEvent) {
-        if (tourName.getText().trim().isEmpty() && keyEvent.getCode().isDigitKey() && keyEvent.getCode().isLetterKey()) {
+        if (tourName.getText().trim().isEmpty() && tourStartAddress.getText().isEmpty() && tourEndAddress.getText().isEmpty() &&
+                transportComboBox.getSelectionModel().isEmpty() && keyEvent.getCode().isDigitKey() && keyEvent.getCode().isLetterKey()) {
             okayButton.setDisable(true);
             return;
         }
@@ -55,14 +55,18 @@ public class TourModalController {
 
     public void onOkayButton() {
         if (tourName.getText().trim().isEmpty()) {
-            System.out.println("Please enter a name for the tour.");
+            alert("Please enter a name for the tour.");
         } else if (transportComboBox.getValue() == null) {
-            System.out.println("Select a transportation.");
+            alert("Select a transportation.");
+        } else if (tourStartAddress.getText().trim().isEmpty()) {
+            alert("Please enter a start address.");
+        } else if (tourEndAddress.getText().trim().isEmpty()) {
+            alert("Please enter an end address.");
         } else {
             Tour tour = Tour.builder().name(tourName.getText().trim())
                     .startAddress(tourStartAddress.getText().trim())
                     .endAddress(tourEndAddress.getText().trim())
-                    .transportation(viewModel.getRouteType(transportComboBox.getValue(), bundle))
+                    .transportation(new RouteTypeTransformer().getRouteTypeFromBundle(transportComboBox.getValue(), bundle))
                     .build();
             exitButton.getScene().getWindow().setUserData(tour);
             onCloseWindow();
@@ -71,6 +75,8 @@ public class TourModalController {
 
     public void onDeleteButton() {
         tourName.clear();
+        tourStartAddress.clear();
+        tourEndAddress.clear();
         transportComboBox.setPromptText(bundle.getString("TourModal_Transportation"));
         okayButton.setDisable(true);
     }
@@ -80,15 +86,12 @@ public class TourModalController {
         stage.close();
     }
 
-//    public Tour stage(TourModalController controller, ResourceBundle bundle) throws IOException {
-//        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(TourPlannerApplication.class.getResource("view/modal/TourModal.fxml")), bundle);
-//        loader.setController(controller);
-//        Stage stage = new Stage();
-//        stage.setScene(new Scene(loader.load()));
-//        stage.setTitle(bundle.getString("TourModal_Title"));
-//        stage.getIcons().add(new Image(Objects.requireNonNull(TourPlannerApplication.class.getResourceAsStream("view/images/icon.png"))));
-//        stage.initModality(Modality.APPLICATION_MODAL);
-//        stage.showAndWait();
-//        return (Tour) stage.getScene().getWindow().getUserData();
-//    }
+    public void alert(String message) {
+        Alert confirmationAlert = new Alert(Alert.AlertType.INFORMATION);
+        confirmationAlert.initOwner(okayButton.getScene().getWindow());
+        confirmationAlert.setHeaderText(null);
+        confirmationAlert.setContentText(message);
+        confirmationAlert.getButtonTypes().setAll(ButtonType.OK);
+        confirmationAlert.showAndWait();
+    }
 }

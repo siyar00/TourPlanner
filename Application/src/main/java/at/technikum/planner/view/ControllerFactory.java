@@ -50,7 +50,7 @@ public class ControllerFactory {
         } else if (controllerClass == TourModalController.class) {
             return new TourModalController(tourModalViewModel, bundle);
         } else if (controllerClass == TourEditModalController.class) {
-            return new TourEditModalController(tourEditModalViewModel, bundle);
+            return new TourEditModalController(tourEditModalViewModel);
         } else if (controllerClass == TourDialogController.class) {
             return new TourDialogController();
         } else {

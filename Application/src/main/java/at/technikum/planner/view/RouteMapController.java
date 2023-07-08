@@ -41,9 +41,4 @@ public class RouteMapController {
         transportation.textProperty().bindBidirectional(viewModel.getTransportation());
         mapImage.imageProperty().bindBidirectional(viewModel.mapImageProperty());
     }
-
-    public RouteMapViewModel getViewModel() {
-        return viewModel;
-    }
-
 }

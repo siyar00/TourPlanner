@@ -4,7 +4,6 @@ import at.technikum.planner.TourPlannerApplication;
 import at.technikum.planner.model.Tour;
 import at.technikum.planner.view.modal.TourEditModalController;
 import at.technikum.planner.view.modal.TourModalController;
-import at.technikum.planner.viewmodel.TourEditModalViewModel;
 import at.technikum.planner.viewmodel.TourListViewModel;
 import at.technikum.planner.viewmodel.TourModalViewModel;
 import javafx.fxml.FXML;
@@ -14,7 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import jfxtras.styles.jmetro.JMetro;
+import javafx.stage.Window;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -26,17 +25,18 @@ public class TourListController {
     @FXML
     private ListView<Tour> tourNameListView = new ListView<>();
     private final ResourceBundle bundle;
-    private final TourListViewModel tourListViewModel;
+    private final TourListViewModel viewModel;
 
     public TourListController(TourListViewModel tourListViewModell, ResourceBundle bundle) {
-        this.tourListViewModel = tourListViewModell;
+        this.viewModel = tourListViewModell;
         this.bundle = bundle;
     }
 
     @FXML
-    void initialize(){
-        tourNameListView.setItems(tourListViewModel.getObservableTours());
-        tourNameListView.getSelectionModel().selectedItemProperty().addListener(tourListViewModel.getChangeListener());
+    void initialize() {
+        tourNameListView.setItems(viewModel.getObservableTours());
+        tourNameListView.getSelectionModel().selectedItemProperty().addListener(viewModel.getChangeListener());
+        updateListView();
     }
 
     public void onButtonAdd() throws IOException {
@@ -44,19 +44,12 @@ public class TourListController {
         FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("modal/TourModal.fxml")), bundle);
         fxmlLoader.setController(new TourModalController(new TourModalViewModel(), bundle));
         Scene scene = new Scene(fxmlLoader.load());
-        addButton.getStylesheets().forEach(scene.getStylesheets()::add);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.getIcons().add(new Image(Objects.requireNonNull(TourPlannerApplication.class.getResourceAsStream("images/dora.png"))));
         stage.showAndWait();
         Tour tour = (Tour) stage.getUserData();
-//        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("dialog/TourDialog.fxml"), bundle);
-//        DialogPane dialogPane = fxmlLoader.load();
-//        Dialog<ButtonType> dialog = new Dialog<>();
-//        dialog.setDialogPane(dialogPane);
-//        dialog.initOwner(addButton.getScene().getWindow());
-//        dialog.showAndWait();
         if (tour != null) {
             if (tourNameListView.getItems().stream().anyMatch(t -> t.getName().equals(tour.getName()))) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -67,18 +60,8 @@ public class TourListController {
                 alert.showAndWait();
                 return;
             }
-            tourListViewModel.addNewTour(tour);
-            tourNameListView.setCellFactory(param -> new ListCell<>() {
-                @Override
-                protected void updateItem(Tour item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty || item == null || item.getName() == null) {
-                        setText(null);
-                    } else {
-                        setText(item.getName());
-                    }
-                }
-            });
+            viewModel.addNewTour(tour);
+            updateListView();
         }
     }
 
@@ -95,20 +78,43 @@ public class TourListController {
             confirmationAlert.getButtonTypes().setAll(deleteButton, cancelButton);
             confirmationAlert.showAndWait().ifPresent(response -> {
                 if (response == deleteButton) {
-                    tourListViewModel.removeTour(tourNameListView.getSelectionModel().getSelectedItem());
+                    viewModel.removeTour(tourNameListView.getSelectionModel().getSelectedItem());
                 }
             });
         }
     }
 
     public void onEditButton() throws IOException {
-        Tour tour;
-        if ((tour = tourNameListView.getSelectionModel().getSelectedItem()) == null)
-            return;
-        //Change it to DialogPane
-        TourEditModalController tourEditModalController = new TourEditModalController(new TourEditModalViewModel(), bundle);
-        tour = tourEditModalController.stage(tourEditModalController);
-        if (tour != null) //Improve it so if you edit, you use the view-model
-            tourNameListView.getItems().set(tourNameListView.getSelectionModel().getSelectedIndex(), tour);
+        Tour tour = tourNameListView.getSelectionModel().getSelectedItem();
+        if (tour == null) return;
+        Tour oldTour = tour;
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("modal/TourEditModal.fxml"), bundle);
+        DialogPane dialogPane = fxmlLoader.load();
+        TourEditModalController tourEditModalController = fxmlLoader.getController();
+        tourEditModalController.init(tour, bundle);
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setDialogPane(dialogPane);
+        dialog.initOwner(addButton.getScene().getWindow());
+        Window window = dialog.getDialogPane().getScene().getWindow();
+        window.setOnCloseRequest(event -> window.hide());
+        dialog.showAndWait();
+
+        tour = tourEditModalController.getTour();
+        if (tour != null)
+            viewModel.updateTour(oldTour, tour);
+    }
+
+    private void updateListView() {
+        tourNameListView.setCellFactory(param -> new ListCell<>() {
+            @Override
+            protected void updateItem(Tour item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null || item.getName() == null) {
+                    setText(null);
+                } else {
+                    setText(item.getName());
+                }
+            }
+        });
     }
 }

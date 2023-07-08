@@ -2,13 +2,12 @@ package at.technikum.planner.viewmodel;
 
 import at.technikum.planner.model.RouteType;
 import at.technikum.planner.model.Tour;
+import at.technikum.planner.transformer.RouteTypeTransformer;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.fxml.FXML;
 import javafx.scene.image.Image;
-import javafx.scene.text.Text;
 import lombok.Data;
 
 import java.util.ResourceBundle;
@@ -62,7 +61,7 @@ public class RouteMapViewModel {
         highway.setValue(tour.getHighway().equals("false") ? bundle.getString("No") : bundle.getString("Yes"));
         time.setValue(tour.getTime());
         distance.setValue(tour.getDistance() + " km");
-        transportation.setValue(tour.getTransportation().getType());
+        transportation.setValue(new RouteTypeTransformer().getBundleFromRouteType(tour.getTransportation(), bundle));
         mapImageProperty.setValue(tour.getMap());
         isInitValue = false;
     }

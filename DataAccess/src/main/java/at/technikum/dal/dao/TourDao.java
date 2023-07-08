@@ -1,25 +1,21 @@
 package at.technikum.dal.dao;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.sql.Blob;
+import lombok.*;
 
 
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "tours")
-public class Tour {
+public class TourDao {
     @Id
     @GeneratedValue
     private Long id;
-    @Column
+    @Column(nullable = false, unique = true)
     private String name;
     @Column
     private String start;
@@ -36,5 +32,5 @@ public class Tour {
     @Column
     private String transportation;
     @Column
-    private Blob image;
+    private byte[] image;
 }
