@@ -11,11 +11,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.scene.image.Image;
+import lombok.Data;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 public class TourListViewModel {
 
     public interface SelectionChangedListener {
@@ -25,7 +27,6 @@ public class TourListViewModel {
     private final TourRepository tourRepository;
     private final List<SelectionChangedListener> listeners = new ArrayList<>();
     private final ObservableList<Tour> observableTours = FXCollections.observableArrayList();
-    private Tour selectedTour;
     private final RouteServiceImpl routeService;
 
     public TourListViewModel(RouteServiceImpl routeService, TourRepository tourRepository) {
@@ -121,14 +122,6 @@ public class TourListViewModel {
                 .hasHighway(tour.getHighway())
                 .hasTollRoad(tour.getToll())
                 .image(new FileInputStream(path).readAllBytes()).build();
-    }
-
-    public Tour getSelectedTour() {
-        return selectedTour;
-    }
-
-    public void setSelectedTour(Tour selectedTour) {
-        this.selectedTour = selectedTour;
     }
 
 }
