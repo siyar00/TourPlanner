@@ -11,11 +11,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.scene.image.Image;
+import lombok.Data;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 public class TourListViewModel {
 
     public interface SelectionChangedListener {

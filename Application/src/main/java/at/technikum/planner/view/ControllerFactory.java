@@ -46,13 +46,13 @@ public class ControllerFactory {
         } else if (controllerClass == TourListController.class) {
             return new TourListController(tourListViewModel, bundle);
         } else if (controllerClass == TourLogsController.class) {
-            return new TourLogsController(tourLogsViewModel);
+            return new TourLogsController(tourLogsViewModel, bundle);
         } else if (controllerClass == TourListDialogController.class) {
             return new TourListDialogController(tourModalViewModel);
         } else if (controllerClass == TourEditDialogController.class) {
             return new TourEditDialogController(tourEditModalViewModel);
         } else if (controllerClass == TourDialogController.class) {
-            return new TourDialogController();
+            return new TourDialogController(tourLogsViewModel);
         } else {
             throw new IllegalArgumentException("Unknown controller class: " + controllerClass);
         }
