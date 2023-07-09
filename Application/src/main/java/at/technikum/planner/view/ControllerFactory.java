@@ -3,8 +3,8 @@ package at.technikum.planner.view;
 import at.technikum.bl.RouteServiceImpl;
 import at.technikum.dal.repository.TourRepository;
 import at.technikum.planner.view.dialog.TourDialogController;
-import at.technikum.planner.view.modal.TourEditModalController;
-import at.technikum.planner.view.modal.TourModalController;
+import at.technikum.planner.view.dialog.TourEditDialogController;
+import at.technikum.planner.view.dialog.TourListDialogController;
 import at.technikum.planner.viewmodel.*;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -46,11 +46,11 @@ public class ControllerFactory {
         } else if (controllerClass == TourListController.class) {
             return new TourListController(tourListViewModel, bundle);
         } else if (controllerClass == TourLogsController.class) {
-            return new TourLogsController(tourLogsViewModel, bundle);
-        } else if (controllerClass == TourModalController.class) {
-            return new TourModalController(tourModalViewModel, bundle);
-        } else if (controllerClass == TourEditModalController.class) {
-            return new TourEditModalController(tourEditModalViewModel, bundle);
+            return new TourLogsController(tourLogsViewModel);
+        } else if (controllerClass == TourListDialogController.class) {
+            return new TourListDialogController(tourModalViewModel);
+        } else if (controllerClass == TourEditDialogController.class) {
+            return new TourEditDialogController(tourEditModalViewModel);
         } else if (controllerClass == TourDialogController.class) {
             return new TourDialogController();
         } else {

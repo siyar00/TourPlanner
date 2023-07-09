@@ -2,6 +2,7 @@ package at.technikum.planner.view;
 
 import at.technikum.planner.viewmodel.RouteMapViewModel;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
@@ -9,21 +10,41 @@ import javafx.scene.text.Text;
 public class RouteMapController {
 
     @FXML
-    private Text transportation;
+    Label tourDescriptionLabel;
     @FXML
-    private Text toll;
+    Label startingAddressLabel;
     @FXML
-    private Text highway;
+    Label destinationAddressLabel;
     @FXML
-    private Text time;
+    Label tollLabel;
     @FXML
-    private Text distance;
+    Label highwayLabel;
     @FXML
-    private Text destinationAddress;
+    Label timeLabel;
     @FXML
-    private Text startingAddress;
+    Label distanceLabel;
     @FXML
-    private ImageView mapImage;
+    Label transportationLabel;
+    @FXML
+    Text transportation;
+    @FXML
+    Text toll;
+    @FXML
+    Text highway;
+    @FXML
+    Text time;
+    @FXML
+    Text distance;
+    @FXML
+    Text destinationAddress;
+    @FXML
+    Text startingAddress;
+    @FXML
+    Text tourDescription;
+    @FXML
+    ImageView mapImage;
+    @FXML
+    TourLogsController tourLogs;
     private final RouteMapViewModel viewModel;
 
     public RouteMapController(RouteMapViewModel viewModel) {
@@ -40,10 +61,15 @@ public class RouteMapController {
         toll.textProperty().bindBidirectional(viewModel.getToll());
         transportation.textProperty().bindBidirectional(viewModel.getTransportation());
         mapImage.imageProperty().bindBidirectional(viewModel.mapImageProperty());
-    }
-
-    public RouteMapViewModel getViewModel() {
-        return viewModel;
+        tourDescription.textProperty().bindBidirectional(viewModel.getTourDescription());
+        tourDescriptionLabel.visibleProperty().bindBidirectional(viewModel.getTourDescriptionLabel());
+        startingAddressLabel.visibleProperty().bindBidirectional(viewModel.getStartingAddressLabel());
+        destinationAddressLabel.visibleProperty().bindBidirectional(viewModel.getDestinationAddressLabel());
+        distanceLabel.visibleProperty().bindBidirectional(viewModel.getDistanceLabel());
+        timeLabel.visibleProperty().bindBidirectional(viewModel.getTimeLabel());
+        highwayLabel.visibleProperty().bindBidirectional(viewModel.getHighwayLabel());
+        tollLabel.visibleProperty().bindBidirectional(viewModel.getTollLabel());
+        transportationLabel.visibleProperty().bindBidirectional(viewModel.getTransportationLabel());
     }
 
 }

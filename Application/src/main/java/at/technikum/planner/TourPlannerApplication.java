@@ -52,6 +52,7 @@ public class TourPlannerApplication extends Application {
         stage.setTitle("Dora the Explorer");
         stage.getIcons().add(new Image(Objects.requireNonNull(TourPlannerApplication.class.getResourceAsStream("images/dora.png"))));
         stage.setScene(scene);
+        //stage.initStyle(StageStyle.TRANSPARENT);
         stage.show();
     }
 }
