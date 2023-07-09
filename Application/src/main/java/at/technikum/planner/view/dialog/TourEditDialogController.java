@@ -1,4 +1,4 @@
-package at.technikum.planner.view.modal;
+package at.technikum.planner.view.dialog;
 
 import at.technikum.planner.model.Tour;
 import at.technikum.planner.transformer.RouteTypeTransformer;
@@ -17,24 +17,26 @@ import java.util.ResourceBundle;
 @Setter
 @Getter
 @NoArgsConstructor
-public class TourEditModalController {
+public class TourEditDialogController {
     @FXML
-    private ComboBox<String> transportComboBox;
+    TextField tourDescription;
     @FXML
-    private TextField tourName;
+    ComboBox<String> transportComboBox;
     @FXML
-    private TextField tourStartAddress;
+    TextField tourName;
     @FXML
-    private TextField tourEndAddress;
+    TextField tourStartAddress;
     @FXML
-    private Button editButton;
+    TextField tourEndAddress;
     @FXML
-    private Button exitButton;
+    Button editButton;
+    @FXML
+    Button exitButton;
     private Tour tour;
     private ResourceBundle bundle;
     private TourEditModalViewModel viewModel;
 
-    public TourEditModalController(TourEditModalViewModel tourEditModalViewModel) {
+    public TourEditDialogController(TourEditModalViewModel tourEditModalViewModel) {
         this.viewModel = tourEditModalViewModel;
     }
 
@@ -62,6 +64,7 @@ public class TourEditModalController {
             alert("Please enter an end address.");
         } else {
             this.tour = Tour.builder().name(tourName.getText().trim())
+                    .tourDescription(tourDescription.getText().trim())
                     .startAddress(tourStartAddress.getText().trim())
                     .endAddress(tourEndAddress.getText().trim())
                     .transportation(new RouteTypeTransformer().getRouteTypeFromBundle(transportComboBox.getSelectionModel().getSelectedItem(), bundle))
@@ -72,10 +75,11 @@ public class TourEditModalController {
 
     public void onDeleteButton() {
         tourName.clear();
+        tourDescription.clear();
         tourStartAddress.clear();
         tourEndAddress.clear();
         transportComboBox.getSelectionModel().clearSelection();
-        transportComboBox.setPromptText("h"+bundle.getString("TourModal_Transportation"));
+        transportComboBox.setPromptText("h" + bundle.getString("TourModal_Transportation"));
         editButton.setDisable(true);
     }
 
@@ -99,10 +103,10 @@ public class TourEditModalController {
         transportComboBox.getItems().addAll(bundle.getString("RouteType_CarFastest"),
                 bundle.getString("RouteType_CarShortest"), bundle.getString("RouteType_Pedestrian"),
                 bundle.getString("RouteType_Bicycle"));
+        tourDescription.setText(tour.getTourDescription());
         tourName.setText(tour.getName());
         tourStartAddress.setText(tour.getStartAddress());
         tourEndAddress.setText(tour.getEndAddress());
         transportComboBox.getSelectionModel().select(new RouteTypeTransformer().getBundleFromRouteType(tour.getTransportation(), bundle));
     }
-
 }

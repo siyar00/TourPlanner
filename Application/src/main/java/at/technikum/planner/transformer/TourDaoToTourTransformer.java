@@ -12,6 +12,7 @@ public class TourDaoToTourTransformer implements Function<TourDao, Tour> {
     @Override
     public Tour apply(TourDao tourDao) {
         return Tour.builder()
+                .tourDescription(tourDao.getDescription())
                 .name(tourDao.getName())
                 .startAddress(tourDao.getStart())
                 .endAddress(tourDao.getDestination())

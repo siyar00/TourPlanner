@@ -18,6 +18,8 @@ public class TourDao {
     @Column(nullable = false, unique = true)
     private String name;
     @Column
+    private String description;
+    @Column
     private String start;
     @Column
     private String destination;

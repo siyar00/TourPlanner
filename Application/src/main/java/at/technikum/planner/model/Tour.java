@@ -5,12 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 @Data
 @Builder
 public class Tour implements Serializable {
     private String id;
     private String name;
+    private String tourDescription;
     private String startAddress;
     private String endAddress;
     private RouteType transportation;
@@ -19,4 +21,11 @@ public class Tour implements Serializable {
     private String toll;
     private String highway;
     private Image map;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (!(obj instanceof Tour tour)) return false;
+        return Objects.equals(this.id, tour.getId()) && Objects.equals(this.name, tour.getName()) && Objects.equals(this.startAddress, tour.getStartAddress()) && Objects.equals(this.endAddress, tour.getEndAddress()) && Objects.equals(this.transportation, tour.getTransportation()) && Objects.equals(this.tourDescription, tour.getTourDescription());
+    }
 }

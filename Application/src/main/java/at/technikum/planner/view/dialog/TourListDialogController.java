@@ -1,4 +1,4 @@
-package at.technikum.planner.view.modal;
+package at.technikum.planner.view.dialog;
 
 import at.technikum.planner.model.Tour;
 import at.technikum.planner.transformer.RouteTypeTransformer;
@@ -8,32 +8,38 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ResourceBundle;
 
-public class TourModalController {
+@Data
+@NoArgsConstructor
+public class TourListDialogController {
     @FXML
-    private ComboBox<String> transportComboBox;
+    ComboBox<String> transportComboBox;
     @FXML
-    private TextField tourName;
+    TextField tourName;
     @FXML
-    private TextField tourStartAddress;
+    TextField tourStartAddress;
     @FXML
-    private TextField tourEndAddress;
+    TextField tourEndAddress;
     @FXML
-    private Button okayButton;
+    TextField tourDescription;
     @FXML
-    private Button exitButton;
-    private final ResourceBundle bundle;
-    private final TourModalViewModel viewModel;
+    Button okayButton;
+    @FXML
+    Button exitButton;
+    Tour tour;
+    ResourceBundle bundle;
+    TourModalViewModel viewModel;
 
-    public TourModalController(TourModalViewModel tourModalViewModel, ResourceBundle resourceBundle) {
+    public TourListDialogController(TourModalViewModel tourModalViewModel) {
         this.viewModel = tourModalViewModel;
-        this.bundle = resourceBundle;
     }
 
-    @FXML
-    void initialize() {
+    public void initialize(ResourceBundle bundle) {
+        this.bundle = bundle;
         transportComboBox.getItems().addAll(bundle.getString("RouteType_CarFastest"),
                 bundle.getString("RouteType_CarShortest"), bundle.getString("RouteType_Pedestrian"),
                 bundle.getString("RouteType_Bicycle"));
@@ -63,18 +69,19 @@ public class TourModalController {
         } else if (tourEndAddress.getText().trim().isEmpty()) {
             alert("Please enter an end address.");
         } else {
-            Tour tour = Tour.builder().name(tourName.getText().trim())
+            this.tour = Tour.builder().name(tourName.getText().trim())
+                    .tourDescription(tourDescription.getText().trim())
                     .startAddress(tourStartAddress.getText().trim())
                     .endAddress(tourEndAddress.getText().trim())
                     .transportation(new RouteTypeTransformer().getRouteTypeFromBundle(transportComboBox.getValue(), bundle))
                     .build();
-            exitButton.getScene().getWindow().setUserData(tour);
             onCloseWindow();
         }
     }
 
     public void onDeleteButton() {
         tourName.clear();
+        tourDescription.clear();
         tourStartAddress.clear();
         tourEndAddress.clear();
         transportComboBox.setPromptText(bundle.getString("TourModal_Transportation"));
