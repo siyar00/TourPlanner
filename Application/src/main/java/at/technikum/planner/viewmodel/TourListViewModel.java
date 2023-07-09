@@ -25,9 +25,9 @@ public class TourListViewModel {
     }
 
     private final TourRepository tourRepository;
+    private final RouteServiceImpl routeService;
     private final List<SelectionChangedListener> listeners = new ArrayList<>();
     private final ObservableList<Tour> observableTours = FXCollections.observableArrayList();
-    private final RouteServiceImpl routeService;
 
     public TourListViewModel(RouteServiceImpl routeService, TourRepository tourRepository) {
         this.routeService = routeService;

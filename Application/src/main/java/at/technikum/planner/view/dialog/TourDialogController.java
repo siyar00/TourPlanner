@@ -3,10 +3,7 @@ package at.technikum.planner.view.dialog;
 import at.technikum.planner.model.TourLog;
 import at.technikum.planner.viewmodel.TourLogsViewModel;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
@@ -17,15 +14,22 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TourDialogController {
     @FXML
-    TextField durationField;
+    DatePicker date;
     @FXML
-    TextField distanceField;
+    TextField duration;
     @FXML
-    TextArea commentArea;
+    TextField comment;
     @FXML
-    Button okayButton;
+    Slider difficulty;
+    @FXML
+    Slider rating;
+    @FXML
+    Button addButton;
+    @FXML
+    Button editButton;
     @FXML
     Button exitButton;
+    TourLog tourLog;
     TourLogsViewModel tourLogsViewModel;
 
     public TourDialogController(TourLogsViewModel tourLogsViewModel) {
@@ -35,27 +39,22 @@ public class TourDialogController {
     @FXML
     void enterKey(KeyEvent keyEvent) {
         if (keyEvent.getCode().equals(KeyCode.ENTER)) {
-            onOkayButton();
+            onAddButton();
         }
     }
 
     @FXML
-    void onOkayButton() {
-        String durationText = durationField.getText();
-        String distanceText = distanceField.getText();
-        String comment = commentArea.getText();
+    void onAddButton() {
+//
+//        if (!isValidNumber(durationText) || !isValidNumber(distanceText)) {
+//            showAlert("Invalid Input", "Dauer und Entfernung müssen numerische Werte sein.");
+//            return;
+//        }
 
-        if (!isValidNumber(durationText) || !isValidNumber(distanceText)) {
-            showAlert("Invalid Input", "Dauer und Entfernung müssen numerische Werte sein.");
-            return;
-        }
 
-        double duration = Double.parseDouble(durationText);
-        double distance = Double.parseDouble(distanceText);
 
-        tourLogsViewModel.getObservableTourLogs().add(TourLog.builder().duration(duration).distance(distance).comment(comment).build());
-        Stage stage = (Stage) okayButton.getScene().getWindow();
-        stage.close();
+//        tourLog = TourLog.builder().duration(duration).comment(comment).build();
+//        onCloseWindow();
     }
 
     @FXML
@@ -74,22 +73,6 @@ public class TourDialogController {
         this.tourLogsViewModel = tourLogsViewModel;
     }
 
-    public TourLog createTourLogFromInput() {
-        String durationText = durationField.getText();
-        String distanceText = distanceField.getText();
-        String comment = commentArea.getText();
-
-        if (!isValidNumber(durationText) || !isValidNumber(distanceText)) {
-            showAlert("Invalid Input", "Dauer und Entfernung müssen numerische Werte sein.");
-            return null;
-        }
-
-        double duration = Double.parseDouble(durationText);
-        double distance = Double.parseDouble(distanceText);
-
-        return TourLog.builder().duration(duration).distance(distance).comment(comment).build();
-    }
-
     private boolean isValidNumber(String input) {
         try {
             Double.parseDouble(input);
@@ -106,4 +89,5 @@ public class TourDialogController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
 }

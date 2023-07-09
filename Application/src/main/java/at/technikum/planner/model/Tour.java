@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 @Data
@@ -21,6 +22,7 @@ public class Tour implements Serializable {
     private String toll;
     private String highway;
     private Image map;
+    private List<TourLog> tourLog;
 
     @Override
     public boolean equals(Object obj) {

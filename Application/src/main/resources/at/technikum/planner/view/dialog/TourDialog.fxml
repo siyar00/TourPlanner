@@ -1,37 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DialogPane?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-
-<?import javafx.scene.control.ButtonType?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <DialogPane prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.technikum.planner.view.dialog.TourDialogController">
     <content>
-        <VBox spacing="10">
-            <TextField fx:id="durationField" onKeyPressed="#enterKey" prefHeight="32.0" prefWidth="380.0" promptText="%TourModal_Duration" />
-            <TextField fx:id="distanceField" onKeyPressed="#enterKey" prefHeight="32.0" prefWidth="380.0" promptText="%TourModal_Distance" />
-            <TextArea fx:id="commentArea" prefHeight="180.0" prefWidth="380.0" promptText="%TourModal_Comment" />
+        <VBox>
+            <VBox>
+                <VBox>
+                    <Label text="%Date">
+                        <VBox.margin>
+                            <Insets left="10.0" />
+                        </VBox.margin>
+                    </Label>
+               <DatePicker fx:id="date" cache="true" cacheHint="ROTATE" onKeyPressed="#enterKey" prefWidth="1000.0" promptText="%Date" showWeekNumbers="true">
+                  <VBox.margin>
+                     <Insets bottom="5.0" left="10.0" right="10.0" />
+                  </VBox.margin>
+               </DatePicker>
+                </VBox>
+                <VBox>
+                    <Label text="%Duration">
+                        <VBox.margin>
+                            <Insets left="10.0" />
+                        </VBox.margin>
+                    </Label>
+                    <TextField fx:id="duration" alignment="CENTER" focusTraversable="false" onKeyPressed="#enterKey" promptText="%Duration">
+                        <VBox.margin>
+                            <Insets bottom="5.0" left="10.0" right="10.0" />
+                        </VBox.margin>
+                    </TextField>
+                </VBox>
+                <VBox>
+                    <Label text="%Comment">
+                        <VBox.margin>
+                            <Insets left="10.0" />
+                        </VBox.margin>
+                    </Label>
+                    <TextField fx:id="comment" alignment="CENTER" focusTraversable="false" onKeyPressed="#enterKey" promptText="%Comment">
+                        <VBox.margin>
+                            <Insets bottom="5.0" left="10.0" right="10.0" />
+                        </VBox.margin>
+                    </TextField>
+                </VBox>
+                <VBox>
+                    <Label text="%Difficulty">
+                        <VBox.margin>
+                            <Insets left="10.0" />
+                        </VBox.margin>
+                    </Label>
+               <Slider fx:id="difficulty" blockIncrement="1.0" majorTickUnit="2.0" max="10.0" minorTickCount="1" onKeyPressed="#enterKey" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+                  <VBox.margin>
+                     <Insets left="10.0" right="10.0" top="5.0" />
+                  </VBox.margin>
+               </Slider>
+                </VBox>
+                <VBox>
+                    <Label text="%Rating">
+                        <VBox.margin>
+                            <Insets left="10.0" />
+                        </VBox.margin>
+                    </Label>
+               <Slider fx:id="rating" majorTickUnit="2.0" max="10.0" minorTickCount="1" onKeyPressed="#enterKey" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+                  <VBox.margin>
+                     <Insets left="10.0" right="10.0" top="5.0" />
+                  </VBox.margin>
+               </Slider>
+                </VBox>
+            </VBox>
             <HBox alignment="CENTER" prefHeight="45.0" prefWidth="400.0">
-                <!--<Button fx:id="okayButton" disable="false" onAction="#onOkayButton" text="%TourModal_Add">-->
-                <!--<HBox.margin>-->
-                <!--<Insets left="10.0" right="10.0" />-->
-                <!--</HBox.margin>-->
-                <!--</Button>-->
-                <!--<Button onAction="#onDeleteButton" text="%TourModal_Delete">-->
-                <!--<HBox.margin>-->
-                <!--<Insets left="10.0" right="10.0" />-->
-                <!--</HBox.margin>-->
-                <!--</Button>-->
-                <!--<Button fx:id="exitButton" onAction="#onCloseWindow" text="%TourModal_Cancel">-->
-                <!--<HBox.margin>-->
-                <!--<Insets left="10.0" right="10.0" />-->
-                <!--</HBox.margin>-->
-                <!--</Button>-->
+                <Button fx:id="addButton" disable="true" onAction="#onAddButton" text="%TourList_Edit">
+                    <HBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                    </HBox.margin>
+                </Button>
+                <Button fx:id="editButton" onAction="#onDeleteButton" text="%TourModal_Delete">
+                    <HBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                    </HBox.margin>
+                </Button>
+                <Button fx:id="exitButton" onAction="#onCloseWindow" text="%TourModal_Cancel">
+                    <HBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                    </HBox.margin>
+                </Button>
             </HBox>
         </VBox>
     </content>

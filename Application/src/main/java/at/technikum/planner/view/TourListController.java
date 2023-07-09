@@ -105,7 +105,7 @@ public class TourListController {
         });
     }
 
-    private void showDialog(DialogPane dialogPane) {
+    public void showDialog(DialogPane dialogPane) {
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setDialogPane(dialogPane);
         dialog.initOwner(addButton.getScene().getWindow());

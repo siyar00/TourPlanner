@@ -44,7 +44,7 @@ public class RouteMapController {
     @FXML
     ImageView mapImage;
     @FXML
-    TourLogsController tourLogs;
+    TourLogsController tourLogsController;
     private final RouteMapViewModel viewModel;
 
     public RouteMapController(RouteMapViewModel viewModel) {
