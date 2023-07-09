@@ -2,7 +2,7 @@ package at.technikum.planner.view.dialog;
 
 import at.technikum.planner.model.Tour;
 import at.technikum.planner.transformer.RouteTypeTransformer;
-import at.technikum.planner.viewmodel.TourModalViewModel;
+import at.technikum.planner.viewmodel.dialog.TourListDialogViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -32,10 +32,10 @@ public class TourListDialogController {
     Button exitButton;
     Tour tour;
     ResourceBundle bundle;
-    TourModalViewModel viewModel;
+    TourListDialogViewModel viewModel;
 
-    public TourListDialogController(TourModalViewModel tourModalViewModel) {
-        this.viewModel = tourModalViewModel;
+    public TourListDialogController(TourListDialogViewModel tourListDialogViewModel) {
+        this.viewModel = tourListDialogViewModel;
     }
 
     public void initialize(ResourceBundle bundle) {

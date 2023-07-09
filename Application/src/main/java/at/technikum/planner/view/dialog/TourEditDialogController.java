@@ -2,7 +2,7 @@ package at.technikum.planner.view.dialog;
 
 import at.technikum.planner.model.Tour;
 import at.technikum.planner.transformer.RouteTypeTransformer;
-import at.technikum.planner.viewmodel.TourEditModalViewModel;
+import at.technikum.planner.viewmodel.dialog.TourEditDialogViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -34,10 +34,10 @@ public class TourEditDialogController {
     Button exitButton;
     private Tour tour;
     private ResourceBundle bundle;
-    private TourEditModalViewModel viewModel;
+    private TourEditDialogViewModel viewModel;
 
-    public TourEditDialogController(TourEditModalViewModel tourEditModalViewModel) {
-        this.viewModel = tourEditModalViewModel;
+    public TourEditDialogController(TourEditDialogViewModel tourEditDialogViewModel) {
+        this.viewModel = tourEditDialogViewModel;
     }
 
     public void enterKey(KeyEvent keyEvent) {

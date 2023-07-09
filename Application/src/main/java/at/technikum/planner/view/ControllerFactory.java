@@ -6,6 +6,8 @@ import at.technikum.planner.view.dialog.TourDialogController;
 import at.technikum.planner.view.dialog.TourEditDialogController;
 import at.technikum.planner.view.dialog.TourListDialogController;
 import at.technikum.planner.viewmodel.*;
+import at.technikum.planner.viewmodel.dialog.TourEditDialogViewModel;
+import at.technikum.planner.viewmodel.dialog.TourListDialogViewModel;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import java.util.ResourceBundle;
@@ -17,8 +19,8 @@ public class ControllerFactory {
     private final SearchBarViewModel searchBarViewModel;
     private final TourListViewModel tourListViewModel;
     private final TourLogsViewModel tourLogsViewModel;
-    private final TourModalViewModel tourModalViewModel;
-    private final TourEditModalViewModel tourEditModalViewModel;
+    private final TourListDialogViewModel tourListDialogViewModel;
+    private final TourEditDialogViewModel tourEditDialogViewModel;
 
     public ControllerFactory(ConfigurableApplicationContext applicationContext, ResourceBundle bundle) {
         this.bundle = bundle;
@@ -28,8 +30,8 @@ public class ControllerFactory {
         TourRepository tourRepository = applicationContext.getBean(TourRepository.class);
         tourListViewModel = new TourListViewModel(routeService, tourRepository);
         tourLogsViewModel = new TourLogsViewModel();
-        tourModalViewModel = new TourModalViewModel();
-        tourEditModalViewModel = new TourEditModalViewModel();
+        tourListDialogViewModel = new TourListDialogViewModel();
+        tourEditDialogViewModel = new TourEditDialogViewModel();
         mainWindowViewModel = new MainWindowViewModel(tourListViewModel, searchBarViewModel, tourLogsViewModel, routeMapViewModel);
     }
 
@@ -48,9 +50,9 @@ public class ControllerFactory {
         } else if (controllerClass == TourLogsController.class) {
             return new TourLogsController(tourLogsViewModel, bundle);
         } else if (controllerClass == TourListDialogController.class) {
-            return new TourListDialogController(tourModalViewModel);
+            return new TourListDialogController(tourListDialogViewModel);
         } else if (controllerClass == TourEditDialogController.class) {
-            return new TourEditDialogController(tourEditModalViewModel);
+            return new TourEditDialogController(tourEditDialogViewModel);
         } else if (controllerClass == TourDialogController.class) {
             return new TourDialogController(tourLogsViewModel);
         } else {
