@@ -19,5 +19,6 @@ public class MainWindowViewModel {
 
     private void selectTour(Tour selectedTour) {
         routeMapViewModel.setTour(selectedTour);
+        tourLogsViewModel.setTourLog(selectedTour);
     }
 }

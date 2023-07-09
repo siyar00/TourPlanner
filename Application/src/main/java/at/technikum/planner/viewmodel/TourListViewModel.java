@@ -4,6 +4,7 @@ import at.technikum.bl.RouteServiceImpl;
 import at.technikum.dal.dao.TourDao;
 import at.technikum.dal.dto.RouteDto;
 import at.technikum.dal.repository.TourRepository;
+import at.technikum.planner.model.TourLog;
 import at.technikum.planner.transformer.TourDaoToTourTransformer;
 import at.technikum.planner.model.Tour;
 import javafx.beans.value.ChangeListener;
@@ -25,9 +26,9 @@ public class TourListViewModel {
     }
 
     private final TourRepository tourRepository;
+    private final RouteServiceImpl routeService;
     private final List<SelectionChangedListener> listeners = new ArrayList<>();
     private final ObservableList<Tour> observableTours = FXCollections.observableArrayList();
-    private final RouteServiceImpl routeService;
 
     public TourListViewModel(RouteServiceImpl routeService, TourRepository tourRepository) {
         this.routeService = routeService;
@@ -101,6 +102,27 @@ public class TourListViewModel {
     public void removeTour(Tour tour) {
         observableTours.remove(tour);
         tourRepository.deleteByName(tour.getName());
+    }
+
+    public void addLog(Tour tour, TourLog log) {
+        int index = observableTours.indexOf(tour);
+        List<TourLog> list = observableTours.get(index).getTourLog();
+        list.add(log);
+        observableTours.get(index).setTourLog(list);
+    }
+
+    public void updateLog(Tour tour, TourLog newLog, TourLog oldLog) {
+        int index = observableTours.indexOf(tour);
+        List<TourLog> list = observableTours.get(index).getTourLog();
+        list.set(list.indexOf(oldLog), newLog);
+        observableTours.get(index).setTourLog(list);
+    }
+
+    public void removeLog(Tour tour, TourLog tourLog) {
+        int index = observableTours.indexOf(tour);
+        List<TourLog> list = observableTours.get(index).getTourLog();
+        list.remove(tourLog);
+        observableTours.get(index).setTourLog(list);
     }
 
     @SuppressWarnings("resource")

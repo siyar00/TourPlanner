@@ -17,11 +17,11 @@ public class MainWindowController {
     @FXML
     VBox scene;
     @FXML
-    SearchBarController searchBar;
+    SearchBarController searchBarController;
     @FXML
-    TourListController tourList;
+    TourListController tourListController;
     @FXML
-    RouteMapController routeMap;
+    RouteMapController routeMapController;
     private double x, y;
     private final MainWindowViewModel mainWindowViewModel;
 
