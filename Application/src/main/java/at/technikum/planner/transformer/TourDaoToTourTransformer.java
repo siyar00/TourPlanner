@@ -6,6 +6,7 @@ import at.technikum.planner.model.Tour;
 import javafx.scene.image.Image;
 
 import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
 import java.util.function.Function;
 
 public class TourDaoToTourTransformer implements Function<TourDao, Tour> {
@@ -21,6 +22,7 @@ public class TourDaoToTourTransformer implements Function<TourDao, Tour> {
                 .distance(tourDao.getDistance())
                 .toll(tourDao.getHasTollRoad())
                 .highway(tourDao.getHasHighway())
-                .map(new Image(new ByteArrayInputStream(tourDao.getImage()))).build();
+                .map(new Image(new ByteArrayInputStream(tourDao.getImage())))
+                .tourLog(new ArrayList<>()).build();
     }
 }

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.controlsfx.control.Rating?>
+<?import tornadofx.control.DateTimePicker?>
+<DialogPane prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="at.technikum.planner.view.dialog.TourLogsDialogController">
+    <content>
+        <VBox spacing="10">
+            <VBox>
+                <VBox>
+                    <Label text="%Date">
+                        <VBox.margin>
+                            <Insets left="10.0"/>
+                        </VBox.margin>
+                    </Label>
+                    <DateTimePicker fx:id="date" cache="true" cacheHint="ROTATE" editable="false" prefWidth="1000.0">
+                        <VBox.margin>
+                            <Insets bottom="5.0" left="10.0" right="10.0"/>
+                        </VBox.margin>
+                    </DateTimePicker>
+                </VBox>
+                <VBox>
+
+                    <HBox prefWidth="500.0">
+                        <VBox>
+                            <Label text="%Hours">
+                                <VBox.margin>
+                                    <Insets left="10.0"/>
+                                </VBox.margin>
+                            </Label>
+                            <Spinner fx:id="hour" prefWidth="500.0" HBox.hgrow="ALWAYS">
+                                <VBox.margin>
+                                    <Insets left="10.0" right="10.0"/>
+                                </VBox.margin>
+                                <HBox.margin>
+                                    <Insets left="10.0"/>
+                                </HBox.margin>
+                            </Spinner>
+                        </VBox>
+                        <VBox>
+                            <Label text="%Minutes">
+                                <VBox.margin>
+                                    <Insets left="10.0"/>
+                                </VBox.margin>
+                            </Label>
+                            <Spinner fx:id="minute" prefWidth="500.0" HBox.hgrow="ALWAYS">
+                                <VBox.margin>
+                                    <Insets left="10.0" right="10.0"/>
+                                </VBox.margin>
+                                <HBox.margin>
+                                    <Insets left="10.0" right="10.0"/>
+                                </HBox.margin>
+                            </Spinner>
+                        </VBox>
+                    </HBox>
+                </VBox>
+                <VBox>
+                    <Label text="%Comment">
+                        <VBox.margin>
+                            <Insets left="10.0"/>
+                        </VBox.margin>
+                    </Label>
+                    <TextArea fx:id="comment" focusTraversable="false" promptText="%Comment">
+                        <VBox.margin>
+                            <Insets bottom="5.0" left="10.0" right="10.0"/>
+                        </VBox.margin>
+                    </TextArea>
+                </VBox>
+                <VBox>
+                    <Label text="%Difficulty">
+                        <VBox.margin>
+                            <Insets left="10.0"/>
+                        </VBox.margin>
+                    </Label>
+                    <Slider fx:id="difficulty" blockIncrement="1.0" majorTickUnit="2.0" max="10.0" minorTickCount="1"
+                            showTickLabels="true" showTickMarks="true" snapToTicks="true">
+                        <VBox.margin>
+                            <Insets left="10.0" right="10.0" top="5.0"/>
+                        </VBox.margin>
+                    </Slider>
+                </VBox>
+                <VBox>
+                    <Label text="%Rating">
+                        <VBox.margin>
+                            <Insets left="10.0"/>
+                        </VBox.margin>
+                    </Label>
+                    <Rating fx:id="rating" partialRating="true" max="5" rating="0">
+                        <VBox.margin>
+                            <Insets bottom="10" left="10.0" right="10.0" top="5.0"/>
+                        </VBox.margin>
+                    </Rating>
+                </VBox>
+            </VBox>
+            <HBox alignment="CENTER" prefHeight="45.0" prefWidth="400.0">
+                <Button fx:id="addButton" onAction="#onAddButton" text="%TourList_Edit">
+                    <HBox.margin>
+                        <Insets left="10.0" right="10.0"/>
+                    </HBox.margin>
+                </Button>
+                <Button fx:id="editButton" onAction="#onDeleteButton" text="%TourModal_Delete">
+                    <HBox.margin>
+                        <Insets left="10.0" right="10.0"/>
+                    </HBox.margin>
+                </Button>
+                <Button fx:id="exitButton" onAction="#onCloseWindow" text="%TourModal_Cancel">
+                    <HBox.margin>
+                        <Insets left="10.0" right="10.0"/>
+                    </HBox.margin>
+                </Button>
+            </HBox>
+        </VBox>
+    </content>
+</DialogPane>

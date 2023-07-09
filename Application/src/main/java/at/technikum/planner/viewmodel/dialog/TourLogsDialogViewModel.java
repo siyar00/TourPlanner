@@ -1,4 +1,4 @@
 package at.technikum.planner.viewmodel.dialog;
 
-public class TourEditDialogViewModel {
+public class TourLogsDialogViewModel {
 }

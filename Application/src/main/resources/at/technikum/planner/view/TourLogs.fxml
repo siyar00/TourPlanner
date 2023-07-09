@@ -35,12 +35,11 @@
     </ToolBar>
     <TableView fx:id="tourLogsTableView" VBox.vgrow="ALWAYS">
         <columns>
-            <TableColumn fx:id="idColumn" prefWidth="75" text="ID"/>
-            <TableColumn fx:id="dateColumn" prefWidth="100" text="Date"/>
-            <TableColumn fx:id="durationColumn" prefWidth="100" text="Duration"/>
-            <TableColumn fx:id="commentColumn" prefWidth="200" text="Comment"/>
-            <TableColumn fx:id="difficultyColumn" prefWidth="200" text="Difficulty"/>
-            <TableColumn fx:id="ratingColumn" prefWidth="100" text="Rating"/>
+            <TableColumn fx:id="dateColumn" prefWidth="150" text="%Date"/>
+            <TableColumn fx:id="durationColumn" prefWidth="100" text="%Duration"/>
+            <TableColumn fx:id="commentColumn" prefWidth="200" text="%Comment"/>
+            <TableColumn fx:id="difficultyColumn" prefWidth="100" text="%Difficulty"/>
+            <TableColumn fx:id="ratingColumn" prefWidth="100" text="%Rating"/>
         </columns>
     </TableView>
 </VBox>

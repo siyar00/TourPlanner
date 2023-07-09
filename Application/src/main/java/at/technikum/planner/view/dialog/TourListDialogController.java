@@ -8,24 +8,27 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 public class TourListDialogController {
     @FXML
     ComboBox<String> transportComboBox;
+    @FXML
+    TextField tourDescription;
     @FXML
     TextField tourName;
     @FXML
     TextField tourStartAddress;
     @FXML
     TextField tourEndAddress;
-    @FXML
-    TextField tourDescription;
     @FXML
     Button okayButton;
     @FXML
@@ -38,7 +41,8 @@ public class TourListDialogController {
         this.viewModel = tourListDialogViewModel;
     }
 
-    public void initialize(ResourceBundle bundle) {
+    public void initialize(Tour tour, ResourceBundle bundle) {
+        this.tour = tour;
         this.bundle = bundle;
         transportComboBox.getItems().addAll(bundle.getString("RouteType_CarFastest"),
                 bundle.getString("RouteType_CarShortest"), bundle.getString("RouteType_Pedestrian"),
@@ -46,8 +50,7 @@ public class TourListDialogController {
     }
 
     public void enterKey(KeyEvent keyEvent) {
-        if (tourName.getText().trim().isEmpty() && tourStartAddress.getText().isEmpty() && tourEndAddress.getText().isEmpty() &&
-                transportComboBox.getSelectionModel().isEmpty() && keyEvent.getCode().isDigitKey() && keyEvent.getCode().isLetterKey()) {
+        if (tourName.getText().trim().isEmpty() || tourStartAddress.getText().isEmpty() || tourEndAddress.getText().isEmpty()) {
             okayButton.setDisable(true);
             return;
         }
@@ -61,20 +64,20 @@ public class TourListDialogController {
 
     public void onOkayButton() {
         if (tourName.getText().trim().isEmpty()) {
-            alert("Please enter a name for the tour.");
+            alert(bundle.getString("TourModal_NameError"));
         } else if (transportComboBox.getValue() == null) {
-            alert("Select a transportation.");
+            alert(bundle.getString("TourModal_TransportError"));
         } else if (tourStartAddress.getText().trim().isEmpty()) {
-            alert("Please enter a start address.");
+            alert(bundle.getString("TourModal_StartAddressError"));
         } else if (tourEndAddress.getText().trim().isEmpty()) {
-            alert("Please enter an end address.");
+            alert(bundle.getString("TourModal_EndAddressError"));
         } else {
             this.tour = Tour.builder().name(tourName.getText().trim())
                     .tourDescription(tourDescription.getText().trim())
                     .startAddress(tourStartAddress.getText().trim())
                     .endAddress(tourEndAddress.getText().trim())
-                    .transportation(new RouteTypeTransformer().getRouteTypeFromBundle(transportComboBox.getValue(), bundle))
-                    .build();
+                    .transportation(new RouteTypeTransformer().getRouteTypeFromBundle(transportComboBox.getSelectionModel().getSelectedItem(), bundle))
+                    .tourLog(new ArrayList<>()).build();
             onCloseWindow();
         }
     }
@@ -84,6 +87,7 @@ public class TourListDialogController {
         tourDescription.clear();
         tourStartAddress.clear();
         tourEndAddress.clear();
+        transportComboBox.getSelectionModel().clearSelection();
         transportComboBox.setPromptText(bundle.getString("TourModal_Transportation"));
         okayButton.setDisable(true);
     }
@@ -100,5 +104,13 @@ public class TourListDialogController {
         confirmationAlert.setContentText(message);
         confirmationAlert.getButtonTypes().setAll(ButtonType.OK);
         confirmationAlert.showAndWait();
+    }
+
+    public void setAll() {
+        tourDescription.setText(tour.getTourDescription());
+        tourName.setText(tour.getName());
+        tourStartAddress.setText(tour.getStartAddress());
+        tourEndAddress.setText(tour.getEndAddress());
+        transportComboBox.getSelectionModel().select(new RouteTypeTransformer().getBundleFromRouteType(tour.getTransportation(), bundle));
     }
 }

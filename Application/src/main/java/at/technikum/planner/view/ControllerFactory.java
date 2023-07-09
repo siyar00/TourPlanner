@@ -2,12 +2,11 @@ package at.technikum.planner.view;
 
 import at.technikum.bl.RouteServiceImpl;
 import at.technikum.dal.repository.TourRepository;
-import at.technikum.planner.view.dialog.TourDialogController;
-import at.technikum.planner.view.dialog.TourEditDialogController;
+import at.technikum.planner.view.dialog.TourLogsDialogController;
 import at.technikum.planner.view.dialog.TourListDialogController;
 import at.technikum.planner.viewmodel.*;
-import at.technikum.planner.viewmodel.dialog.TourEditDialogViewModel;
 import at.technikum.planner.viewmodel.dialog.TourListDialogViewModel;
+import at.technikum.planner.viewmodel.dialog.TourLogsDialogViewModel;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import java.util.ResourceBundle;
@@ -20,7 +19,7 @@ public class ControllerFactory {
     private final TourListViewModel tourListViewModel;
     private final TourLogsViewModel tourLogsViewModel;
     private final TourListDialogViewModel tourListDialogViewModel;
-    private final TourEditDialogViewModel tourEditDialogViewModel;
+    private final TourLogsDialogViewModel tourLogsDialogViewModel;
 
     public ControllerFactory(ConfigurableApplicationContext applicationContext, ResourceBundle bundle) {
         this.bundle = bundle;
@@ -29,9 +28,9 @@ public class ControllerFactory {
         RouteServiceImpl routeService = new RouteServiceImpl();
         TourRepository tourRepository = applicationContext.getBean(TourRepository.class);
         tourListViewModel = new TourListViewModel(routeService, tourRepository);
-        tourLogsViewModel = new TourLogsViewModel();
+        tourLogsViewModel = new TourLogsViewModel(tourListViewModel);
         tourListDialogViewModel = new TourListDialogViewModel();
-        tourEditDialogViewModel = new TourEditDialogViewModel();
+        tourLogsDialogViewModel= new TourLogsDialogViewModel();
         mainWindowViewModel = new MainWindowViewModel(tourListViewModel, searchBarViewModel, tourLogsViewModel, routeMapViewModel);
     }
 
@@ -51,10 +50,8 @@ public class ControllerFactory {
             return new TourLogsController(tourLogsViewModel, bundle);
         } else if (controllerClass == TourListDialogController.class) {
             return new TourListDialogController(tourListDialogViewModel);
-        } else if (controllerClass == TourEditDialogController.class) {
-            return new TourEditDialogController(tourEditDialogViewModel);
-        } else if (controllerClass == TourDialogController.class) {
-            return new TourDialogController(tourLogsViewModel);
+        } else if (controllerClass == TourLogsDialogController.class) {
+            return new TourLogsDialogController(tourLogsDialogViewModel);
         } else {
             throw new IllegalArgumentException("Unknown controller class: " + controllerClass);
         }
