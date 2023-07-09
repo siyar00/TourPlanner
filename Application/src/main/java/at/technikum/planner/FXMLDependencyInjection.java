@@ -21,10 +21,10 @@ public class FXMLDependencyInjection {
     }
 
     public static FXMLLoader getLoader(String location, Locale locale, ConfigurableApplicationContext context) {
+        ResourceBundle bundle = ResourceBundle.getBundle("at.technikum.planner.gui_strings", locale);
         return new FXMLLoader(
-                FXMLDependencyInjection.class.getResource("/at/technikum/planner/view/" + location),
-                ResourceBundle.getBundle("at.technikum.planner.view.gui_strings", locale),
+                FXMLDependencyInjection.class.getResource("/at/technikum/planner/view/" + location), bundle,
                 new JavaFXBuilderFactory(),
-                controllerClass-> ControllerFactory.getInstance(context).create(controllerClass));
+                controllerClass-> ControllerFactory.getInstance(context, bundle).create(controllerClass));
     }
 }

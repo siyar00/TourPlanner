@@ -1,4 +1,4 @@
-package at.technikum.dal.dataTransferObject;
+package at.technikum.dal.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class RouteResponse {
-    Route route;
+    RouteDto route;
 }

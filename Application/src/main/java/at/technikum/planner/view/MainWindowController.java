@@ -2,30 +2,31 @@ package at.technikum.planner.view;
 
 import at.technikum.planner.viewmodel.MainWindowViewModel;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.MenuItem;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import jfxtras.styles.jmetro.Style;
+import lombok.Data;
 
+@Data
 public class MainWindowController {
     @FXML
-    private VBox scene;
+    VBox scene;
     @FXML
-    private SearchBarController searchBarController;
+    SearchBarController searchBar;
     @FXML
-    private TourListController tourListController;
+    TourListController tourList;
     @FXML
-    private TourLogsController tourLogsController;
-    @FXML
-    private RouteMapController routeMapController;
-
+    RouteMapController routeMap;
+    private double x, y;
     private final MainWindowViewModel mainWindowViewModel;
 
     public MainWindowController(MainWindowViewModel mainWindowViewModel) {
         this.mainWindowViewModel = mainWindowViewModel;
-    }
-
-    public MainWindowViewModel getMainWindowViewModel() {
-        return mainWindowViewModel;
     }
 
     @FXML
@@ -42,5 +43,27 @@ public class MainWindowController {
         aboutBox.setTitle("About TourPlanner");
         aboutBox.setHeaderText(null);
         aboutBox.showAndWait();
+    }
+
+    public void changeTheme(ActionEvent actionEvent) {
+        scene.getScene().getStylesheets().clear();
+        if (((MenuItem) actionEvent.getSource()).getText().contains("Dark")) {
+            scene.getScene().getStylesheets().add(Style.DARK.getStyleStylesheetURL());
+        } else {
+            scene.getScene().getStylesheets().add(Style.LIGHT.getStyleStylesheetURL());
+        }
+    }
+
+    @FXML
+    void onDragged(MouseEvent mouseEvent) {
+        Stage stage = (Stage) scene.getScene().getWindow();
+        stage.setX(mouseEvent.getScreenX() - x);
+        stage.setY(mouseEvent.getScreenY() - y);
+    }
+
+    @FXML
+    void onMousePressed(MouseEvent mouseEvent) {
+        x = mouseEvent.getSceneX();
+        y = mouseEvent.getSceneY();
     }
 }

@@ -1,21 +1,25 @@
 package at.technikum.planner;
 
+import at.technikum.planner.config.ApplicationConfigProperties;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import jfxtras.styles.jmetro.JMetro;
+import jfxtras.styles.jmetro.Style;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
-import static java.util.Locale.GERMAN;
-
 @SpringBootApplication
+@EnableConfigurationProperties(ApplicationConfigProperties.class)
 public class TourPlannerApplication extends Application {
 
     public static void main(String[] args) {
@@ -40,12 +44,15 @@ public class TourPlannerApplication extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLDependencyInjection.load("MainWindow.fxml", GERMAN, applicationContext);
+        Parent root = FXMLDependencyInjection.load("MainWindow.fxml", Locale.forLanguageTag(System.getProperties().getProperty("user.language")), applicationContext);
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("stylesheets/style.css")).toExternalForm());
+        JMetro jMetro = new JMetro(Style.DARK);
+        jMetro.setScene(scene);
+        stage.setScene(jMetro.getScene());
         stage.setTitle("Dora the Explorer");
         stage.getIcons().add(new Image(Objects.requireNonNull(TourPlannerApplication.class.getResourceAsStream("images/dora.png"))));
         stage.setScene(scene);
+        //stage.initStyle(StageStyle.TRANSPARENT);
         stage.show();
     }
 }

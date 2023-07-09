@@ -31,6 +31,7 @@
         <squareup.retrofit2.version>2.9.0</squareup.retrofit2.version>
         <okhttp.version>4.10.0</okhttp.version>
         <springframework.version>3.1.0</springframework.version>
+        <springframework.config.version>3.0.4</springframework.config.version>
         <lombok.version>1.18.26</lombok.version>
         <h2database.version>2.1.214</h2database.version>
         <postgresql.version>42.5.4</postgresql.version>
@@ -123,6 +124,13 @@
                 <artifactId>spring-boot-starter-test</artifactId>
                 <version>${springframework.version}</version>
                 <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-configuration-processor</artifactId>
+                <version>${springframework.config.version}</version>
+                <optional>true</optional>
             </dependency>
 
             <dependency>
