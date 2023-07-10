@@ -79,6 +79,7 @@ public class MainWindowController {
     }
 
     private void alert(List<String> strings) {
+        if (strings.isEmpty()) return;
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initOwner(scene.getScene().getWindow());
         alert.setHeaderText(null);

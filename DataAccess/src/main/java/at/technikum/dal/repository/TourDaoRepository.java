@@ -17,5 +17,4 @@ public interface TourDaoRepository extends JpaRepository<TourDao, Long> {
             where t.id = ?11""")
     void updateTourDaoById(@NonNull String name, String start, String destination, String distance, String time, String hasTollRoad, String hasHighway, String transportation, byte[] image, String description, Long id);
 
-
 }

@@ -27,10 +27,10 @@ public class ControllerFactory {
         RouteServiceImpl routeService = new RouteServiceImpl();
         TourDaoRepository tourDaoRepository = applicationContext.getBean(TourDaoRepository.class);
         TourLogsDaoRepository tourLogsDaoRepository = applicationContext.getBean(TourLogsDaoRepository.class);
-        searchBarViewModel = new SearchBarViewModel();
         routeMapViewModel = new RouteMapViewModel(bundle);
         tourListViewModel = new TourListViewModel(routeService, tourDaoRepository, tourLogsDaoRepository);
         tourLogsViewModel = new TourLogsViewModel(tourListViewModel, tourLogsDaoRepository, tourDaoRepository);
+        searchBarViewModel = new SearchBarViewModel(tourListViewModel, tourLogsDaoRepository, tourDaoRepository, bundle);
         tourListDialogViewModel = new TourListDialogViewModel();
         tourLogsDialogViewModel= new TourLogsDialogViewModel();
         mainWindowViewModel = new MainWindowViewModel(tourListViewModel, searchBarViewModel, tourLogsViewModel, routeMapViewModel);

@@ -43,6 +43,7 @@ public class RouteMapController {
     Text tourDescription;
     @FXML
     ImageView mapImage;
+    @SuppressWarnings("unused")
     @FXML
     TourLogsController tourLogsController;
     private final RouteMapViewModel viewModel;
