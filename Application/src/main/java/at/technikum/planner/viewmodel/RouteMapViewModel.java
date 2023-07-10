@@ -86,7 +86,7 @@ public class RouteMapViewModel {
         highway.setValue(tour.getHighway().equals("false") ? bundle.getString("No") : bundle.getString("Yes"));
         time.setValue(tour.getTime());
         distance.setValue(tour.getDistance() + " km");
-        transportation.setValue(new RouteTypeTransformer().getBundleFromRouteType(tour.getTransportation(), bundle));
+        transportation.setValue(RouteTypeTransformer.getBundleFromRouteType(tour.getTransportation(), bundle));
         mapImageProperty.setValue(tour.getMap());
         isInitValue = false;
     }

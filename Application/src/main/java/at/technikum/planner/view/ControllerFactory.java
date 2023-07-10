@@ -30,7 +30,7 @@ public class ControllerFactory {
         routeMapViewModel = new RouteMapViewModel(bundle);
         tourListViewModel = new TourListViewModel(routeService, tourDaoRepository, tourLogsDaoRepository);
         tourLogsViewModel = new TourLogsViewModel(tourListViewModel, tourLogsDaoRepository, tourDaoRepository);
-        searchBarViewModel = new SearchBarViewModel(tourListViewModel, tourLogsDaoRepository, tourDaoRepository);
+        searchBarViewModel = new SearchBarViewModel(tourListViewModel, tourLogsDaoRepository, tourDaoRepository, bundle);
         tourListDialogViewModel = new TourListDialogViewModel();
         tourLogsDialogViewModel= new TourLogsDialogViewModel();
         mainWindowViewModel = new MainWindowViewModel(tourListViewModel, searchBarViewModel, tourLogsViewModel, routeMapViewModel);

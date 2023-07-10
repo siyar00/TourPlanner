@@ -96,7 +96,7 @@ public class TourListDialogController {
                     .tourDescription(tourDescription.getText().trim())
                     .startAddress(tourStartAddress.getText().trim())
                     .endAddress(tourEndAddress.getText().trim())
-                    .transportation(new RouteTypeTransformer().getRouteTypeFromBundle(transportComboBox.getSelectionModel().getSelectedItem(), bundle))
+                    .transportation(RouteTypeTransformer.getRouteTypeFromBundle(transportComboBox.getSelectionModel().getSelectedItem(), bundle))
                     .tourLog(new ArrayList<>()).build();
             onCloseWindow();
         }
@@ -133,7 +133,7 @@ public class TourListDialogController {
         tourName.setText(tour.getName());
         tourStartAddress.setText(tour.getStartAddress());
         tourEndAddress.setText(tour.getEndAddress());
-        transportComboBox.getSelectionModel().select(new RouteTypeTransformer().getBundleFromRouteType(tour.getTransportation(), bundle));
+        transportComboBox.getSelectionModel().select(RouteTypeTransformer.getBundleFromRouteType(tour.getTransportation(), bundle));
     }
 
 
