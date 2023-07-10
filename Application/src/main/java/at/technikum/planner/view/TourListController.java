@@ -27,7 +27,7 @@ public class TourListController {
 
     @FXML
     void initialize() {
-        tourNameListView.setItems(viewModel.getObservableTours());
+        tourNameListView.setItems(viewModel.getObservableToursFromDatabase());
         tourNameListView.getSelectionModel().selectedItemProperty().addListener(viewModel.getChangeListener());
         updateListView();
     }

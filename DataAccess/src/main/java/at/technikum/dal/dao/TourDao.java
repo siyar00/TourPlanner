@@ -29,7 +29,7 @@ public class TourDao {
     private String transportation;
     private byte[] image;
 
-    @OneToMany(cascade = { CascadeType.REMOVE, CascadeType.PERSIST }, orphanRemoval = true, targetEntity = TourLogsDao.class, fetch = FetchType.LAZY, mappedBy = "tourDao")
+    @OneToMany(cascade = { CascadeType.REMOVE }, targetEntity = TourLogsDao.class, fetch = FetchType.LAZY, mappedBy = "tourDao")
     private List<TourLogsDao> tourLogsDao;
 
 }

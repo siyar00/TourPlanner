@@ -8,6 +8,7 @@ import at.technikum.dal.repository.TourLogsDaoRepository;
 import at.technikum.planner.model.Tour;
 import at.technikum.planner.model.TourLog;
 import at.technikum.planner.transformer.TourDaoToTourTransformer;
+import at.technikum.planner.transformer.TourToTourDaoTransformer;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -40,12 +41,35 @@ public class TourListViewModel {
         this.tourLogsDaoRepository = tourLogsDaoRepository;
     }
 
-    public ObservableList<Tour> getObservableTours() {
+    public ObservableList<Tour> getObservableToursFromDatabase() {
+        observableTours.clear();
         List<TourDao> tourDaoList = tourDaoRepository.findAll();
         tourDaoList.forEach(tourDao -> tourDao.setTourLogsDao(tourLogsDaoRepository.findByTourId(tourDao.getId())));
         List<Tour> tourList = tourDaoList.stream().map(t -> new TourDaoToTourTransformer().apply(t)).toList();
         observableTours.addAll(tourList);
         return observableTours;
+    }
+
+    public List<String> setTours(List<Tour> tours) {
+        List<String> tourNames = new ArrayList<>();
+        tours.forEach(tour -> {
+            try {
+                TourDao tourDao = tourDaoRepository.save(new TourToTourDaoTransformer().apply(tour));
+                tour.setId(tourDao.getId());
+                for (TourLog tourLog : tour.getTourLog()) {
+                    if (tourLogsDaoRepository.findByTourId(tour.getId()).isEmpty()) {
+                        tourLog.setLogId(tourLogsDaoRepository.insertTourLog(tour.getId(), tourLog.getDate(), tourLog.getDuration(), tourLog.getComment(), tourLog.getDifficulty(), tourLog.getRating()).orElse(0L));
+                    } else {
+                        tourLogsDaoRepository.updateAllById(tour.getId(), tourLog.getDate(), tourLog.getDuration(), tourLog.getComment(), tourLog.getDifficulty(), tourLog.getRating(), tourLog.getLogId());
+                    }
+                }
+            } catch (Exception e) {
+                tourNames.add(tour.getName());
+            }
+        });
+        observableTours.clear();
+        observableTours.addAll(tours);
+        return tourNames;
     }
 
     public ChangeListener<Tour> getChangeListener() {
@@ -74,7 +98,7 @@ public class TourListViewModel {
                 try {
                     RouteDto route = routeService.getRoute(tour.getStartAddress(), tour.getEndAddress(), tour.getTransportation().getType());
                     String path = "downloads/" + routeService.getImage(route.getSessionId(), route.getBoundingBox()) + ".png";
-                    tourDaoRepository.save(getTourDao(tour, route, path));
+                    tour.setId(tourDaoRepository.saveAndFlush(getTourDaoAndSetTour(tour, route, path)).getId());
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -82,7 +106,7 @@ public class TourListViewModel {
             }
         };
         task.setOnSucceeded(event -> observableTours.add(tour));
-        task.setOnFailed(event -> System.out.println("Failed"+ event.getSource().getException()));
+        task.setOnFailed(event -> System.out.println("Failed" + event.getSource().getException()));
         new Thread(task).start();
     }
 
@@ -93,8 +117,8 @@ public class TourListViewModel {
                 try {
                     RouteDto route = routeService.getRoute(tour.getStartAddress(), tour.getEndAddress(), tour.getTransportation().getType());
                     String path = "downloads/" + routeService.getImage(route.getSessionId(), route.getBoundingBox()) + ".png";
-                    TourDao tourDao = getTourDao(tour, route, path);
-                    tourDaoRepository.updateTourDaoByName(tourDao.getName(), tourDao.getStart(), tourDao.getDestination(), tourDao.getDistance(), tourDao.getTime(), tourDao.getHasTollRoad(), tourDao.getHasHighway(),tourDao.getTransportation(),  tourDao.getImage(),  tourDao.getDescription(), oldTour.getName());
+                    TourDao tourDao = getTourDaoAndSetTour(tour, route, path);
+                    tourDaoRepository.updateTourDaoById(tourDao.getName(), tourDao.getStart(), tourDao.getDestination(), tourDao.getDistance(), tourDao.getTime(), tourDao.getHasTollRoad(), tourDao.getHasHighway(), tourDao.getTransportation(), tourDao.getImage(), tourDao.getDescription(), tour.getId());
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -102,7 +126,7 @@ public class TourListViewModel {
             }
         };
         task.setOnSucceeded(event -> observableTours.set(observableTours.indexOf(oldTour), tour));
-        task.setOnFailed(event -> System.out.println("Failed"+ event.getSource().getException()));
+        task.setOnFailed(event -> System.out.println("Failed" + event.getSource().getException()));
         new Thread(task).start();
     }
 
@@ -110,12 +134,12 @@ public class TourListViewModel {
         Task<Void> task = new Task<>() {
             @Override
             protected Void call() {
-                tourDaoRepository.deleteByName(tour.getName());
+                tourDaoRepository.deleteById(tour.getId());
                 return null;
             }
         };
         task.setOnSucceeded(event -> observableTours.remove(tour));
-        task.setOnFailed(event -> System.out.println("Failed"+ event.getSource().getException()));
+        task.setOnFailed(event -> System.out.println("Failed" + event.getSource().getException()));
         new Thread(task).start();
     }
 
@@ -133,7 +157,8 @@ public class TourListViewModel {
     }
 
     @SuppressWarnings("resource")
-    private TourDao getTourDao(Tour tour, RouteDto route, String path) throws IOException{
+    private TourDao getTourDaoAndSetTour(Tour tour, RouteDto route, String path) throws IOException {
+        tour.setImageBytes(new FileInputStream(path).readAllBytes());
         tour.setMap(new Image(new ByteArrayInputStream(new FileInputStream(path).readAllBytes())));
         tour.setDistance(route.getDistance());
         tour.setTime(route.getFormattedTime());
@@ -141,16 +166,7 @@ public class TourListViewModel {
         tour.setToll(route.getHasTollRoad());
         tour.setStartAddress(String.valueOf(route.getLocations().get(0)));
         tour.setEndAddress(String.valueOf(route.getLocations().get(1)));
-        return TourDao.builder().name(tour.getName())
-                .description(tour.getTourDescription())
-                .start(tour.getStartAddress())
-                .destination(tour.getEndAddress())
-                .distance(tour.getDistance())
-                .time(tour.getTime())
-                .transportation(tour.getTransportation().getType())
-                .hasHighway(tour.getHighway())
-                .hasTollRoad(tour.getToll())
-                .image(new FileInputStream(path).readAllBytes()).build();
+        return new TourToTourDaoTransformer().apply(tour);
     }
 
 }

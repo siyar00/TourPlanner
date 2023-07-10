@@ -14,12 +14,8 @@ public interface TourDaoRepository extends JpaRepository<TourDao, Long> {
     @Modifying
     @Query("""
             update TourDao t set t.name = ?1, t.start = ?2, t.destination = ?3, t.distance = ?4, t.time = ?5, t.hasTollRoad = ?6, t.hasHighway = ?7, t.transportation = ?8, t.image = ?9, t.description = ?10
-            where t.name = ?11""")
-    void updateTourDaoByName(@NonNull String name, String start, String destination, String distance, String time, String hasTollRoad, String hasHighway, String transportation, byte[] image, String description, String name1);
+            where t.id = ?11""")
+    void updateTourDaoById(@NonNull String name, String start, String destination, String distance, String time, String hasTollRoad, String hasHighway, String transportation, byte[] image, String description, Long id);
 
-    @Transactional
-    void deleteByName(String name);
 
-    @Transactional
-    TourDao findByName(String name);
 }

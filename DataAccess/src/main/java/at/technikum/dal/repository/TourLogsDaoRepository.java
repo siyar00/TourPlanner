@@ -15,10 +15,13 @@ import java.util.Optional;
 public interface TourLogsDaoRepository extends JpaRepository<TourLogsDao, Long> {
     @Transactional
     @Modifying
-    @Query("""
-            update TourLogsDao t set t.date = ?1, t.duration = ?2, t.comment = ?3, t.difficulty = ?4, t.rating = ?5
-            where t.logId = ?6""")
+    @Query("UPDATE TourLogsDao t SET t.date = ?1, t.duration = ?2, t.comment = ?3, t.difficulty = ?4, t.rating = ?5 WHERE t.logId = ?6")
     void updateById(String date, String duration, String comment, Integer difficulty, Float rating, Long logId);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE logs SET tour_id = ?1, date = ?2, duration = ?3, comment = ?4, difficulty = ?5, rating = ?6 WHERE log_id = ?7", nativeQuery = true)
+    void updateAllById(Long tour_id, String date, String duration, String comment, Integer difficulty, Float rating, Long logId);
 
     @Transactional
     @Query(nativeQuery = true, value = "SELECT * FROM logs WHERE tour_id = :tour_id")

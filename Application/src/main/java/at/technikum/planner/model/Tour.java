@@ -11,7 +11,7 @@ import java.util.Objects;
 @Data
 @Builder
 public class Tour implements Serializable {
-    private String id;
+    private Long id;
     private String name;
     private String tourDescription;
     private String startAddress;
@@ -22,6 +22,7 @@ public class Tour implements Serializable {
     private String toll;
     private String highway;
     private Image map;
+    private byte[] imageBytes;
     private List<TourLog> tourLog;
 
     @Override
