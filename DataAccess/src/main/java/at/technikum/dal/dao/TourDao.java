@@ -3,7 +3,9 @@ package at.technikum.dal.dao;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
 
+@SuppressWarnings("all")
 @Getter
 @Setter
 @Builder
@@ -13,26 +15,21 @@ import lombok.*;
 @Table(name = "tours")
 public class TourDao {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false, unique = true)
     private String name;
-    @Column
     private String description;
-    @Column
     private String start;
-    @Column
     private String destination;
-    @Column
     private String distance;
-    @Column
     private String time;
-    @Column
     private String hasTollRoad;
-    @Column
     private String hasHighway;
-    @Column
     private String transportation;
-    @Column
     private byte[] image;
+
+    @OneToMany(cascade = { CascadeType.REMOVE, CascadeType.PERSIST }, orphanRemoval = true, targetEntity = TourLogsDao.class, fetch = FetchType.LAZY, mappedBy = "tourDao")
+    private List<TourLogsDao> tourLogsDao;
+
 }

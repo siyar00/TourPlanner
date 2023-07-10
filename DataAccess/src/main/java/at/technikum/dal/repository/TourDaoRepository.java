@@ -9,7 +9,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TourRepository extends JpaRepository<TourDao, Long> {
+public interface TourDaoRepository extends JpaRepository<TourDao, Long> {
     @Transactional
     @Modifying
     @Query("""
@@ -19,4 +19,7 @@ public interface TourRepository extends JpaRepository<TourDao, Long> {
 
     @Transactional
     void deleteByName(String name);
+
+    @Transactional
+    TourDao findByName(String name);
 }
