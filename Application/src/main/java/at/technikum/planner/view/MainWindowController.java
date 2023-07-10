@@ -1,7 +1,9 @@
 package at.technikum.planner.view;
 
 import at.technikum.bl.PDFServiceImpl;
+import at.technikum.planner.transformer.TourPlannerToTourBlTransformer;
 import at.technikum.planner.viewmodel.MainWindowViewModel;
+import at.technikum.planner.viewmodel.TourListViewModel;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,24 +18,25 @@ import jfxtras.styles.jmetro.Style;
 import lombok.Data;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.List;
 
 @Data
 public class MainWindowController {
     @FXML
-    VBox scene;
+    private VBox scene;
     @FXML
-    SearchBarController searchBarController;
+    private SearchBarController searchBarController;
     @FXML
-    TourListController tourListController;
+    private TourListController tourListController;
     @FXML
-    RouteMapController routeMapController;
+    private RouteMapController routeMapController;
     private double x, y;
     private final MainWindowViewModel mainWindowViewModel;
+    private final TourListViewModel tourListViewModel;
 
-    public MainWindowController(MainWindowViewModel mainWindowViewModel) {
+    public MainWindowController(MainWindowViewModel mainWindowViewModel, TourListViewModel tourListViewModel) {
         this.mainWindowViewModel = mainWindowViewModel;
+        this.tourListViewModel = tourListViewModel;
     }
 
     @FXML
@@ -65,10 +68,10 @@ public class MainWindowController {
     @FXML
     void importFile() {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Import Tour");
+        fileChooser.setTitle("Import TourBl");
         try {
             fileChooser.setInitialDirectory(new File(System.getProperty("user.home"), File.separator + "Downloads"));
-        } catch (IllegalArgumentException exception){
+        } catch (IllegalArgumentException exception) {
             fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
         }
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("JSON", "*.json"));
@@ -91,10 +94,10 @@ public class MainWindowController {
     @FXML
     void exportFile() {
         DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setTitle("Export Tour");
+        directoryChooser.setTitle("Export TourBl");
         try {
             directoryChooser.setInitialDirectory(new File(System.getProperty("user.home"), File.separator + "Downloads"));
-        } catch (IllegalArgumentException exception){
+        } catch (IllegalArgumentException exception) {
             directoryChooser.setInitialDirectory(new File(System.getProperty("user.home")));
         }
         var directory = directoryChooser.showDialog(scene.getScene().getWindow());
@@ -118,11 +121,27 @@ public class MainWindowController {
 
     @FXML
     void onGenerateTourReportClicked() {
-        PDFServiceImpl reportService = new PDFServiceImpl();
-        try {
-            reportService.generateReport();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        if (tourListController.getTourNameListView().getSelectionModel().getSelectedItem() == null) return;
+        PDFServiceImpl reportService = new PDFServiceImpl(new TourPlannerToTourBlTransformer().apply(tourListController.getTourNameListView().getSelectionModel().getSelectedItem()));
+        reportAlert(reportService.generateReport());
+    }
+
+    @FXML
+    void onGenerateSummarizeReport() {
+        PDFServiceImpl reportService = new PDFServiceImpl(tourListViewModel.getObservableTours().stream().map(new TourPlannerToTourBlTransformer()).toList());
+        reportAlert(reportService.generateSummarizeReport());
+    }
+
+    private void reportAlert(boolean success) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.initOwner(scene.getScene().getWindow());
+        alert.setHeaderText(null);
+        if (success) {
+            alert.setContentText("Report wurde erfolgreich erstellt.");
+        } else {
+            alert.setContentText("Report konnte nicht erstellt werden.");
         }
+        alert.getButtonTypes().setAll(ButtonType.OK);
+        alert.showAndWait();
     }
 }

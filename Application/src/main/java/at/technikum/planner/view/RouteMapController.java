@@ -2,7 +2,6 @@ package at.technikum.planner.view;
 
 import at.technikum.planner.viewmodel.RouteMapViewModel;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -13,44 +12,44 @@ import javafx.scene.text.Text;
 public class RouteMapController {
 
     @FXML
-    Label tourDescriptionLabel;
+    private Label tourDescriptionLabel;
     @FXML
-    Label startingAddressLabel;
+    private Label startingAddressLabel;
     @FXML
-    Label destinationAddressLabel;
+    private Label destinationAddressLabel;
     @FXML
-    Label tollLabel;
+    private Label tollLabel;
     @FXML
-    Label highwayLabel;
+    private Label highwayLabel;
     @FXML
-    Label timeLabel;
+    private Label timeLabel;
     @FXML
-    Label distanceLabel;
+    private Label distanceLabel;
     @FXML
-    Label transportationLabel;
+    private Label transportationLabel;
     @FXML
-    Text transportation;
+    private  Text transportation;
     @FXML
-    Text toll;
+    private Text toll;
     @FXML
-    Text highway;
+    private Text highway;
     @FXML
-    Text time;
+    private Text time;
     @FXML
-    Text distance;
+    private Text distance;
     @FXML
-    Text destinationAddress;
+    private Text destinationAddress;
     @FXML
-    Text startingAddress;
+    private Text startingAddress;
     @FXML
-    Text tourDescription;
+    private Text tourDescription;
     @FXML
-    ImageView mapImage;
+    private ImageView mapImage;
     @FXML
-    BorderPane borderPane;
+    private BorderPane borderPane;
     @SuppressWarnings("unused")
     @FXML
-    TourLogsController tourLogsController;
+    private TourLogsController tourLogsController;
     private final RouteMapViewModel viewModel;
 
     public RouteMapController(RouteMapViewModel viewModel) {
