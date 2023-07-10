@@ -41,7 +41,7 @@ public class ControllerFactory {
     //
     public Object create(Class<?> controllerClass) {
         if (controllerClass == MainWindowController.class) {
-            return new MainWindowController(mainWindowViewModel);
+            return new MainWindowController(mainWindowViewModel, tourListViewModel);
         } else if (controllerClass == RouteMapController.class) {
             return new RouteMapController(routeMapViewModel);
         } else if (controllerClass == SearchBarController.class) {

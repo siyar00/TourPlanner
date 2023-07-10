@@ -8,15 +8,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
+import lombok.Getter;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
 
+@Getter
 public class TourListController {
     @FXML
-    Button addButton;
+    private Button addButton;
     @FXML
-    ListView<Tour> tourNameListView = new ListView<>();
+    private ListView<Tour> tourNameListView = new ListView<>();
     final ResourceBundle bundle;
     final TourListViewModel viewModel;
 

@@ -16,19 +16,19 @@ import java.util.ResourceBundle;
 public class TourLogsController {
 
     @FXML
-    Button addButton;
+    private Button addButton;
     @FXML
-    TableView<TourLog> tourLogsTableView;
+    private TableView<TourLog> tourLogsTableView;
     @FXML
-    TableColumn<TourLog, String> dateColumn;
+    private TableColumn<TourLog, String> dateColumn;
     @FXML
-    TableColumn<TourLog, String> durationColumn;
+    private TableColumn<TourLog, String> durationColumn;
     @FXML
-    TableColumn<TourLog, String> commentColumn;
+    private TableColumn<TourLog, String> commentColumn;
     @FXML
-    TableColumn<TourLog, Integer> difficultyColumn;
+    private TableColumn<TourLog, Integer> difficultyColumn;
     @FXML
-    TableColumn<TourLog, Double> ratingColumn;
+    private TableColumn<TourLog, Double> ratingColumn;
     final ResourceBundle bundle;
     final TourLogsViewModel viewModel;
 

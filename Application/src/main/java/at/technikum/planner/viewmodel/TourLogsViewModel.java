@@ -75,7 +75,7 @@ public class TourLogsViewModel {
             viewModel.addLog(tour, tourLog);
             observableTourLogs.add(tourLog);
         });
-        task.setOnFailed(event -> System.out.println("Add TourLog failed: " + event.getSource().getException().getMessage()));
+        task.setOnFailed(event -> System.out.println("Add TourLogBl failed: " + event.getSource().getException().getMessage()));
         new Thread(task).start();
     }
 
@@ -91,7 +91,7 @@ public class TourLogsViewModel {
             viewModel.updateLog(tour, newLog, oldLog);
             observableTourLogs.set(observableTourLogs.indexOf(oldLog), newLog);
         });
-        task.setOnFailed(event -> System.out.println("Update TourLog failed: " + event.getSource().getException().getMessage()));
+        task.setOnFailed(event -> System.out.println("Update TourLogBl failed: " + event.getSource().getException().getMessage()));
         new Thread(task).start();
     }
 
@@ -107,7 +107,7 @@ public class TourLogsViewModel {
             viewModel.removeLog(tour, tourLog);
             observableTourLogs.remove(tourLog);
         });
-        task.setOnFailed(event -> System.out.println("Delete TourLog failed: " + event.getSource().getException().getMessage()));
+        task.setOnFailed(event -> System.out.println("Delete TourLogBl failed: " + event.getSource().getException().getMessage()));
         new Thread(task).start();
     }
 }

@@ -17,6 +17,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 @SpringBootApplication
 @EnableConfigurationProperties(ApplicationConfigProperties.class)
@@ -26,6 +27,7 @@ public class TourPlannerApplication extends Application {
         launch(args);
     }
 
+    Logger LOGGER = Logger.getLogger(TourPlannerApplication.class.getName());
     private ConfigurableApplicationContext applicationContext;
 
     @Override
@@ -54,5 +56,6 @@ public class TourPlannerApplication extends Application {
         stage.setScene(scene);
         //stage.initStyle(StageStyle.TRANSPARENT);
         stage.show();
+        LOGGER.info("Application ended");
     }
 }

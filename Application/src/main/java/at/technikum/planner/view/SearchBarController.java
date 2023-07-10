@@ -10,9 +10,9 @@ import lombok.Data;
 public class SearchBarController {
 
     @FXML
-    Button searchButton;
+    private Button searchButton;
     @FXML
-    TextField searchTextField;
+    private TextField searchTextField;
     private final SearchBarViewModel searchBarViewModel;
 
     public SearchBarController(SearchBarViewModel searchBarViewModel) {
