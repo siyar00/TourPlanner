@@ -1,6 +1,5 @@
 package at.technikum.planner.viewmodel;
 
-import at.technikum.dal.dao.TourDao;
 import at.technikum.dal.repository.TourDaoRepository;
 import at.technikum.dal.repository.TourLogsDaoRepository;
 import at.technikum.planner.model.Tour;
@@ -42,10 +41,10 @@ public class TourLogsViewModel {
 
     public void setTourLog(Tour tour) {
         observableTourLogs.clear();
+        if(tour == null) return;
         this.tour = tour;
         List<TourLog> tourLogs = tour.getTourLog();
         if (tourLogs.isEmpty()) return;
-        System.out.println("setTourLogs name=" + tour.getName());
         observableTourLogs.addAll(tourLogs);
     }
 
@@ -68,8 +67,7 @@ public class TourLogsViewModel {
         Task<Long> task = new Task<>() {
             @Override
             protected Long call() {
-                TourDao tourDao = tourRepository.findByName(tour.getName());
-                return logsDaoRepository.insertTourLog(tourDao.getId(), tourLog.getDate(), tourLog.getDuration(), tourLog.getComment(), tourLog.getDifficulty(), tourLog.getRating()).orElse(0L);
+                return logsDaoRepository.insertTourLog(tour.getId(), tourLog.getDate(), tourLog.getDuration(), tourLog.getComment(), tourLog.getDifficulty(), tourLog.getRating()).orElse(0L);
             }
         };
         task.setOnSucceeded(event -> {
@@ -77,7 +75,7 @@ public class TourLogsViewModel {
             viewModel.addLog(tour, tourLog);
             observableTourLogs.add(tourLog);
         });
-        task.setOnFailed(event -> System.out.println("TourLog failed: " + event.getSource().getException().getMessage()));
+        task.setOnFailed(event -> System.out.println("Add TourLog failed: " + event.getSource().getException().getMessage()));
         new Thread(task).start();
     }
 
@@ -93,7 +91,7 @@ public class TourLogsViewModel {
             viewModel.updateLog(tour, newLog, oldLog);
             observableTourLogs.set(observableTourLogs.indexOf(oldLog), newLog);
         });
-        task.setOnFailed(event -> System.out.println("TourLog failed" + event.getSource().getException().getMessage()));
+        task.setOnFailed(event -> System.out.println("Update TourLog failed: " + event.getSource().getException().getMessage()));
         new Thread(task).start();
     }
 
@@ -109,7 +107,7 @@ public class TourLogsViewModel {
             viewModel.removeLog(tour, tourLog);
             observableTourLogs.remove(tourLog);
         });
-        task.setOnFailed(event -> System.out.println("TourLog failed: " + event.getSource().getException().getMessage()));
+        task.setOnFailed(event -> System.out.println("Delete TourLog failed: " + event.getSource().getException().getMessage()));
         new Thread(task).start();
     }
 }
