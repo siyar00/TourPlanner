@@ -3,15 +3,18 @@ package at.technikum.planner.transformer;
 import at.technikum.dal.dao.TourDao;
 import at.technikum.planner.model.RouteType;
 import at.technikum.planner.model.Tour;
+import at.technikum.planner.model.TourLog;
 import javafx.scene.image.Image;
 
 import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class TourDaoToTourTransformer implements Function<TourDao, Tour> {
     @Override
     public Tour apply(TourDao tourDao) {
+        List<TourLog> tourLogs = tourDao.getTourLogsDao().stream().map(t -> new TourLogDaoToTourLogTransformer().apply(t)).collect(Collectors.toList());
         return Tour.builder()
                 .tourDescription(tourDao.getDescription())
                 .name(tourDao.getName())
@@ -23,6 +26,6 @@ public class TourDaoToTourTransformer implements Function<TourDao, Tour> {
                 .toll(tourDao.getHasTollRoad())
                 .highway(tourDao.getHasHighway())
                 .map(new Image(new ByteArrayInputStream(tourDao.getImage())))
-                .tourLog(new ArrayList<>()).build();
+                .tourLog(tourLogs).build();
     }
 }

@@ -1,7 +1,8 @@
 package at.technikum.planner.view;
 
 import at.technikum.bl.RouteServiceImpl;
-import at.technikum.dal.repository.TourRepository;
+import at.technikum.dal.repository.TourDaoRepository;
+import at.technikum.dal.repository.TourLogsDaoRepository;
 import at.technikum.planner.view.dialog.TourLogsDialogController;
 import at.technikum.planner.view.dialog.TourListDialogController;
 import at.technikum.planner.viewmodel.*;
@@ -23,12 +24,13 @@ public class ControllerFactory {
 
     public ControllerFactory(ConfigurableApplicationContext applicationContext, ResourceBundle bundle) {
         this.bundle = bundle;
+        RouteServiceImpl routeService = new RouteServiceImpl();
+        TourDaoRepository tourDaoRepository = applicationContext.getBean(TourDaoRepository.class);
+        TourLogsDaoRepository tourLogsDaoRepository = applicationContext.getBean(TourLogsDaoRepository.class);
         searchBarViewModel = new SearchBarViewModel();
         routeMapViewModel = new RouteMapViewModel(bundle);
-        RouteServiceImpl routeService = new RouteServiceImpl();
-        TourRepository tourRepository = applicationContext.getBean(TourRepository.class);
-        tourListViewModel = new TourListViewModel(routeService, tourRepository);
-        tourLogsViewModel = new TourLogsViewModel(tourListViewModel);
+        tourListViewModel = new TourListViewModel(routeService, tourDaoRepository, tourLogsDaoRepository);
+        tourLogsViewModel = new TourLogsViewModel(tourListViewModel, tourLogsDaoRepository, tourDaoRepository);
         tourListDialogViewModel = new TourListDialogViewModel();
         tourLogsDialogViewModel= new TourLogsDialogViewModel();
         mainWindowViewModel = new MainWindowViewModel(tourListViewModel, searchBarViewModel, tourLogsViewModel, routeMapViewModel);

@@ -63,8 +63,8 @@ public class TourListController {
             confirmationAlert.setTitle(bundle.getString("TourList_DeleteTitle"));
             confirmationAlert.setHeaderText(null);
             confirmationAlert.setContentText(bundle.getString("TourList_DeleteText"));
-            ButtonType deleteButton = new ButtonType(bundle.getString("TourModal_Delete"));
-            ButtonType cancelButton = new ButtonType(bundle.getString("TourModal_Cancel"));
+            ButtonType deleteButton = new ButtonType(bundle.getString("Delete"));
+            ButtonType cancelButton = new ButtonType(bundle.getString("Cancel"));
             confirmationAlert.getButtonTypes().setAll(deleteButton, cancelButton);
             confirmationAlert.showAndWait().ifPresent(response -> {
                 if (response == deleteButton) {

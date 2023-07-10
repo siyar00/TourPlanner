@@ -16,5 +16,7 @@ public class TourLog implements Serializable {
     private String duration;
     private String comment;
     private Integer difficulty;
-    private Double rating;
+    private Float rating;
+    private Long logId;
+    private Long tourId;
 }

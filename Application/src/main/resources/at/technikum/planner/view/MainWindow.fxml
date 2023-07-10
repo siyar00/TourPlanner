@@ -6,8 +6,8 @@
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.technikum.planner.view.MainWindowController">
     <MenuBar onMouseDragged="#onDragged" onMousePressed="#onMousePressed">
         <Menu text="%Menu_File">
-            <MenuItem text="%Menu_File_Import"/>
-            <MenuItem text="%Menu_File_Export"/>
+            <MenuItem onAction="#importFile" text="%Menu_File_Import"/>
+            <MenuItem onAction="#exportFile" text="%Menu_File_Export" />
             <MenuItem onAction="#onMenuFileQuitClicked" text="%Menu_File_Quit"/>
         </Menu>
         <Menu text="%Menu_Edit">

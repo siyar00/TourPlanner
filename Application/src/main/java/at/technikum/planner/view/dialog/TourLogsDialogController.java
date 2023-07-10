@@ -40,7 +40,8 @@ public class TourLogsDialogController {
     ResourceBundle bundle;
     ValidationSupport validationSupport = new ValidationSupport();
 
-    public TourLogsDialogController(TourLogsDialogViewModel tourLogsDialogViewModel){}
+
+    public TourLogsDialogController(@SuppressWarnings("unused") TourLogsDialogViewModel tourLogsDialogViewModel) {}
 
     @FXML
     void initialize() {
@@ -52,7 +53,7 @@ public class TourLogsDialogController {
 
     @FXML
     void onAddButton() {
-        if(date.getDateTimeValue() == null) {
+        if (date.getDateTimeValue() == null) {
             showAlert(bundle.getString("TourLogModal_DateError"));
             return;
         } else if (hour.getValue() == 0 && minute.getValue() == 0) {
@@ -64,10 +65,10 @@ public class TourLogsDialogController {
         }
         tourLog = TourLog.builder()
                 .date(date.getDateTimeValue().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")))
-                .duration(String.format("%02dh%02dmin",hour.getValue(), minute.getValue()))
+                .duration(String.format("%02dh%02dmin", hour.getValue(), minute.getValue()))
                 .comment(comment.getText())
                 .difficulty((int) difficulty.getValue())
-                .rating((double) Math.round(rating.getRating()*10)/10)
+                .rating((float) Math.round(rating.getRating() * 10) / 10)
                 .build();
         onCloseWindow();
     }
@@ -97,7 +98,7 @@ public class TourLogsDialogController {
         confirmationAlert.showAndWait();
     }
 
-    public void setTourLog(TourLog tourLog){
+    public void setTourLog(TourLog tourLog) {
         this.tourLog = tourLog;
         date.setDateTimeValue(LocalDateTime.parse(tourLog.getDate(), DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
         comment.setText(tourLog.getComment());
@@ -105,6 +106,6 @@ public class TourLogsDialogController {
         rating.setRating(tourLog.getRating());
         String[] time = tourLog.getDuration().split("h");
         hour.getValueFactory().setValue(Integer.parseInt(time[0]));
-        minute.getValueFactory().setValue(Integer.parseInt(time[1].substring(0,2)));
+        minute.getValueFactory().setValue(Integer.parseInt(time[1].substring(0, 2)));
     }
 }

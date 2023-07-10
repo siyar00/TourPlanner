@@ -23,7 +23,6 @@
                     </DateTimePicker>
                 </VBox>
                 <VBox>
-
                     <HBox prefWidth="500.0">
                         <VBox>
                             <Label text="%Hours">
@@ -96,17 +95,17 @@
                 </VBox>
             </VBox>
             <HBox alignment="CENTER" prefHeight="45.0" prefWidth="400.0">
-                <Button fx:id="addButton" onAction="#onAddButton" text="%TourList_Edit">
+                <Button fx:id="addButton" onAction="#onAddButton" text="%Okay">
                     <HBox.margin>
                         <Insets left="10.0" right="10.0"/>
                     </HBox.margin>
                 </Button>
-                <Button fx:id="editButton" onAction="#onDeleteButton" text="%TourModal_Delete">
+                <Button fx:id="editButton" onAction="#onDeleteButton" text="%Delete">
                     <HBox.margin>
                         <Insets left="10.0" right="10.0"/>
                     </HBox.margin>
                 </Button>
-                <Button fx:id="exitButton" onAction="#onCloseWindow" text="%TourModal_Cancel">
+                <Button fx:id="exitButton" onAction="#onCloseWindow" text="%Cancel">
                     <HBox.margin>
                         <Insets left="10.0" right="10.0"/>
                     </HBox.margin>
