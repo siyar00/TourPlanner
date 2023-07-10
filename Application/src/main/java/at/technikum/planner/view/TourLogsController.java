@@ -3,6 +3,7 @@ package at.technikum.planner.view;
 import at.technikum.planner.model.TourLog;
 import at.technikum.planner.view.dialog.TourLogsDialogController;
 import at.technikum.planner.viewmodel.TourLogsViewModel;
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;

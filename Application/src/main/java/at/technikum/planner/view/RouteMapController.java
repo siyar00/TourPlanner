@@ -1,9 +1,12 @@
 package at.technikum.planner.view;
 
 import at.technikum.planner.viewmodel.RouteMapViewModel;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 
 
@@ -43,6 +46,8 @@ public class RouteMapController {
     Text tourDescription;
     @FXML
     ImageView mapImage;
+    @FXML
+    BorderPane borderPane;
     @SuppressWarnings("unused")
     @FXML
     TourLogsController tourLogsController;
@@ -71,6 +76,17 @@ public class RouteMapController {
         highwayLabel.visibleProperty().bindBidirectional(viewModel.getHighwayLabel());
         tollLabel.visibleProperty().bindBidirectional(viewModel.getTollLabel());
         transportationLabel.visibleProperty().bindBidirectional(viewModel.getTransportationLabel());
+
+        ChangeListener<Number> sizeChangeListener = (observable, oldValue, newValue) -> {
+            mapImage.setFitWidth(borderPane.getScene().getWidth()-200);
+            mapImage.setFitHeight(borderPane.getScene().getHeight()-150);
+        };
+        borderPane.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            if (newScene != null) {
+                newScene.widthProperty().addListener(sizeChangeListener);
+                newScene.heightProperty().addListener(sizeChangeListener);
+            }
+        });
     }
 
 }
