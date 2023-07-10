@@ -51,6 +51,7 @@ public class RouteServiceImpl implements RouteService {
 
     private static String storeResponseInFile(Response<ResponseBody> response) {
         try (ResponseBody body = response.body()) {
+            @SuppressWarnings("ConstantConditions")
             byte[] bytes = body.bytes();
             String uuid = UUID.randomUUID().toString();
             FileOutputStream fos = new FileOutputStream("downloads/" + uuid + ".png");
