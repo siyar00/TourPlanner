@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -10,98 +11,116 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
 
-<VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="at.technikum.planner.view.RouteMapController">
-    <SplitPane orientation="horizontal" VBox.vgrow="ALWAYS">
-        <TabPane tabClosingPolicy="UNAVAILABLE">
-            <Tab styleClass="tab" text="%MediaDetails_Tab_General">
-                <VBox prefHeight="200.0" prefWidth="100.0">
-                    <HBox prefHeight="100.0" prefWidth="200.0">
-                        <Label fx:id="tourDescriptionLabel" prefWidth="150.0" text="%TourModal_Description">
-                            <HBox.margin>
-                                <Insets left="10.0"/>
-                            </HBox.margin>
-                        </Label>
-                        <Text fx:id="tourDescription" strokeType="OUTSIDE" strokeWidth="0.0"/>
-                        <VBox.margin>
-                            <Insets top="5.0"/>
-                        </VBox.margin>
-                    </HBox>
-                    <HBox prefHeight="100.0" prefWidth="200.0">
-                        <Label fx:id="startingAddressLabel" prefWidth="150.0" text="%TourModal_Start">
-                            <HBox.margin>
-                                <Insets left="10.0"/>
-                            </HBox.margin>
-                        </Label>
-                        <Text fx:id="startingAddress" strokeType="OUTSIDE" strokeWidth="0.0"/>
-                        <VBox.margin>
-                            <Insets top="5.0"/>
-                        </VBox.margin>
-                    </HBox>
-                    <HBox prefHeight="100.0" prefWidth="200.0">
-                        <Label fx:id="destinationAddressLabel" prefHeight="0.0" prefWidth="150.0"
-                               text="%TourModal_Destination" HBox.hgrow="ALWAYS">
-                            <HBox.margin>
-                                <Insets left="10.0"/>
-                            </HBox.margin>
-                        </Label>
-                        <Text fx:id="destinationAddress" strokeType="OUTSIDE" strokeWidth="0.0"/>
-                    </HBox>
-                    <HBox prefHeight="100.0" prefWidth="200.0">
-                        <Label fx:id="distanceLabel" prefWidth="150.0" text="%Distance">
-                            <HBox.margin>
-                                <Insets left="10.0"/>
-                            </HBox.margin>
-                        </Label>
-                        <Text fx:id="distance" strokeType="OUTSIDE" strokeWidth="0.0"/>
-                    </HBox>
-                    <HBox prefHeight="100.0" prefWidth="200.0">
-                        <Label fx:id="timeLabel" prefWidth="150.0" text="%Time">
-                            <HBox.margin>
-                                <Insets left="10.0"/>
-                            </HBox.margin>
-                        </Label>
-                        <Text fx:id="time" strokeType="OUTSIDE" strokeWidth="0.0"/>
-                    </HBox>
-                    <HBox prefHeight="100.0" prefWidth="200.0">
-                        <Label fx:id="highwayLabel" prefWidth="150.0" text="%Highway">
-                            <HBox.margin>
-                                <Insets left="10.0"/>
-                            </HBox.margin>
-                        </Label>
-                        <Text fx:id="highway" strokeType="OUTSIDE" strokeWidth="0.0"/>
-                    </HBox>
-                    <HBox prefHeight="100.0" prefWidth="200.0">
-                        <Label fx:id="tollLabel" prefWidth="150.0" text="%Tolls">
-                            <HBox.margin>
-                                <Insets left="10.0"/>
-                            </HBox.margin>
-                        </Label>
-                        <Text fx:id="toll" strokeType="OUTSIDE" strokeWidth="0.0"/>
-                    </HBox>
-                    <HBox prefHeight="100.0" prefWidth="200.0">
-                        <Label fx:id="transportationLabel" prefWidth="150.0" text="%TourModal_Transportation">
-                            <HBox.margin>
-                                <Insets left="10.0"/>
-                            </HBox.margin>
-                        </Label>
-                        <Text fx:id="transportation" strokeType="OUTSIDE" strokeWidth="0.0"/>
-                    </HBox>
-                </VBox>
-            </Tab>
-            <Tab styleClass="tab" text="%MediaDetails_Tab_Route">
-                <BorderPane prefHeight="200.0" prefWidth="200.0">
-                    <center>
-                        <ImageView fx:id="mapImage" pickOnBounds="true" VBox.vgrow="ALWAYS" preserveRatio="true"
-                                   SplitPane.resizableWithParent="true" BorderPane.alignment="CENTER"/>
-                    </center>
+<VBox xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.technikum.planner.view.RouteMapController">
+     <TabPane tabClosingPolicy="UNAVAILABLE">
+         <Tab styleClass="tab" text="%MediaDetails_Tab_General">
+             <ScrollPane>
+                 <VBox>
+                     <HBox prefHeight="50.0" prefWidth="800.0">
+                         <Label fx:id="startingAddressLabel" minWidth="-Infinity" prefWidth="150.0"
+                                text="%TourModal_Start">
+                             <HBox.margin>
+                                 <Insets left="10.0"/>
+                             </HBox.margin>
+                         </Label>
+                         <TextFlow>
+                             <Text fx:id="startingAddress" strokeType="OUTSIDE" strokeWidth="0.0"/>
+                         </TextFlow>
+                         <VBox.margin>
+                             <Insets top="5.0"/>
+                         </VBox.margin>
+                     </HBox>
+                     <HBox prefHeight="50.0">
+                         <Label fx:id="destinationAddressLabel" minWidth="-Infinity" prefWidth="150.0"
+                                text="%TourModal_Destination" HBox.hgrow="ALWAYS">
+                             <HBox.margin>
+                                 <Insets left="10.0"/>
+                             </HBox.margin>
+                         </Label>
+                         <TextFlow>
+                             <Text fx:id="destinationAddress" strokeType="OUTSIDE" strokeWidth="0.0"/>
+                         </TextFlow>
+                     </HBox>
+                     <HBox prefHeight="50.0" prefWidth="200.0">
+                         <Label fx:id="distanceLabel" minWidth="-Infinity" prefWidth="150.0" text="%Distance">
+                             <HBox.margin>
+                                 <Insets left="10.0"/>
+                             </HBox.margin>
+                         </Label>
+                         <TextFlow>
+                             <Text fx:id="distance" strokeType="OUTSIDE" strokeWidth="0.0"/>
+                         </TextFlow>
+                     </HBox>
+                     <HBox prefHeight="50.0" prefWidth="200.0">
+                         <Label fx:id="timeLabel" minWidth="-Infinity" prefWidth="150.0" text="%Time">
+                             <HBox.margin>
+                                 <Insets left="10.0"/>
+                             </HBox.margin>
+                         </Label>
+                         <TextFlow>
+                             <Text fx:id="time" strokeType="OUTSIDE" strokeWidth="0.0"/>
+                         </TextFlow>
+                     </HBox>
+                     <HBox prefHeight="50.0" prefWidth="200.0">
+                         <Label fx:id="highwayLabel" minWidth="-Infinity" prefWidth="150.0" text="%Highway">
+                             <HBox.margin>
+                                 <Insets left="10.0"/>
+                             </HBox.margin>
+                         </Label>
+                         <TextFlow>
+                             <Text fx:id="highway" strokeType="OUTSIDE" strokeWidth="0.0"/>
+                         </TextFlow>
+                     </HBox>
+                     <HBox prefHeight="50.0" prefWidth="200.0">
+                         <Label fx:id="tollLabel" minWidth="-Infinity" prefWidth="150.0" text="%Tolls">
+                             <HBox.margin>
+                                 <Insets left="10.0"/>
+                             </HBox.margin>
+                         </Label>
+                         <TextFlow>
+                             <Text fx:id="toll" strokeType="OUTSIDE" strokeWidth="0.0"/>
+                         </TextFlow>
+                     </HBox>
+                     <HBox prefHeight="50.0" prefWidth="200.0">
+                         <Label fx:id="transportationLabel" minWidth="-Infinity" prefWidth="150.0"
+                                text="%TourModal_Transportation">
+                             <HBox.margin>
+                                 <Insets left="10.0"/>
+                             </HBox.margin>
+                         </Label>
+                         <TextFlow>
+                             <Text fx:id="transportation" strokeType="OUTSIDE" strokeWidth="0.0"/>
+                         </TextFlow>
+                     </HBox>
+                     <HBox prefHeight="100.0">
+                         <Label fx:id="tourDescriptionLabel" minWidth="-Infinity" prefWidth="150.0"
+                                text="%TourModal_Description">
+                             <HBox.margin>
+                                 <Insets left="10.0"/>
+                             </HBox.margin>
+                         </Label>
+                         <TextFlow maxHeight="-Infinity" maxWidth="-Infinity">
+                             <HBox.margin>
+                                 <Insets/>
+                             </HBox.margin>
+                             <Text fx:id="tourDescription" strokeType="OUTSIDE" strokeWidth="0.0"/>
+                         </TextFlow>
+                     </HBox>
+                 </VBox>
+             </ScrollPane>
+         </Tab>
+         <Tab styleClass="tab" text="%MediaDetails_Tab_Route">
+             <BorderPane prefHeight="200.0" prefWidth="200.0">
+                 <center>
+                     <ImageView fx:id="mapImage" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" SplitPane.resizableWithParent="true" VBox.vgrow="ALWAYS" />
+                 </center>
 
                 </BorderPane>
-            </Tab>
-            <Tab styleClass="tab" text="%MediaDetails_Tab_Logs">
-                <fx:include fx:id="tourLogs" source="TourLogs.fxml"/>
-            </Tab>
-        </TabPane>
-    </SplitPane>
+         </Tab>
+         <Tab styleClass="tab" text="%MediaDetails_Tab_Logs">
+             <fx:include fx:id="tourLogs" source="TourLogs.fxml" />
+         </Tab>
+     </TabPane>
 </VBox>

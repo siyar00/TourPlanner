@@ -3,6 +3,7 @@ package at.technikum.planner.view.dialog;
 import at.technikum.planner.model.Tour;
 import at.technikum.planner.transformer.RouteTypeTransformer;
 import at.technikum.planner.viewmodel.dialog.TourListDialogViewModel;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -22,7 +23,7 @@ public class TourListDialogController {
     @FXML
     ComboBox<String> transportComboBox;
     @FXML
-    TextField tourDescription;
+    TextArea tourDescription;
     @FXML
     TextField tourName;
     @FXML
@@ -49,20 +50,39 @@ public class TourListDialogController {
                 bundle.getString("RouteType_Bicycle"));
     }
 
-    public void enterKey(KeyEvent keyEvent) {
-        if (tourName.getText().trim().isEmpty() || tourStartAddress.getText().isEmpty() || tourEndAddress.getText().isEmpty()) {
+    @FXML
+    void enterKey(KeyEvent keyEvent) {
+        Platform.runLater(() -> {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            if (keyEvent.getTarget().equals(tourDescription) && keyEvent.getCode().equals(KeyCode.ENTER)) return;
+            if (tourName.getText().trim().isEmpty() || tourDescription.getText().trim().isEmpty() || tourStartAddress.getText().trim().isEmpty() || tourEndAddress.getText().isEmpty() || transportComboBox.getValue() == null) {
+                okayButton.setDisable(true);
+                return;
+            }
+            okayButton.setDisable(false);
+            if (keyEvent.getCode().equals(KeyCode.ENTER)) {
+                onOkayButton();
+            } else if (keyEvent.getCode().equals(KeyCode.ESCAPE)) {
+                onCloseWindow();
+            }
+        });
+    }
+
+    @FXML
+    void comboEvent() {
+        if (tourName.getText().trim().isEmpty() || tourDescription.getText().trim().isEmpty() || tourStartAddress.getText().trim().isEmpty() || tourEndAddress.getText().isEmpty() || transportComboBox.getValue() == null) {
             okayButton.setDisable(true);
             return;
         }
         okayButton.setDisable(false);
-        if (keyEvent.getCode().equals(KeyCode.ENTER)) {
-            onOkayButton();
-        } else if (keyEvent.getCode().equals(KeyCode.ESCAPE)) {
-            onCloseWindow();
-        }
     }
 
-    public void onOkayButton() {
+    @FXML
+    void onOkayButton() {
         if (tourName.getText().trim().isEmpty()) {
             alert(bundle.getString("TourModal_NameError"));
         } else if (transportComboBox.getValue() == null) {
@@ -82,7 +102,8 @@ public class TourListDialogController {
         }
     }
 
-    public void onDeleteButton() {
+    @FXML
+    void onDeleteButton() {
         tourName.clear();
         tourDescription.clear();
         tourStartAddress.clear();
@@ -92,7 +113,8 @@ public class TourListDialogController {
         okayButton.setDisable(true);
     }
 
-    public void onCloseWindow() {
+    @FXML
+    void onCloseWindow() {
         Stage stage = (Stage) exitButton.getScene().getWindow();
         stage.close();
     }
@@ -113,4 +135,6 @@ public class TourListDialogController {
         tourEndAddress.setText(tour.getEndAddress());
         transportComboBox.getSelectionModel().select(new RouteTypeTransformer().getBundleFromRouteType(tour.getTransportation(), bundle));
     }
+
+
 }

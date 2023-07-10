@@ -24,6 +24,7 @@ public class SearchBarController {
     }
 
     public void onSearchButton() {
+        searchBarViewModel.search(searchTextField);
     }
 
 }
