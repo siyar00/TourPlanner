@@ -1,5 +1,6 @@
 package at.technikum.planner.view;
 
+import at.technikum.bl.PDFServiceImpl;
 import at.technikum.planner.viewmodel.MainWindowViewModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.application.Platform;
@@ -11,6 +12,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import jfxtras.styles.jmetro.Style;
 import lombok.Data;
+
+import java.io.FileNotFoundException;
 
 @Data
 public class MainWindowController {
@@ -76,5 +79,15 @@ public class MainWindowController {
     void onMousePressed(MouseEvent mouseEvent) {
 //        x = mouseEvent.getSceneX();
 //        y = mouseEvent.getSceneY();
+    }
+
+    @FXML
+    void onGenerateTourReportClicked() {
+        PDFServiceImpl reportService = new PDFServiceImpl(); // Erstellen Sie eine Instanz des ReportService
+        try {
+            reportService.generateReport(); // Generieren Sie den Tourbericht
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }

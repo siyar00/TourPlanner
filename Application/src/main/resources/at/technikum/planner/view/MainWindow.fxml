@@ -8,6 +8,8 @@
         <Menu text="%Menu_File">
             <MenuItem onAction="#importFile" text="%Menu_File_Import"/>
             <MenuItem onAction="#exportFile" text="%Menu_File_Export" />
+            <MenuItem onAction="#onGenerateTourReportClicked" text="%Menu_PDF_TourReport" />
+            <MenuItem text="%Menu_PDF_SummaryReport"/>
             <MenuItem onAction="#onMenuFileQuitClicked" text="%Menu_File_Quit"/>
         </Menu>
         <Menu text="%Menu_Edit">

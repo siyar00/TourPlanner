@@ -21,4 +21,5 @@ public class MainWindowViewModel {
         routeMapViewModel.setTour(selectedTour);
         tourLogsViewModel.setTourLog(selectedTour);
     }
+
 }
