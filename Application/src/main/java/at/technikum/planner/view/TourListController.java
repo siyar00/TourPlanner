@@ -1,7 +1,6 @@
 package at.technikum.planner.view;
 
 import at.technikum.planner.model.Tour;
-import at.technikum.planner.view.dialog.TourEditDialogController;
 import at.technikum.planner.view.dialog.TourListDialogController;
 import at.technikum.planner.viewmodel.TourListViewModel;
 import javafx.fxml.FXML;
@@ -37,7 +36,7 @@ public class TourListController {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("dialog/TourListDialog.fxml"), bundle);
         DialogPane dialogPane = fxmlLoader.load();
         TourListDialogController controller = fxmlLoader.getController();
-        controller.initialize(bundle);
+        controller.initialize(null, bundle);
         showDialog(dialogPane);
         Tour tour = controller.getTour();
         if (tour != null) {
@@ -64,8 +63,8 @@ public class TourListController {
             confirmationAlert.setTitle(bundle.getString("TourList_DeleteTitle"));
             confirmationAlert.setHeaderText(null);
             confirmationAlert.setContentText(bundle.getString("TourList_DeleteText"));
-            ButtonType deleteButton = new ButtonType(bundle.getString("TourModal_Delete"));
-            ButtonType cancelButton = new ButtonType(bundle.getString("TourModal_Cancel"));
+            ButtonType deleteButton = new ButtonType(bundle.getString("Delete"));
+            ButtonType cancelButton = new ButtonType(bundle.getString("Cancel"));
             confirmationAlert.getButtonTypes().setAll(deleteButton, cancelButton);
             confirmationAlert.showAndWait().ifPresent(response -> {
                 if (response == deleteButton) {
@@ -80,13 +79,14 @@ public class TourListController {
         Tour oldTour = tour;
         if (tour == null) return;
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("dialog/TourEditDialog.fxml"), bundle);
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("dialog/TourListDialog.fxml"), bundle);
         DialogPane dialogPane = fxmlLoader.load();
-        TourEditDialogController tourEditDialogController = fxmlLoader.getController();
-        tourEditDialogController.init(tour, bundle);
+        TourListDialogController tourListDialogController = fxmlLoader.getController();
+        tourListDialogController.initialize(tour, bundle);
+        tourListDialogController.setAll();
         showDialog(dialogPane);
 
-        tour = tourEditDialogController.getTour();
+        tour = tourListDialogController.getTour();
         if (!tour.equals(oldTour))
             viewModel.updateTour(oldTour, tour);
     }

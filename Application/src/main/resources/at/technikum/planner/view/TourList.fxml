@@ -21,7 +21,7 @@
         </Button>
         <MenuButton text="...">
             <items>
-                <MenuItem onAction="#onEditButton" text="%TourList_Edit" />
+                <MenuItem onAction="#onEditButton" text="%Edit" />
             </items>
         </MenuButton>
     </ToolBar>

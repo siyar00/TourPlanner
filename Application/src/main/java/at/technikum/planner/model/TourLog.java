@@ -1,19 +1,22 @@
 package at.technikum.planner.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.Date;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class TourLog implements Serializable {
-    private int id;
-    private Date date;
-    private double duration;
+    private String date;
+    private String duration;
     private String comment;
-    private String difficulty;
-    private String rating;
+    private Integer difficulty;
+    private Float rating;
+    private Long logId;
+    private Long tourId;
 }

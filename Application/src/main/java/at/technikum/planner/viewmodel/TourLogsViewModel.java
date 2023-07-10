@@ -1,9 +1,14 @@
 package at.technikum.planner.viewmodel;
 
+import at.technikum.dal.dao.TourDao;
+import at.technikum.dal.repository.TourDaoRepository;
+import at.technikum.dal.repository.TourLogsDaoRepository;
+import at.technikum.planner.model.Tour;
 import at.technikum.planner.model.TourLog;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lombok.Data;
 
@@ -18,24 +23,37 @@ public class TourLogsViewModel {
 
     private final List<SelectionChangedListener> listeners = new ArrayList<>();
     private final ObservableList<TourLog> observableTourLogs = FXCollections.observableArrayList();
-    private final PropertyValueFactory<TourLog, Integer> idColumn = new PropertyValueFactory<>("id");
-    private int currentId = 1;
+    private final PropertyValueFactory<TourLog, Integer> idColumnProperty = new PropertyValueFactory<>("id");
+    private final PropertyValueFactory<TourLog, String> dateColumnProperty = new PropertyValueFactory<>("date");
+    private final PropertyValueFactory<TourLog, String> durationColumnProperty = new PropertyValueFactory<>("duration");
+    private final PropertyValueFactory<TourLog, String> commentColumnProperty = new PropertyValueFactory<>("comment");
+    private final PropertyValueFactory<TourLog, Integer> difficultyColumnProperty = new PropertyValueFactory<>("difficulty");
+    private final PropertyValueFactory<TourLog, Double> ratingColumnProperty = new PropertyValueFactory<>("rating");
+    private final TourListViewModel viewModel;
+    private final TourLogsDaoRepository logsDaoRepository;
+    private final TourDaoRepository tourRepository;
+    private Tour tour;
 
-    public TourLogsViewModel() {
-
+    public TourLogsViewModel(TourListViewModel viewModel, TourLogsDaoRepository logsDaoRepository, TourDaoRepository tourDaoRepository) {
+        this.viewModel = viewModel;
+        this.logsDaoRepository = logsDaoRepository;
+        this.tourRepository = tourDaoRepository;
     }
 
-    public void setTourLog(List<TourLog> tourLog) {
-        if(tourLog == null) return;
-
+    public void setTourLog(Tour tour) {
         observableTourLogs.clear();
-        observableTourLogs.addAll(tourLog);
+        this.tour = tour;
+        List<TourLog> tourLogs = tour.getTourLog();
+        if (tourLogs.isEmpty()) return;
+        System.out.println("setTourLogs name=" + tour.getName());
+        observableTourLogs.addAll(tourLogs);
     }
 
     public ObservableList<TourLog> getObservableTourLogs() {
         return observableTourLogs;
     }
 
+    @SuppressWarnings("unused")
     public ChangeListener<TourLog> getChangeListener() {
         return (observableValue, oldValue, newValue) -> notifyListeners(newValue);
     }
@@ -46,22 +64,52 @@ public class TourLogsViewModel {
         }
     }
 
-
-
     public void addTourLog(TourLog tourLog) {
-        tourLog.setId(currentId);
-        currentId++;
-        observableTourLogs.add(tourLog);
+        Task<Long> task = new Task<>() {
+            @Override
+            protected Long call() {
+                TourDao tourDao = tourRepository.findByName(tour.getName());
+                return logsDaoRepository.insertTourLog(tourDao.getId(), tourLog.getDate(), tourLog.getDuration(), tourLog.getComment(), tourLog.getDifficulty(), tourLog.getRating()).orElse(0L);
+            }
+        };
+        task.setOnSucceeded(event -> {
+            tourLog.setLogId(task.getValue());
+            viewModel.addLog(tour, tourLog);
+            observableTourLogs.add(tourLog);
+        });
+        task.setOnFailed(event -> System.out.println("TourLog failed: " + event.getSource().getException().getMessage()));
+        new Thread(task).start();
     }
 
-    public void updateTourLog(TourLog tourLog) {
-        int index = observableTourLogs.indexOf(tourLog);
-        if (index != -1) {
-            observableTourLogs.set(index, tourLog);
-        }
+    public void updateTourLog(TourLog newLog, TourLog oldLog) {
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() {
+                logsDaoRepository.updateById(newLog.getDate(), newLog.getDuration(), newLog.getComment(), newLog.getDifficulty(), newLog.getRating(), oldLog.getLogId());
+                return null;
+            }
+        };
+        task.setOnSucceeded(event -> {
+            viewModel.updateLog(tour, newLog, oldLog);
+            observableTourLogs.set(observableTourLogs.indexOf(oldLog), newLog);
+        });
+        task.setOnFailed(event -> System.out.println("TourLog failed" + event.getSource().getException().getMessage()));
+        new Thread(task).start();
     }
 
     public void removeTourLog(TourLog tourLog) {
-        observableTourLogs.remove(tourLog);
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() {
+                logsDaoRepository.deleteById(tourLog.getLogId());
+                return null;
+            }
+        };
+        task.setOnSucceeded(event -> {
+            viewModel.removeLog(tour, tourLog);
+            observableTourLogs.remove(tourLog);
+        });
+        task.setOnFailed(event -> System.out.println("TourLog failed: " + event.getSource().getException().getMessage()));
+        new Thread(task).start();
     }
 }

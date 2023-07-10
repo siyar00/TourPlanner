@@ -32,7 +32,7 @@ public class TourPlannerApplication extends Application {
     public void init() {
         SpringApplicationBuilder builder = new SpringApplicationBuilder(TourPlannerApplication.class);
         builder.application().setWebApplicationType(WebApplicationType.NONE);
-        List<String> args = getParameters().getRaw(); // passed from command line
+        List<String> args = getParameters().getRaw();
         applicationContext = builder.run(args.toArray(String[]::new));
     }
 

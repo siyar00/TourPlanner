@@ -15,15 +15,11 @@ public class MainWindowViewModel {
         this.routeMapViewModel = routeMapViewModel;
         
         this.tourListViewModel.addSelectionChangedListener(this::selectTour);
-        this.tourListViewModel.addSelectionChangedListener(this::selectTourLog);
-    }
-
-    private void selectTourLog(Tour tourLog) {
-        tourLogsViewModel.setTourLog(tourLog.getTourLog());
     }
 
     private void selectTour(Tour selectedTour) {
         routeMapViewModel.setTour(selectedTour);
+        tourLogsViewModel.setTourLog(selectedTour);
     }
 
 }

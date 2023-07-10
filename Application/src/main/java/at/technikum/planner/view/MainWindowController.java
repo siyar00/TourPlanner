@@ -2,6 +2,7 @@ package at.technikum.planner.view;
 
 import at.technikum.bl.PDFServiceImpl;
 import at.technikum.planner.viewmodel.MainWindowViewModel;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,7 +10,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import jfxtras.styles.jmetro.Style;
 import lombok.Data;
 
@@ -27,6 +27,7 @@ public class MainWindowController {
     RouteMapController routeMapController;
     private double x, y;
     private final MainWindowViewModel mainWindowViewModel;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public MainWindowController(MainWindowViewModel mainWindowViewModel) {
         this.mainWindowViewModel = mainWindowViewModel;
@@ -48,7 +49,8 @@ public class MainWindowController {
         aboutBox.showAndWait();
     }
 
-    public void changeTheme(ActionEvent actionEvent) {
+    @FXML
+    void changeTheme(ActionEvent actionEvent) {
         scene.getScene().getStylesheets().clear();
         if (((MenuItem) actionEvent.getSource()).getText().contains("Dark")) {
             scene.getScene().getStylesheets().add(Style.DARK.getStyleStylesheetURL());
@@ -58,16 +60,25 @@ public class MainWindowController {
     }
 
     @FXML
+    void importFile() {
+
+    }
+
+    @FXML
+    void exportFile() {
+    }
+
+    @FXML
     void onDragged(MouseEvent mouseEvent) {
-        Stage stage = (Stage) scene.getScene().getWindow();
-        stage.setX(mouseEvent.getScreenX() - x);
-        stage.setY(mouseEvent.getScreenY() - y);
+//        Stage stage = (Stage) scene.getScene().getWindow();
+//        stage.setX(mouseEvent.getScreenX() - x);
+//        stage.setY(mouseEvent.getScreenY() - y);
     }
 
     @FXML
     void onMousePressed(MouseEvent mouseEvent) {
-        x = mouseEvent.getSceneX();
-        y = mouseEvent.getSceneY();
+//        x = mouseEvent.getSceneX();
+//        y = mouseEvent.getSceneY();
     }
 
     @FXML

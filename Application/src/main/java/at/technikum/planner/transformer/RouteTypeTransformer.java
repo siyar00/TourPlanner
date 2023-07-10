@@ -1,14 +1,13 @@
 package at.technikum.planner.transformer;
 
 import at.technikum.planner.model.RouteType;
-import at.technikum.planner.viewmodel.dialog.TourListDialogViewModel;
 
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class RouteTypeTransformer {
-    Logger LOGGER = Logger.getLogger(TourListDialogViewModel.class.getName());
+    Logger LOGGER = Logger.getLogger(RouteTypeTransformer.class.getName());
 
     public RouteType getRouteTypeFromBundle(String value, ResourceBundle bundle) {
         if (value.equals(bundle.getString("RouteType_CarFastest"))) {
