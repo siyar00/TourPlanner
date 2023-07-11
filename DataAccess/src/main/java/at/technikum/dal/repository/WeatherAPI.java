@@ -8,7 +8,7 @@ import retrofit2.http.Query;
 
 import java.util.List;
 
-public interface WeatherApi {
+public interface WeatherAPI {
 
     @GET("data/2.5/weather")
     Call<WeatherResponse> getWeather(@Query("lat") Double lat, @Query("lon") Double lon, @Query("units") String units, @Query("lang") String lang, @Query("appid") String key);
