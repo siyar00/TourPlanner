@@ -3,7 +3,7 @@ package at.technikum.bl;
 import at.technikum.dal.dto.CoordinatesDto;
 import at.technikum.dal.dto.GeoCodingResponse;
 import at.technikum.dal.dto.WeatherResponse;
-import at.technikum.dal.repository.WeatherApi;
+import at.technikum.dal.repository.WeatherAPI;
 import lombok.extern.log4j.Log4j2;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -17,12 +17,12 @@ import java.util.logging.Logger;
 public class WeatherServiceImpl implements WeatherService {
     Logger LOGGER = Logger.getLogger(WeatherServiceImpl.class.getName());
 
-    private final WeatherApi api;
+    private final WeatherAPI api;
 
     public WeatherServiceImpl() {
         this.api = new Retrofit.Builder().baseUrl("https://api.openweathermap.org/")
                 .addConverterFactory(JacksonConverterFactory.create())
-                .build().create(WeatherApi.class);
+                .build().create(WeatherAPI.class);
     }
 
     @Override

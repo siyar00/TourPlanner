@@ -14,6 +14,7 @@ Im folgenden Protokoll werden die einzelnen Packages und deren Klassen beschrieb
 die Funktionalität der Applikation.
 
 Wir dürfen unseren TourPlanner präsentieren: **Dora the Explorer!**
+
 ![Dora the Explorer](Application/src/main/resources/at/technikum/planner/images/dora.png)
 
 ## APP ARCHITEKTUR
@@ -113,8 +114,16 @@ Seit Projektbeginn haben wir jeden Tag ca. 4-6 Stunden an dem Projekt gearbeitet
 Geschätzter Zeitaufwand: 80 Stunden
 
 ## LESSONS LEARNED
+Wir haben einige Sachen mitnehmen können, vor allem was die Planung der Software
+betrifft. Wir haben gelernt, dass es sehr wichtig ist, sich vorher genau zu überlegen,
+welche Anforderungen zu erfüllen sind, um Missverständnisse zu vermeiden und eine klare Richtung
+für das Projekt zu haben.
 
+Wir haben uns auch nochmals sehr viel mit dem MVVM-Pattern beschäftigt und haben und haben das Design sowie die 
+Architektur im Voraus geplant, da eine solide Architektur das Fundament für eine skalierbare und wartbare Applikation bietet.
 
+Auch haben wir das gemeinsame Arbeiten mit Git verbessert und haben gelernt, wie man
+mit Git effizient im Team arbeitet.
 
 ## GIT
 Da unser GitHub Repository, das wir für unser Projekt verwendet haben, 
