@@ -20,6 +20,10 @@ public class TourToTourFileTransformer implements Function<Tour, TourFile> {
                 .toll(tour.getToll())
                 .highway(tour.getHighway())
                 .imageBytes(tour.getImageBytes())
+                .startLat(tour.getStartLat())
+                .startLng(tour.getStartLng())
+                .endLat(tour.getEndLat())
+                .endLng(tour.getEndLng())
                 .tourLog(tour.getTourLog()).build();
     }
 }

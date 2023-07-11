@@ -8,6 +8,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 
+import java.util.logging.Logger;
+
 
 public class RouteMapController {
 
@@ -51,6 +53,8 @@ public class RouteMapController {
     @FXML
     private TourLogsController tourLogsController;
     private final RouteMapViewModel viewModel;
+    Logger LOGGER = Logger.getLogger(RouteMapController.class.getName());
+
 
     public RouteMapController(RouteMapViewModel viewModel) {
         this.viewModel = viewModel;
@@ -86,6 +90,7 @@ public class RouteMapController {
                 newScene.heightProperty().addListener(sizeChangeListener);
             }
         });
+        LOGGER.info("RouteMapController initialized");
     }
 
 }

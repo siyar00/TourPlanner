@@ -11,6 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
@@ -19,6 +20,7 @@ import lombok.Data;
 
 import java.io.File;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Data
 public class MainWindowController {
@@ -33,6 +35,7 @@ public class MainWindowController {
     private double x, y;
     private final MainWindowViewModel mainWindowViewModel;
     private final TourListViewModel tourListViewModel;
+    Logger LOGGER = Logger.getLogger(MainWindowController.class.getName());
 
     public MainWindowController(MainWindowViewModel mainWindowViewModel, TourListViewModel tourListViewModel) {
         this.mainWindowViewModel = mainWindowViewModel;
@@ -72,6 +75,7 @@ public class MainWindowController {
         try {
             fileChooser.setInitialDirectory(new File(System.getProperty("user.home"), File.separator + "Downloads"));
         } catch (IllegalArgumentException exception) {
+            LOGGER.warning("Could not set initial directory to downloads folder");
             fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
         }
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("JSON", "*.json"));
@@ -83,10 +87,13 @@ public class MainWindowController {
 
     private void alert(List<String> strings) {
         if (strings.isEmpty()) return;
+        LOGGER.info("Alerting user about already existing tours");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.getDialogPane().setMinWidth(Region.USE_PREF_SIZE);
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         alert.initOwner(scene.getScene().getWindow());
         alert.setHeaderText(null);
-        alert.setContentText("Die folgenden Touren sind schon vorhanden: " + String.join("\n", strings) + "\n\nFürs importieren dieser Touren bitte die vorhandenen Touren löschen oder umbenennen.");
+        alert.setContentText("Die folgenden Touren sind schon vorhanden:\n " + String.join("\n", strings) + "\n\nFürs importieren dieser Touren bitte die vorhandenen Touren löschen oder umbenennen.");
         alert.getButtonTypes().setAll(ButtonType.OK);
         alert.showAndWait();
     }
@@ -98,6 +105,7 @@ public class MainWindowController {
         try {
             directoryChooser.setInitialDirectory(new File(System.getProperty("user.home"), File.separator + "Downloads"));
         } catch (IllegalArgumentException exception) {
+            LOGGER.warning("Could not set initial directory to downloads folder");
             directoryChooser.setInitialDirectory(new File(System.getProperty("user.home")));
         }
         var directory = directoryChooser.showDialog(scene.getScene().getWindow());
@@ -139,6 +147,7 @@ public class MainWindowController {
         if (success) {
             alert.setContentText("Report wurde erfolgreich erstellt.");
         } else {
+            LOGGER.warning("Could not create report");
             alert.setContentText("Report konnte nicht erstellt werden.");
         }
         alert.getButtonTypes().setAll(ButtonType.OK);

@@ -9,7 +9,7 @@ import java.util.function.Function;
 
 public class TourFileToTourTransformer implements Function<TourFile, Tour> {
     @Override
-    public Tour apply(TourFile tourFile){
+    public Tour apply(TourFile tourFile) {
         return Tour.builder()
                 .id(tourFile.getId())
                 .tourDescription(tourFile.getTourDescription())
@@ -23,6 +23,10 @@ public class TourFileToTourTransformer implements Function<TourFile, Tour> {
                 .highway(tourFile.getHighway())
                 .map(new Image(new ByteArrayInputStream(tourFile.getImageBytes())))
                 .imageBytes(tourFile.getImageBytes())
+                .startLat(tourFile.getStartLat())
+                .startLng(tourFile.getStartLng())
+                .endLat(tourFile.getEndLat())
+                .endLng(tourFile.getEndLng())
                 .tourLog(tourFile.getTourLog()).build();
     }
 }

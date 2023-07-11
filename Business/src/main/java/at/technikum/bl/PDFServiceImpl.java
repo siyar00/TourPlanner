@@ -24,8 +24,10 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class PDFServiceImpl implements PDFService {
+    Logger LOGGER = Logger.getLogger(PDFServiceImpl.class.getName());
 
     public static final String dir = System.getProperty("user.dir") + File.separator + "PDF" + File.separator;
     private final TourBl tourBl;
@@ -37,15 +39,15 @@ public class PDFServiceImpl implements PDFService {
         this.tourBlList = new ArrayList<>();
     }
 
-    public PDFServiceImpl(List<TourBl> tourBlList){
+    public PDFServiceImpl(List<TourBl> tourBlList) {
         this.tourBlList = tourBlList;
         this.tourBl = null;
     }
 
     @Override
-    public boolean generateSummarizeReport(){
+    public boolean generateSummarizeReport() {
         try {
-            PdfWriter writer = new PdfWriter( dir + "Tour_Summarize_Report_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy'T'HH-mm-ss")) + ".pdf");
+            PdfWriter writer = new PdfWriter(dir + "Tour_Summarize_Report_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy'T'HH-mm-ss")) + ".pdf");
             PdfDocument pdf = new PdfDocument(writer);
             try (Document document = new Document(pdf)) {
                 ImageData imageData = ImageDataFactory.create("Application/src/main/resources/at/technikum/planner/images/dora.png");
@@ -56,9 +58,9 @@ public class PDFServiceImpl implements PDFService {
                 return true;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.severe(e.getMessage());
+            return false;
         }
-        return false;
     }
 
     private Table setupSummarizeTable() {
@@ -80,23 +82,23 @@ public class PDFServiceImpl implements PDFService {
             table.addCell(tourBl.getTransportation());
 
             List<LocalTime> timeList = new ArrayList<>();
-            for (TourLogBl tourLogBl : tourBl.getTourLogBl()){
+            for (TourLogBl tourLogBl : tourBl.getTourLogBl()) {
                 String[] parts = tourLogBl.getDuration().split("h|min");
-                timeList.add(LocalTime.of(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]))) ;
+                timeList.add(LocalTime.of(Integer.parseInt(parts[0]), Integer.parseInt(parts[1])));
             }
             long avgTime = (long) timeList.stream().mapToLong(LocalTime::toSecondOfDay).average().orElse(0.0);
 
             table.addCell(LocalTime.ofSecondOfDay(avgTime).toString());
             table.addCell(Float.toString((float) tourBl.getTourLogBl().stream().mapToDouble(TourLogBl::getDifficulty).average().orElse(0.0)));
-            table.addCell(String.format("%.2f",(float) tourBl.getTourLogBl().stream().mapToDouble(TourLogBl::getRating).average().orElse(0.0)));
+            table.addCell(String.format("%.2f", (float) tourBl.getTourLogBl().stream().mapToDouble(TourLogBl::getRating).average().orElse(0.0)));
         }
         return table;
     }
 
     @Override
-    public boolean generateReport()  {
+    public boolean generateReport() {
         try {
-            PdfWriter writer = new PdfWriter( dir + "Tour_Report_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy!!HH-mm-ss")) + ".pdf");
+            PdfWriter writer = new PdfWriter(dir + "Tour_Report_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy!!HH-mm-ss")) + ".pdf");
             PdfDocument pdf = new PdfDocument(writer);
             try (Document document = new Document(pdf)) {
                 ImageData imageData = ImageDataFactory.create("Application/src/main/resources/at/technikum/planner/images/dora.png");
@@ -108,9 +110,9 @@ public class PDFServiceImpl implements PDFService {
                 return true;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.severe(e.getMessage());
+            return false;
         }
-        return false;
     }
 
     private Table setupLogTable() {
@@ -121,7 +123,7 @@ public class PDFServiceImpl implements PDFService {
         table.addHeaderCell(getHeaderCell("Difficulty"));
         table.addHeaderCell(getHeaderCell("Rating"));
         table.addHeaderCell(getHeaderCell("Time"));
-        if(tourBl != null && tourBl.getTourLogBl() != null && !tourBl.getTourLogBl().isEmpty()){
+        if (tourBl != null && tourBl.getTourLogBl() != null && !tourBl.getTourLogBl().isEmpty()) {
             tourBl.getTourLogBl().forEach(tourLogBl -> {
                 table.addCell(tourLogBl.getComment());
                 table.addCell(tourLogBl.getDate());
@@ -144,7 +146,7 @@ public class PDFServiceImpl implements PDFService {
         table.addHeaderCell(getHeaderCell("Description"));
         table.addHeaderCell(getHeaderCell("Transportation"));
         table.addHeaderCell(getHeaderCell("Route"));
-        if(tourBl != null) {
+        if (tourBl != null) {
             table.addCell(tourBl.getName() == null ? "" : tourBl.getName());
             table.addCell(tourBl.getStartAddress() == null ? "" : tourBl.getStartAddress());
             table.addCell(tourBl.getEndAddress() == null ? "" : tourBl.getEndAddress());

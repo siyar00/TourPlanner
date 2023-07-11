@@ -9,6 +9,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class RouteResponse {
-    RouteDto route;
+public class WeatherMainDto {
+    private String temp;
+    private String feels_like;
+    private String temp_min;
+    private String temp_max;
+    private String pressure;
+    private String humidity;
 }

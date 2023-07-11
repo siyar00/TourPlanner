@@ -8,37 +8,37 @@ import javafx.stage.Stage;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.controlsfx.control.Rating;
-import org.controlsfx.validation.ValidationSupport;
 import tornadofx.control.DateTimePicker;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
 @Data
 @NoArgsConstructor
 public class TourLogsDialogController {
     @FXML
-    Spinner<Integer> hour;
+    private Spinner<Integer> hour;
     @FXML
-    Spinner<Integer> minute;
+    private Spinner<Integer> minute;
     @FXML
-    DateTimePicker date;
+    private DateTimePicker date;
     @FXML
-    TextArea comment;
+    private TextArea comment;
     @FXML
-    Slider difficulty;
+    private Slider difficulty;
     @FXML
-    Rating rating;
+    private Rating rating;
     @FXML
-    Button addButton;
+    private Button addButton;
     @FXML
-    Button editButton;
+    private Button editButton;
     @FXML
-    Button exitButton;
-    TourLog tourLog;
-    ResourceBundle bundle;
-    ValidationSupport validationSupport = new ValidationSupport();
+    private Button exitButton;
+    private TourLog tourLog;
+    private ResourceBundle bundle;
+    Logger LOGGER = Logger.getLogger(TourLogsDialogController.class.getName());
 
 
     public TourLogsDialogController(@SuppressWarnings("unused") TourLogsDialogViewModel tourLogsDialogViewModel) {}
@@ -49,28 +49,30 @@ public class TourLogsDialogController {
         hour.setValueFactory(hourValueFactory);
         SpinnerValueFactory<Integer> minuteValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 0);
         minute.setValueFactory(minuteValueFactory);
+        LOGGER.info("TourLogsDialogController initialized");
     }
 
     @FXML
     void onAddButton() {
         if (date.getDateTimeValue() == null) {
             showAlert(bundle.getString("TourLogModal_DateError"));
-            return;
+            LOGGER.info("There was no date selected");
         } else if (hour.getValue() == 0 && minute.getValue() == 0) {
             showAlert(bundle.getString("TourLogModal_DurationError"));
-            return;
+            LOGGER.info("There was no duration selected");
         } else if (comment.getText() == null) {
             showAlert(bundle.getString("TourLogModal_CommentError"));
-            return;
+            LOGGER.info("There was no comment selected");
+        } else {
+            tourLog = TourLog.builder()
+                    .date(date.getDateTimeValue().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")))
+                    .duration(String.format("%02dh%02dmin", hour.getValue(), minute.getValue()))
+                    .comment(comment.getText())
+                    .difficulty((int) difficulty.getValue())
+                    .rating((float) Math.round(rating.getRating() * 10) / 10)
+                    .build();
+            onCloseWindow();
         }
-        tourLog = TourLog.builder()
-                .date(date.getDateTimeValue().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")))
-                .duration(String.format("%02dh%02dmin", hour.getValue(), minute.getValue()))
-                .comment(comment.getText())
-                .difficulty((int) difficulty.getValue())
-                .rating((float) Math.round(rating.getRating() * 10) / 10)
-                .build();
-        onCloseWindow();
     }
 
     @FXML

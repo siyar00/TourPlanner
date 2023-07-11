@@ -25,4 +25,8 @@ public class TourFile implements Serializable {
     private String highway;
     private byte[] imageBytes;
     private List<TourLog> tourLog;
+    private double startLat;
+    private double startLng;
+    private double endLat;
+    private double endLng;
 }

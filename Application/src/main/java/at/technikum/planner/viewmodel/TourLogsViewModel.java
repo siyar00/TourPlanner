@@ -1,5 +1,8 @@
 package at.technikum.planner.viewmodel;
 
+import at.technikum.bl.WeatherServiceImpl;
+import at.technikum.dal.dto.CoordinatesDto;
+import at.technikum.dal.dto.WeatherResponse;
 import at.technikum.dal.repository.TourDaoRepository;
 import at.technikum.dal.repository.TourLogsDaoRepository;
 import at.technikum.planner.model.Tour;
@@ -13,12 +16,15 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Data
 public class TourLogsViewModel {
     public interface SelectionChangedListener {
         void logChanged(TourLog log);
     }
+
+    Logger LOGGER = Logger.getLogger(TourLogsViewModel.class.getName());
 
     private final List<SelectionChangedListener> listeners = new ArrayList<>();
     private final ObservableList<TourLog> observableTourLogs = FXCollections.observableArrayList();
@@ -31,17 +37,19 @@ public class TourLogsViewModel {
     private final TourListViewModel viewModel;
     private final TourLogsDaoRepository logsDaoRepository;
     private final TourDaoRepository tourRepository;
+    private final WeatherServiceImpl weatherService;
     private Tour tour;
 
-    public TourLogsViewModel(TourListViewModel viewModel, TourLogsDaoRepository logsDaoRepository, TourDaoRepository tourDaoRepository) {
+    public TourLogsViewModel(TourListViewModel viewModel, TourLogsDaoRepository logsDaoRepository, TourDaoRepository tourDaoRepository, WeatherServiceImpl weatherService) {
         this.viewModel = viewModel;
         this.logsDaoRepository = logsDaoRepository;
         this.tourRepository = tourDaoRepository;
+        this.weatherService = weatherService;
     }
 
     public void setTourLog(Tour tour) {
         observableTourLogs.clear();
-        if(tour == null) return;
+        if (tour == null) return;
         this.tour = tour;
         List<TourLog> tourLogs = tour.getTourLog();
         if (tourLogs.isEmpty()) return;
@@ -75,7 +83,7 @@ public class TourLogsViewModel {
             viewModel.addLog(tour, tourLog);
             observableTourLogs.add(tourLog);
         });
-        task.setOnFailed(event -> System.out.println("Add TourLogBl failed: " + event.getSource().getException().getMessage()));
+        task.setOnFailed(event -> LOGGER.warning("Insert TourLog failed: " + event.getSource().getException().getMessage()));
         new Thread(task).start();
     }
 
@@ -91,7 +99,7 @@ public class TourLogsViewModel {
             viewModel.updateLog(tour, newLog, oldLog);
             observableTourLogs.set(observableTourLogs.indexOf(oldLog), newLog);
         });
-        task.setOnFailed(event -> System.out.println("Update TourLogBl failed: " + event.getSource().getException().getMessage()));
+        task.setOnFailed(event -> LOGGER.warning("Update TourLog failed: " + event.getSource().getException().getMessage()));
         new Thread(task).start();
     }
 
@@ -107,7 +115,13 @@ public class TourLogsViewModel {
             viewModel.removeLog(tour, tourLog);
             observableTourLogs.remove(tourLog);
         });
-        task.setOnFailed(event -> System.out.println("Delete TourLogBl failed: " + event.getSource().getException().getMessage()));
+        task.setOnFailed(event -> LOGGER.warning("Delete TourLog failed: " + event.getSource().getException().getMessage()));
         new Thread(task).start();
+    }
+
+    public List<WeatherResponse> getWeatherReport() {
+        WeatherResponse responseStart = weatherService.getWeatherData(new CoordinatesDto(tour.getStartLat(), tour.getStartLng()));
+        WeatherResponse responseDestination = weatherService.getWeatherData(new CoordinatesDto(tour.getEndLat(), tour.getEndLng()));
+        return List.of(responseStart, responseDestination);
     }
 }

@@ -28,6 +28,10 @@ public class TourDaoToTourTransformer implements Function<TourDao, Tour> {
                 .highway(tourDao.getHasHighway())
                 .map(new Image(new ByteArrayInputStream(tourDao.getImage())))
                 .imageBytes(tourDao.getImage())
+                .startLat(tourDao.getStartLat())
+                .startLng(tourDao.getStartLng())
+                .endLat(tourDao.getEndLat())
+                .endLng(tourDao.getEndLng())
                 .tourLog(tourLogs).build();
     }
 }
