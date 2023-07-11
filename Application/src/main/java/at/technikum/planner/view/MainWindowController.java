@@ -11,6 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
@@ -88,9 +89,11 @@ public class MainWindowController {
         if (strings.isEmpty()) return;
         LOGGER.info("Alerting user about already existing tours");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.getDialogPane().setMinWidth(Region.USE_PREF_SIZE);
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         alert.initOwner(scene.getScene().getWindow());
         alert.setHeaderText(null);
-        alert.setContentText("Die folgenden Touren sind schon vorhanden: " + String.join("\n", strings) + "\n\nFürs importieren dieser Touren bitte die vorhandenen Touren löschen oder umbenennen.");
+        alert.setContentText("Die folgenden Touren sind schon vorhanden:\n " + String.join("\n", strings) + "\n\nFürs importieren dieser Touren bitte die vorhandenen Touren löschen oder umbenennen.");
         alert.getButtonTypes().setAll(ButtonType.OK);
         alert.showAndWait();
     }

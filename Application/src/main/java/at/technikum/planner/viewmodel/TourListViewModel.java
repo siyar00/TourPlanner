@@ -65,8 +65,8 @@ public class TourListViewModel {
                         tourLogsDaoRepository.updateAllById(tour.getId(), tourLog.getDate(), tourLog.getDuration(), tourLog.getComment(), tourLog.getDifficulty(), tourLog.getRating(), tourLog.getLogId());
                     }
                 }
-                tourNames.add(tour.getName());
             } catch (Exception e) {
+                tourNames.add(tour.getName()); // add tour name to list if it already exists
                 LOGGER.warning(e.getMessage());
             }
         });

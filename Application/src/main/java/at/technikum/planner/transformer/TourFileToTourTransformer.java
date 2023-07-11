@@ -23,6 +23,10 @@ public class TourFileToTourTransformer implements Function<TourFile, Tour> {
                 .highway(tourFile.getHighway())
                 .map(new Image(new ByteArrayInputStream(tourFile.getImageBytes())))
                 .imageBytes(tourFile.getImageBytes())
+                .startLat(tourFile.getStartLat())
+                .startLng(tourFile.getStartLng())
+                .endLat(tourFile.getEndLat())
+                .endLng(tourFile.getEndLng())
                 .tourLog(tourFile.getTourLog()).build();
     }
 }

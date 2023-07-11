@@ -94,16 +94,17 @@ public class TourLogsController {
 
     @FXML
     void onWeatherReport() {
+        if(viewModel.getTour() == null) return;
         List<WeatherResponse> responses =viewModel.getWeatherReport();
         Alert weatherAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        weatherAlert.getDialogPane().setMinWidth(Region.USE_COMPUTED_SIZE);
+        weatherAlert.getDialogPane().setMinWidth(800);
         weatherAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         weatherAlert.initOwner(addButton.getScene().getWindow());
         weatherAlert.setTitle(bundle.getString("TourLogs_WeatherReport"));
         weatherAlert.setHeaderText(null);
         WeatherResponse start = responses.get(0);
         WeatherResponse end = responses.get(1);
-        String weather = String.format("In %s: %s mit einer Temperatur von %s°C und gefühlten Temperatur von %s°C.\n\nIn %s: %s mit einer Temperatur von %s°C und gefühlten %s°C.\n", start.getName(), start.getWeather().get(0).getDescription(), start.getMain().getTemp(), start.getMain().getFeels_like(), end.getName(), end.getWeather().get(0).getDescription(), end.getMain().getTemp(), end.getMain().getFeels_like());
+        String weather = String.format("In %s: %s mit einer Temperatur von %s°C und gefühlten %s°C.\n\nIn %s: %s mit einer Temperatur von %s°C und gefühlten %s°C.\n", start.getName(), start.getWeather().get(0).getDescription(), start.getMain().getTemp(), start.getMain().getFeels_like(), end.getName(), end.getWeather().get(0).getDescription(), end.getMain().getTemp(), end.getMain().getFeels_like());
 
         weatherAlert.setContentText(weather);
         weatherAlert.getButtonTypes().setAll(ButtonType.OK);
