@@ -1,15 +1,18 @@
 package at.technikum.planner.view;
 
+import at.technikum.dal.dto.WeatherResponse;
 import at.technikum.planner.model.TourLog;
 import at.technikum.planner.view.dialog.TourLogsDialogController;
 import at.technikum.planner.viewmodel.TourLogsViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import javafx.scene.layout.Region;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
@@ -56,7 +59,6 @@ public class TourLogsController {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("dialog/TourLogsDialog.fxml"), bundle);
         DialogPane dialogPane = fxmlLoader.load();
         TourLogsDialogController dialogController = fxmlLoader.getController();
-        dialogController.setBundle(bundle);
 
         TourLog tourLog = showDialog(dialogPane, dialogController);
         if (tourLog != null) {
@@ -81,7 +83,6 @@ public class TourLogsController {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("dialog/TourLogsDialog.fxml"), bundle);
             DialogPane dialogPane = fxmlLoader.load();
             TourLogsDialogController dialogController = fxmlLoader.getController();
-            dialogController.setBundle(bundle);
             dialogController.setTourLog(selectedTourLog);
 
             TourLog tourLog = showDialog(dialogPane, dialogController);
@@ -91,7 +92,26 @@ public class TourLogsController {
         }
     }
 
+    @FXML
+    void onWeatherReport() {
+        List<WeatherResponse> responses =viewModel.getWeatherReport();
+        Alert weatherAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        weatherAlert.getDialogPane().setMinWidth(Region.USE_COMPUTED_SIZE);
+        weatherAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+        weatherAlert.initOwner(addButton.getScene().getWindow());
+        weatherAlert.setTitle(bundle.getString("TourLogs_WeatherReport"));
+        weatherAlert.setHeaderText(null);
+        WeatherResponse start = responses.get(0);
+        WeatherResponse end = responses.get(1);
+        String weather = String.format("In %s: %s mit einer Temperatur von %s°C und gefühlten Temperatur von %s°C.\n\nIn %s: %s mit einer Temperatur von %s°C und gefühlten %s°C.\n", start.getName(), start.getWeather().get(0).getDescription(), start.getMain().getTemp(), start.getMain().getFeels_like(), end.getName(), end.getWeather().get(0).getDescription(), end.getMain().getTemp(), end.getMain().getFeels_like());
+
+        weatherAlert.setContentText(weather);
+        weatherAlert.getButtonTypes().setAll(ButtonType.OK);
+        weatherAlert.showAndWait();
+    }
+
     private TourLog showDialog(DialogPane dialogPane, TourLogsDialogController dialogController) {
+        dialogController.setBundle(bundle);
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setDialogPane(dialogPane);
         dialog.initOwner(addButton.getScene().getWindow());

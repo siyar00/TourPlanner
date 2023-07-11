@@ -31,6 +31,9 @@
             <items>
                 <MenuItem onAction="#onEditButton" text="%Edit" />
             </items>
+            <items>
+                <MenuItem onAction="#onWeatherReport" text="%WeatherForecast" />
+            </items>
         </MenuButton>
     </ToolBar>
     <ScrollPane VBox.vgrow="ALWAYS">

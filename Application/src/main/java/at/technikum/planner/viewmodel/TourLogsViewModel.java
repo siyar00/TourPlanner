@@ -1,5 +1,8 @@
 package at.technikum.planner.viewmodel;
 
+import at.technikum.bl.WeatherServiceImpl;
+import at.technikum.dal.dto.CoordinatesDto;
+import at.technikum.dal.dto.WeatherResponse;
 import at.technikum.dal.repository.TourDaoRepository;
 import at.technikum.dal.repository.TourLogsDaoRepository;
 import at.technikum.planner.model.Tour;
@@ -34,17 +37,19 @@ public class TourLogsViewModel {
     private final TourListViewModel viewModel;
     private final TourLogsDaoRepository logsDaoRepository;
     private final TourDaoRepository tourRepository;
+    private final WeatherServiceImpl weatherService;
     private Tour tour;
 
-    public TourLogsViewModel(TourListViewModel viewModel, TourLogsDaoRepository logsDaoRepository, TourDaoRepository tourDaoRepository) {
+    public TourLogsViewModel(TourListViewModel viewModel, TourLogsDaoRepository logsDaoRepository, TourDaoRepository tourDaoRepository, WeatherServiceImpl weatherService) {
         this.viewModel = viewModel;
         this.logsDaoRepository = logsDaoRepository;
         this.tourRepository = tourDaoRepository;
+        this.weatherService = weatherService;
     }
 
     public void setTourLog(Tour tour) {
         observableTourLogs.clear();
-        if(tour == null) return;
+        if (tour == null) return;
         this.tour = tour;
         List<TourLog> tourLogs = tour.getTourLog();
         if (tourLogs.isEmpty()) return;
@@ -112,5 +117,11 @@ public class TourLogsViewModel {
         });
         task.setOnFailed(event -> LOGGER.warning("Delete TourLog failed: " + event.getSource().getException().getMessage()));
         new Thread(task).start();
+    }
+
+    public List<WeatherResponse> getWeatherReport() {
+        WeatherResponse responseStart = weatherService.getWeatherData(new CoordinatesDto(tour.getStartLat(), tour.getStartLng()));
+        WeatherResponse responseDestination = weatherService.getWeatherData(new CoordinatesDto(tour.getEndLat(), tour.getEndLng()));
+        return List.of(responseStart, responseDestination);
     }
 }

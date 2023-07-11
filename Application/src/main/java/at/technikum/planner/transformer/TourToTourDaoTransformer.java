@@ -20,6 +20,10 @@ public class TourToTourDaoTransformer implements Function<Tour, TourDao> {
                 .hasTollRoad(tour.getToll())
                 .hasHighway(tour.getHighway())
                 .image(tour.getImageBytes())
+                .startLat(tour.getStartLat())
+                .startLng(tour.getStartLng())
+                .endLat(tour.getEndLat())
+                .endLng(tour.getEndLng())
                 .build();
     }
 }

@@ -24,15 +24,24 @@ public class WeatherServiceImpl implements WeatherService {
     }
 
     @Override
-    public String getWeatherData(CoordinatesDto coordinatesDto) {
+    public WeatherResponse getWeatherData(CoordinatesDto coordinatesDto) {
         try {
-            Response<WeatherResponse> response = api.getWeather(coordinatesDto.getLat(), coordinatesDto.getLng(), "metric", System.getProperty("user.language"), "v2wMZ8xEjaxfK77wG7lijMRNCEH47yxz").execute();
+            Response<WeatherResponse> response = api.getWeather(coordinatesDto.getLat(), coordinatesDto.getLng(), "metric", System.getProperty("user.language"), "38d517f493c8bf2614d070dd381502ef").execute();
             assert response.body() != null;
             LOGGER.info(response.body().toString());
-            return response.body().getName();
+            return response.body();
         } catch (IOException e) {
             LOGGER.severe(e.getMessage());
             throw new RuntimeException(e);
         }
+    }
+
+    public static void main(String[] args) {
+        WeatherService weatherService = new WeatherServiceImpl();
+        CoordinatesDto coordinatesDto = new CoordinatesDto();
+        coordinatesDto.setLat(69.65139);
+        coordinatesDto.setLng(18.95606);
+        WeatherResponse response = weatherService.getWeatherData(coordinatesDto);
+        System.out.println(response.getWeather().get(0).getDescription() + " mit gefühlten " + response.getMain().getFeels_like() + " Grad Celsius");
     }
 }

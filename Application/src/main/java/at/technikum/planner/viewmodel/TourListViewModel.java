@@ -123,8 +123,12 @@ public class TourListViewModel {
             tour.setHighway(oldTour.getHighway());
             tour.setMap(oldTour.getMap());
             tour.setImageBytes(oldTour.getImageBytes());
+            tour.setStartLat(oldTour.getStartLat());
+            tour.setStartLng(oldTour.getStartLng());
+            tour.setEndLat(oldTour.getEndLat());
+            tour.setEndLng(oldTour.getEndLng());
             TourDao tourDao = new TourToTourDaoTransformer().apply(tour);
-            tourDaoRepository.updateTourDaoById(tourDao.getName(), tourDao.getStart(), tourDao.getDestination(), tourDao.getDistance(), tourDao.getTime(), tourDao.getHasTollRoad(), tourDao.getHasHighway(), tourDao.getTransportation(), tourDao.getImage(), tourDao.getDescription(), oldTour.getId());
+            tourDaoRepository.updateNameDescriptionById(tourDao.getName(), tourDao.getDescription(), oldTour.getId());
             observableTours.set(observableTours.indexOf(oldTour), tour);
         } else {
             Task<Void> task = new Task<>() {
@@ -135,7 +139,7 @@ public class TourListViewModel {
                         RouteDto route = routeService.getRoute(tour.getStartAddress(), tour.getEndAddress(), tour.getTransportation().getType());
                         String path = "downloads/" + routeService.getImage(route.getSessionId(), route.getBoundingBox()) + ".png";
                         TourDao tourDao = getTourDaoAndSetTour(tour, oldTour, route, path);
-                        tourDaoRepository.updateTourDaoById(tourDao.getName(), tourDao.getStart(), tourDao.getDestination(), tourDao.getDistance(), tourDao.getTime(), tourDao.getHasTollRoad(), tourDao.getHasHighway(), tourDao.getTransportation(), tourDao.getImage(), tourDao.getDescription(), oldTour.getId());
+                        tourDaoRepository.updateTourDaoById(tourDao.getName(), tourDao.getStart(), tourDao.getDestination(), tourDao.getDistance(), tourDao.getTime(), tourDao.getHasTollRoad(), tourDao.getHasHighway(), tourDao.getTransportation(), tourDao.getImage(), tourDao.getDescription(), tourDao.getStartLat(), tourDao.getStartLng(), tourDao.getEndLat(), tourDao.getEndLng(), oldTour.getId());
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -186,6 +190,10 @@ public class TourListViewModel {
         tour.setEndAddress(String.valueOf(route.getLocations().get(1)));
         tour.setTourLog(oldTour.getTourLog());
         tour.setId(oldTour.getId());
+        tour.setStartLat(route.getLocations().get(0).getLatLng().getLat());
+        tour.setStartLng(route.getLocations().get(0).getLatLng().getLng());
+        tour.setEndLat(route.getLocations().get(1).getLatLng().getLat());
+        tour.setEndLng(route.getLocations().get(1).getLatLng().getLng());
         return new TourToTourDaoTransformer().apply(tour);
     }
 

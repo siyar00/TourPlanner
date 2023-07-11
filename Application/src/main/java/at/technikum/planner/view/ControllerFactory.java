@@ -1,6 +1,7 @@
 package at.technikum.planner.view;
 
 import at.technikum.bl.RouteServiceImpl;
+import at.technikum.bl.WeatherServiceImpl;
 import at.technikum.dal.repository.TourDaoRepository;
 import at.technikum.dal.repository.TourLogsDaoRepository;
 import at.technikum.planner.view.dialog.TourListDialogController;
@@ -27,11 +28,12 @@ public class ControllerFactory {
     public ControllerFactory(ConfigurableApplicationContext applicationContext, ResourceBundle bundle) {
         this.bundle = bundle;
         RouteServiceImpl routeService = new RouteServiceImpl();
+        WeatherServiceImpl weatherService = new WeatherServiceImpl();
         TourDaoRepository tourDaoRepository = applicationContext.getBean(TourDaoRepository.class);
         TourLogsDaoRepository tourLogsDaoRepository = applicationContext.getBean(TourLogsDaoRepository.class);
         routeMapViewModel = new RouteMapViewModel(bundle);
         tourListViewModel = new TourListViewModel(routeService, tourDaoRepository, tourLogsDaoRepository);
-        tourLogsViewModel = new TourLogsViewModel(tourListViewModel, tourLogsDaoRepository, tourDaoRepository);
+        tourLogsViewModel = new TourLogsViewModel(tourListViewModel, tourLogsDaoRepository, tourDaoRepository, weatherService);
         searchBarViewModel = new SearchBarViewModel(tourListViewModel, tourLogsDaoRepository, tourDaoRepository, bundle);
         tourListDialogViewModel = new TourListDialogViewModel();
         tourLogsDialogViewModel= new TourLogsDialogViewModel();

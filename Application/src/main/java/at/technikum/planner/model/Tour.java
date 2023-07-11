@@ -24,6 +24,10 @@ public class Tour implements Serializable {
     private Image map;
     private byte[] imageBytes;
     private List<TourLog> tourLog;
+    private double startLat;
+    private double startLng;
+    private double endLat;
+    private double endLng;
 
     @Override
     public boolean equals(Object obj) {

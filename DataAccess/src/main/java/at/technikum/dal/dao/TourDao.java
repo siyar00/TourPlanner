@@ -28,6 +28,10 @@ public class TourDao {
     private String hasHighway;
     private String transportation;
     private byte[] image;
+    private double startLat;
+    private double startLng;
+    private double endLat;
+    private double endLng;
 
     @OneToMany(cascade = { CascadeType.REMOVE }, targetEntity = TourLogsDao.class, fetch = FetchType.LAZY, mappedBy = "tourDao")
     private List<TourLogsDao> tourLogsDao;

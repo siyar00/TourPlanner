@@ -5,14 +5,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class WeatherResponse {
-    private List<WeatherDto> weather;
-    private WeatherMainDto main;
-    private String name;
+public class WeatherMainDto {
+    private String temp;
+    private String feels_like;
+    private String temp_min;
+    private String temp_max;
+    private String pressure;
+    private String humidity;
 }

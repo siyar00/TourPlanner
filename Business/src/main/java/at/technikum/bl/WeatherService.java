@@ -2,7 +2,8 @@ package at.technikum.bl;
 
 
 import at.technikum.dal.dto.CoordinatesDto;
+import at.technikum.dal.dto.WeatherResponse;
 
 public interface WeatherService {
-    String getWeatherData(CoordinatesDto coordinatesDto);
+    WeatherResponse getWeatherData(CoordinatesDto coordinatesDto);
 }
