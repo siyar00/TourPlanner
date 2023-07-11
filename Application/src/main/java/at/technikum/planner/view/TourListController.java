@@ -8,17 +8,21 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
+import lombok.Getter;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
+@Getter
 public class TourListController {
     @FXML
-    Button addButton;
+    private Button addButton;
     @FXML
-    ListView<Tour> tourNameListView = new ListView<>();
+    private ListView<Tour> tourNameListView = new ListView<>();
     final ResourceBundle bundle;
     final TourListViewModel viewModel;
+    Logger LOGGER = Logger.getLogger(TourListController.class.getName());
 
     public TourListController(TourListViewModel tourListViewModell, ResourceBundle bundle) {
         this.viewModel = tourListViewModell;
@@ -27,9 +31,10 @@ public class TourListController {
 
     @FXML
     void initialize() {
-        tourNameListView.setItems(viewModel.getObservableTours());
+        tourNameListView.setItems(viewModel.getObservableToursFromDatabase());
         tourNameListView.getSelectionModel().selectedItemProperty().addListener(viewModel.getChangeListener());
         updateListView();
+        LOGGER.info("TourListController initialized");
     }
 
     public void onButtonAdd() throws IOException {
@@ -47,6 +52,7 @@ public class TourListController {
                 alert.setHeaderText(null);
                 alert.setContentText(bundle.getString("TourList_ExistingText"));
                 alert.showAndWait();
+                LOGGER.info("Tour already exists");
                 return;
             }
             viewModel.addNewTour(tour);

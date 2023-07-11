@@ -1,36 +1,45 @@
 package at.technikum.planner.view;
 
 import at.technikum.bl.PDFServiceImpl;
+import at.technikum.planner.transformer.TourPlannerToTourBlTransformer;
 import at.technikum.planner.viewmodel.MainWindowViewModel;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import at.technikum.planner.viewmodel.TourListViewModel;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import jfxtras.styles.jmetro.Style;
 import lombok.Data;
 
-import java.io.FileNotFoundException;
+import java.io.File;
+import java.util.List;
+import java.util.logging.Logger;
 
 @Data
 public class MainWindowController {
     @FXML
-    VBox scene;
+    private VBox scene;
     @FXML
-    SearchBarController searchBarController;
+    private SearchBarController searchBarController;
     @FXML
-    TourListController tourListController;
+    private TourListController tourListController;
     @FXML
-    RouteMapController routeMapController;
+    private RouteMapController routeMapController;
     private double x, y;
     private final MainWindowViewModel mainWindowViewModel;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final TourListViewModel tourListViewModel;
+    Logger LOGGER = Logger.getLogger(MainWindowController.class.getName());
 
-    public MainWindowController(MainWindowViewModel mainWindowViewModel) {
+    public MainWindowController(MainWindowViewModel mainWindowViewModel, TourListViewModel tourListViewModel) {
         this.mainWindowViewModel = mainWindowViewModel;
+        this.tourListViewModel = tourListViewModel;
     }
 
     @FXML
@@ -61,11 +70,48 @@ public class MainWindowController {
 
     @FXML
     void importFile() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Import TourBl");
+        try {
+            fileChooser.setInitialDirectory(new File(System.getProperty("user.home"), File.separator + "Downloads"));
+        } catch (IllegalArgumentException exception) {
+            LOGGER.warning("Could not set initial directory to downloads folder");
+            fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+        }
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("JSON", "*.json"));
+        var file = fileChooser.showOpenDialog(scene.getScene().getWindow());
+        if (file != null) {
+            alert(mainWindowViewModel.importTour(file));
+        }
+    }
 
+    private void alert(List<String> strings) {
+        if (strings.isEmpty()) return;
+        LOGGER.info("Alerting user about already existing tours");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.getDialogPane().setMinWidth(Region.USE_PREF_SIZE);
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+        alert.initOwner(scene.getScene().getWindow());
+        alert.setHeaderText(null);
+        alert.setContentText("Die folgenden Touren sind schon vorhanden:\n " + String.join("\n", strings) + "\n\nFürs importieren dieser Touren bitte die vorhandenen Touren löschen oder umbenennen.");
+        alert.getButtonTypes().setAll(ButtonType.OK);
+        alert.showAndWait();
     }
 
     @FXML
     void exportFile() {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Export TourBl");
+        try {
+            directoryChooser.setInitialDirectory(new File(System.getProperty("user.home"), File.separator + "Downloads"));
+        } catch (IllegalArgumentException exception) {
+            LOGGER.warning("Could not set initial directory to downloads folder");
+            directoryChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+        }
+        var directory = directoryChooser.showDialog(scene.getScene().getWindow());
+        if (directory != null) {
+            mainWindowViewModel.exportTour(directory);
+        }
     }
 
     @FXML
@@ -83,11 +129,28 @@ public class MainWindowController {
 
     @FXML
     void onGenerateTourReportClicked() {
-        PDFServiceImpl reportService = new PDFServiceImpl(); // Erstellen Sie eine Instanz des ReportService
-        try {
-            reportService.generateReport(); // Generieren Sie den Tourbericht
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        if (tourListController.getTourNameListView().getSelectionModel().getSelectedItem() == null) return;
+        PDFServiceImpl reportService = new PDFServiceImpl(new TourPlannerToTourBlTransformer().apply(tourListController.getTourNameListView().getSelectionModel().getSelectedItem()));
+        reportAlert(reportService.generateReport());
+    }
+
+    @FXML
+    void onGenerateSummarizeReport() {
+        PDFServiceImpl reportService = new PDFServiceImpl(tourListViewModel.getObservableTours().stream().map(new TourPlannerToTourBlTransformer()).toList());
+        reportAlert(reportService.generateSummarizeReport());
+    }
+
+    private void reportAlert(boolean success) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.initOwner(scene.getScene().getWindow());
+        alert.setHeaderText(null);
+        if (success) {
+            alert.setContentText("Report wurde erfolgreich erstellt.");
+        } else {
+            LOGGER.warning("Could not create report");
+            alert.setContentText("Report konnte nicht erstellt werden.");
         }
+        alert.getButtonTypes().setAll(ButtonType.OK);
+        alert.showAndWait();
     }
 }

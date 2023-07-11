@@ -3,7 +3,8 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<DialogPane prefHeight="150.0" prefWidth="400.0" focusTraversable="true" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.technikum.planner.view.dialog.TourListDialogController">
+<DialogPane prefHeight="150.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="at.technikum.planner.view.dialog.TourListDialogController">
     <content>
         <VBox>
             <VBox>
@@ -13,7 +14,7 @@
                             <Insets left="10.0"/>
                         </VBox.margin>
                     </Label>
-                    <TextField fx:id="tourName" alignment="CENTER" focusTraversable="false" onKeyPressed="#enterKey"
+                    <TextField fx:id="tourName" alignment="CENTER" onKeyTyped="#enterKey"
                                prefHeight="32.0" promptText="%TourModal_TourName">
                         <VBox.margin>
                             <Insets left="10.0" right="10.0"/>
@@ -26,11 +27,12 @@
                             <Insets left="10.0"/>
                         </VBox.margin>
                     </Label>
-                    <TextField fx:id="tourDescription" alignment="CENTER" focusTraversable="false" onKeyPressed="#enterKey" prefHeight="32.0" prefWidth="380.0" promptText="%TourModal_Description">
+                    <TextArea fx:id="tourDescription" onKeyTyped="#enterKey" prefHeight="100.0" prefWidth="380.0"
+                              promptText="%TourModal_Description">
                         <VBox.margin>
                             <Insets left="10.0" right="10.0"/>
                         </VBox.margin>
-                    </TextField>
+                    </TextArea>
                 </VBox>
                 <VBox>
                     <Label text="%TourModal_Start">
@@ -38,8 +40,8 @@
                             <Insets left="10.0"/>
                         </VBox.margin>
                     </Label>
-                    <TextField fx:id="tourStartAddress" alignment="CENTER" focusTraversable="false"
-                               onKeyPressed="#enterKey" prefHeight="32.0" promptText="%TourModal_Start">
+                    <TextField fx:id="tourStartAddress" alignment="CENTER" onKeyTyped="#enterKey" prefHeight="32.0"
+                               promptText="%TourModal_Start">
                         <VBox.margin>
                             <Insets left="10.0" right="10.0"/>
                         </VBox.margin>
@@ -51,16 +53,14 @@
                             <Insets left="10.0"/>
                         </VBox.margin>
                     </Label>
-                    <TextField fx:id="tourEndAddress" alignment="CENTER" focusTraversable="false"
-                               onKeyPressed="#enterKey" prefHeight="32.0" prefWidth="380.0"
-                               promptText="%TourModal_Destination">
+                    <TextField fx:id="tourEndAddress" alignment="CENTER" onKeyTyped="#enterKey" prefHeight="32.0" prefWidth="380.0" promptText="%TourModal_Destination">
                         <VBox.margin>
                             <Insets left="10.0" right="10.0"/>
                         </VBox.margin>
                     </TextField>
                 </VBox>
             </VBox>
-            <ComboBox fx:id="transportComboBox" focusTraversable="false" onKeyPressed="#enterKey" prefHeight="40.0"
+            <ComboBox fx:id="transportComboBox" onAction="#comboEvent" prefHeight="40.0"
                       prefWidth="400.0" promptText="%TourModal_Transportation">
                 <VBox.margin>
                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>

@@ -3,6 +3,7 @@ package at.technikum.planner.view.dialog;
 import at.technikum.planner.model.Tour;
 import at.technikum.planner.transformer.RouteTypeTransformer;
 import at.technikum.planner.viewmodel.dialog.TourListDialogViewModel;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -14,28 +15,31 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
 @Setter
 @Getter
 @NoArgsConstructor
 public class TourListDialogController {
     @FXML
-    ComboBox<String> transportComboBox;
+    private ComboBox<String> transportComboBox;
     @FXML
-    TextField tourDescription;
+    private TextArea tourDescription;
     @FXML
-    TextField tourName;
+    private TextField tourName;
     @FXML
-    TextField tourStartAddress;
+    private TextField tourStartAddress;
     @FXML
-    TextField tourEndAddress;
+    private TextField tourEndAddress;
     @FXML
-    Button okayButton;
+    private Button okayButton;
     @FXML
-    Button exitButton;
-    Tour tour;
-    ResourceBundle bundle;
-    TourListDialogViewModel viewModel;
+    private Button exitButton;
+    private Tour tour;
+    private ResourceBundle bundle;
+    private TourListDialogViewModel viewModel;
+    Logger LOGGER = Logger.getLogger(TourListDialogController.class.getName());
+
 
     public TourListDialogController(TourListDialogViewModel tourListDialogViewModel) {
         this.viewModel = tourListDialogViewModel;
@@ -47,42 +51,68 @@ public class TourListDialogController {
         transportComboBox.getItems().addAll(bundle.getString("RouteType_CarFastest"),
                 bundle.getString("RouteType_CarShortest"), bundle.getString("RouteType_Pedestrian"),
                 bundle.getString("RouteType_Bicycle"));
+        LOGGER.info("TourListDialogController initialized");
     }
 
-    public void enterKey(KeyEvent keyEvent) {
-        if (tourName.getText().trim().isEmpty() || tourStartAddress.getText().isEmpty() || tourEndAddress.getText().isEmpty()) {
+    @FXML
+    void enterKey(KeyEvent keyEvent) {
+        Platform.runLater(() -> {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                LOGGER.severe(e.getMessage());
+                throw new RuntimeException(e);
+            }
+            if (keyEvent.getTarget().equals(tourDescription) && keyEvent.getCode().equals(KeyCode.ENTER)) return;
+            if (tourName.getText().trim().isEmpty() || tourDescription.getText().trim().isEmpty() || tourStartAddress.getText().trim().isEmpty() || tourEndAddress.getText().isEmpty() || transportComboBox.getValue() == null) {
+                okayButton.setDisable(true);
+                return;
+            }
+            okayButton.setDisable(false);
+            if (keyEvent.getCode().equals(KeyCode.ENTER)) {
+                onOkayButton();
+            } else if (keyEvent.getCode().equals(KeyCode.ESCAPE)) {
+                onCloseWindow();
+            }
+        });
+    }
+
+    @FXML
+    void comboEvent() {
+        if (tourName.getText().trim().isEmpty() || tourDescription.getText().trim().isEmpty() || tourStartAddress.getText().trim().isEmpty() || tourEndAddress.getText().isEmpty() || transportComboBox.getValue() == null) {
             okayButton.setDisable(true);
             return;
         }
         okayButton.setDisable(false);
-        if (keyEvent.getCode().equals(KeyCode.ENTER)) {
-            onOkayButton();
-        } else if (keyEvent.getCode().equals(KeyCode.ESCAPE)) {
-            onCloseWindow();
-        }
     }
 
-    public void onOkayButton() {
+    @FXML
+    void onOkayButton() {
         if (tourName.getText().trim().isEmpty()) {
             alert(bundle.getString("TourModal_NameError"));
+            LOGGER.info("There is not tour name entered");
         } else if (transportComboBox.getValue() == null) {
             alert(bundle.getString("TourModal_TransportError"));
+            LOGGER.info("There is not tour transportation entered");
         } else if (tourStartAddress.getText().trim().isEmpty()) {
             alert(bundle.getString("TourModal_StartAddressError"));
+            LOGGER.info("There is not tour start address entered");
         } else if (tourEndAddress.getText().trim().isEmpty()) {
             alert(bundle.getString("TourModal_EndAddressError"));
+            LOGGER.info("There is not tour end address entered");
         } else {
             this.tour = Tour.builder().name(tourName.getText().trim())
                     .tourDescription(tourDescription.getText().trim())
                     .startAddress(tourStartAddress.getText().trim())
                     .endAddress(tourEndAddress.getText().trim())
-                    .transportation(new RouteTypeTransformer().getRouteTypeFromBundle(transportComboBox.getSelectionModel().getSelectedItem(), bundle))
+                    .transportation(RouteTypeTransformer.getRouteTypeFromBundle(transportComboBox.getSelectionModel().getSelectedItem(), bundle))
                     .tourLog(new ArrayList<>()).build();
             onCloseWindow();
         }
     }
 
-    public void onDeleteButton() {
+    @FXML
+    void onDeleteButton() {
         tourName.clear();
         tourDescription.clear();
         tourStartAddress.clear();
@@ -92,7 +122,8 @@ public class TourListDialogController {
         okayButton.setDisable(true);
     }
 
-    public void onCloseWindow() {
+    @FXML
+    void onCloseWindow() {
         Stage stage = (Stage) exitButton.getScene().getWindow();
         stage.close();
     }
@@ -111,6 +142,6 @@ public class TourListDialogController {
         tourName.setText(tour.getName());
         tourStartAddress.setText(tour.getStartAddress());
         tourEndAddress.setText(tour.getEndAddress());
-        transportComboBox.getSelectionModel().select(new RouteTypeTransformer().getBundleFromRouteType(tour.getTransportation(), bundle));
+        transportComboBox.getSelectionModel().select(RouteTypeTransformer.getBundleFromRouteType(tour.getTransportation(), bundle));
     }
 }

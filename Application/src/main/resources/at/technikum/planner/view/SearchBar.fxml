@@ -4,9 +4,6 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <HBox xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.technikum.planner.view.SearchBarController">
-    <!--    <userData>-->
-    <!--        <fx:reference source="controller"/>-->
-    <!--    </userData>-->
-        <TextField fx:id="searchTextField" prefHeight="28.0" HBox.hgrow="ALWAYS" focusTraversable="false"/>
+        <TextField fx:id="searchTextField" onKeyTyped="#onSearchButton" prefHeight="28.0" HBox.hgrow="ALWAYS" focusTraversable="false"/>
         <Button fx:id="searchButton" onAction="#onSearchButton" styleClass="searchButton" text="%SearchBar_Search" HBox.hgrow="ALWAYS" focusTraversable="false"/>
 </HBox>

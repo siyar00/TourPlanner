@@ -6,10 +6,10 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class RouteTypeTransformer {
-    Logger LOGGER = Logger.getLogger(RouteTypeTransformer.class.getName());
+public abstract class RouteTypeTransformer {
+    static Logger LOGGER = Logger.getLogger(RouteTypeTransformer.class.getName());
 
-    public RouteType getRouteTypeFromBundle(String value, ResourceBundle bundle) {
+    public static RouteType getRouteTypeFromBundle(String value, ResourceBundle bundle) {
         if (value.equals(bundle.getString("RouteType_CarFastest"))) {
             return RouteType.FASTEST;
         } else if (value.equals(bundle.getString("RouteType_CarShortest"))) {
@@ -24,7 +24,7 @@ public class RouteTypeTransformer {
         }
     }
 
-    public String getBundleFromRouteType(RouteType value, ResourceBundle bundle) {
+    public static String getBundleFromRouteType(RouteType value, ResourceBundle bundle) {
         if (value.equals(RouteType.FASTEST)) {
             return bundle.getString("RouteType_CarFastest");
         } else if (value.equals(RouteType.SHORTEST)) {

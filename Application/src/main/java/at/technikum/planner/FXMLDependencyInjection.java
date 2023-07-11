@@ -12,7 +12,7 @@ import java.util.ResourceBundle;
 
 /**
  * FXMLLoader with Dependency-Injection
- * based on https://edencoding.com/dependency-injection/
+ * based on <a href="https://edencoding.com/dependency-injection/">https://edencoding.com/dependency-injection/</a>
  */
 public class FXMLDependencyInjection {
     public static Parent load(String location, Locale locale, ConfigurableApplicationContext context) throws IOException {
@@ -25,6 +25,6 @@ public class FXMLDependencyInjection {
         return new FXMLLoader(
                 FXMLDependencyInjection.class.getResource("/at/technikum/planner/view/" + location), bundle,
                 new JavaFXBuilderFactory(),
-                controllerClass-> ControllerFactory.getInstance(context, bundle).create(controllerClass));
+                controllerClass -> ControllerFactory.getInstance(context, bundle).create(controllerClass));
     }
 }

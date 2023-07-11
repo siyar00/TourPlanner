@@ -8,9 +8,11 @@ import javafx.scene.image.Image;
 import lombok.Data;
 
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
 @Data
 public class RouteMapViewModel {
+    Logger LOGGER = Logger.getLogger(RouteMapViewModel.class.getName());
 
     private volatile boolean isInitValue = false;
     private final StringProperty startingAddress = new SimpleStringProperty();
@@ -66,10 +68,8 @@ public class RouteMapViewModel {
             distance.set("");
             transportation.set("");
             mapImageProperty.setValue(null);
-            System.out.println("setTourModel name=" + startingAddress.get());
             return;
         }
-        System.out.println("setTourModel name=" + tour.getName());
         this.tour = tour;
         startingAddressLabel.set(true);
         destinationAddressLabel.set(true);
@@ -86,8 +86,9 @@ public class RouteMapViewModel {
         highway.setValue(tour.getHighway().equals("false") ? bundle.getString("No") : bundle.getString("Yes"));
         time.setValue(tour.getTime());
         distance.setValue(tour.getDistance() + " km");
-        transportation.setValue(new RouteTypeTransformer().getBundleFromRouteType(tour.getTransportation(), bundle));
+        transportation.setValue(RouteTypeTransformer.getBundleFromRouteType(tour.getTransportation(), bundle));
         mapImageProperty.setValue(tour.getMap());
+        LOGGER.info("Tour set to " + tour.getName());
         isInitValue = false;
     }
 

@@ -16,6 +16,7 @@ public class TourDaoToTourTransformer implements Function<TourDao, Tour> {
     public Tour apply(TourDao tourDao) {
         List<TourLog> tourLogs = tourDao.getTourLogsDao().stream().map(t -> new TourLogDaoToTourLogTransformer().apply(t)).collect(Collectors.toList());
         return Tour.builder()
+                .id(tourDao.getId())
                 .tourDescription(tourDao.getDescription())
                 .name(tourDao.getName())
                 .startAddress(tourDao.getStart())
@@ -26,6 +27,11 @@ public class TourDaoToTourTransformer implements Function<TourDao, Tour> {
                 .toll(tourDao.getHasTollRoad())
                 .highway(tourDao.getHasHighway())
                 .map(new Image(new ByteArrayInputStream(tourDao.getImage())))
+                .imageBytes(tourDao.getImage())
+                .startLat(tourDao.getStartLat())
+                .startLng(tourDao.getStartLng())
+                .endLat(tourDao.getEndLat())
+                .endLng(tourDao.getEndLng())
                 .tourLog(tourLogs).build();
     }
 }

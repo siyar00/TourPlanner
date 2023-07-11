@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.ToolBar?>
@@ -12,34 +13,38 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="at.technikum.planner.view.TourLogsController">
+<VBox xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.technikum.planner.view.TourLogsController">
     <ToolBar styleClass="tool-bar">
-        <Label text="%TourLogs"/>
-        <Pane HBox.hgrow="ALWAYS"/>
+        <Label text="%TourLogs" />
+        <Pane HBox.hgrow="ALWAYS" />
         <Button fx:id="addButton" accessibleText="Add" onAction="#onButtonAdd" text="+">
             <padding>
-                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
+                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
             </padding>
         </Button>
         <Button accessibleText="Delete" onAction="#onButtonRemove" text="-">
             <padding>
-                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
+                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
             </padding>
         </Button>
         <MenuButton text="...">
             <items>
-                <MenuItem onAction="#onEditButton" text="%Edit"/>
+                <MenuItem onAction="#onEditButton" text="%Edit" />
+            </items>
+            <items>
+                <MenuItem onAction="#onWeatherReport" text="%WeatherForecast" />
             </items>
         </MenuButton>
     </ToolBar>
-    <TableView fx:id="tourLogsTableView" VBox.vgrow="ALWAYS">
-        <columns>
-            <TableColumn fx:id="dateColumn" prefWidth="125" text="%Date"/>
-            <TableColumn fx:id="durationColumn" prefWidth="100" text="%Duration"/>
-            <TableColumn fx:id="commentColumn" prefWidth="300" text="%Comment"/>
-            <TableColumn fx:id="difficultyColumn" prefWidth="125" text="%Difficulty"/>
-            <TableColumn fx:id="ratingColumn" prefWidth="100" text="%Rating"/>
-        </columns>
-    </TableView>
+    <ScrollPane VBox.vgrow="ALWAYS">
+        <TableView fx:id="tourLogsTableView" prefHeight="550.0" prefWidth="800.0">
+            <columns>
+                <TableColumn fx:id="dateColumn" prefWidth="125" text="%Date"/>
+                <TableColumn fx:id="durationColumn" prefWidth="100" text="%Duration"/>
+                <TableColumn fx:id="commentColumn" maxWidth="1.7976931348623157E308" prefWidth="300" text="%Comment"/>
+                <TableColumn fx:id="difficultyColumn" prefWidth="125" text="%Difficulty"/>
+                <TableColumn fx:id="ratingColumn" prefWidth="100" text="%Rating"/>
+            </columns>
+        </TableView>
+    </ScrollPane>
 </VBox>
