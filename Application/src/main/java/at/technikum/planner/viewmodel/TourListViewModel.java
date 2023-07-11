@@ -21,9 +21,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Data
 public class TourListViewModel {
+    Logger LOGGER = Logger.getLogger(TourListViewModel.class.getName());
 
     public interface SelectionChangedListener {
         void tourChanged(Tour tour);
@@ -63,8 +65,9 @@ public class TourListViewModel {
                         tourLogsDaoRepository.updateAllById(tour.getId(), tourLog.getDate(), tourLog.getDuration(), tourLog.getComment(), tourLog.getDifficulty(), tourLog.getRating(), tourLog.getLogId());
                     }
                 }
-            } catch (Exception e) {
                 tourNames.add(tour.getName());
+            } catch (Exception e) {
+                LOGGER.warning(e.getMessage());
             }
         });
         observableTours.clear();

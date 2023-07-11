@@ -3,16 +3,18 @@ package at.technikum.planner.view;
 import at.technikum.bl.RouteServiceImpl;
 import at.technikum.dal.repository.TourDaoRepository;
 import at.technikum.dal.repository.TourLogsDaoRepository;
-import at.technikum.planner.view.dialog.TourLogsDialogController;
 import at.technikum.planner.view.dialog.TourListDialogController;
+import at.technikum.planner.view.dialog.TourLogsDialogController;
 import at.technikum.planner.viewmodel.*;
 import at.technikum.planner.viewmodel.dialog.TourListDialogViewModel;
 import at.technikum.planner.viewmodel.dialog.TourLogsDialogViewModel;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
 public class ControllerFactory {
+    Logger LOGGER = Logger.getLogger(ControllerFactory.class.getName());
     private final ResourceBundle bundle;
     private final MainWindowViewModel mainWindowViewModel;
     private final RouteMapViewModel routeMapViewModel;
@@ -55,6 +57,7 @@ public class ControllerFactory {
         } else if (controllerClass == TourLogsDialogController.class) {
             return new TourLogsDialogController(tourLogsDialogViewModel);
         } else {
+            LOGGER.warning("Unknown controller class: " + controllerClass);
             throw new IllegalArgumentException("Unknown controller class: " + controllerClass);
         }
     }

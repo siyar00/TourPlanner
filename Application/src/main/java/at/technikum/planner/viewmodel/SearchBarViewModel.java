@@ -10,8 +10,10 @@ import javafx.scene.control.TextField;
 
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
 public class SearchBarViewModel {
+    Logger LOGGER = Logger.getLogger(SearchBarViewModel.class.getName());
     private final TourListViewModel viewModel;
     private final TourLogsDaoRepository logsDaoRepository;
     private final TourDaoRepository tourRepository;

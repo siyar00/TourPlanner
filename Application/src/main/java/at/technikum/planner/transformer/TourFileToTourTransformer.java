@@ -9,7 +9,7 @@ import java.util.function.Function;
 
 public class TourFileToTourTransformer implements Function<TourFile, Tour> {
     @Override
-    public Tour apply(TourFile tourFile){
+    public Tour apply(TourFile tourFile) {
         return Tour.builder()
                 .id(tourFile.getId())
                 .tourDescription(tourFile.getTourDescription())

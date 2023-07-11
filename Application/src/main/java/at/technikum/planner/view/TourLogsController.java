@@ -11,6 +11,7 @@ import javafx.stage.Window;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
 
 public class TourLogsController {
@@ -31,6 +32,7 @@ public class TourLogsController {
     private TableColumn<TourLog, Double> ratingColumn;
     final ResourceBundle bundle;
     final TourLogsViewModel viewModel;
+    Logger LOGGER = Logger.getLogger(TourLogsController.class.getName());
 
     public TourLogsController(TourLogsViewModel tourLogsViewModel, ResourceBundle bundle) {
         this.viewModel = tourLogsViewModel;
@@ -45,6 +47,7 @@ public class TourLogsController {
         difficultyColumn.setCellValueFactory(viewModel.getDifficultyColumnProperty());
         ratingColumn.setCellValueFactory(viewModel.getRatingColumnProperty());
         tourLogsTableView.setItems(viewModel.getObservableTourLogs());
+        LOGGER.info("TourLogsController initialized");
     }
 
     @FXML

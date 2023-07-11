@@ -8,21 +8,22 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown=true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class LocationDto {
     String street;
     String adminArea5; // city
     String postalCode;
     String adminArea1; // countryCode
+    CoordinatesDto latLng;
 
     @Override
     public String toString() {
-        if(postalCode.isEmpty()) {
+        if (postalCode.isEmpty()) {
             return adminArea5 + ", " + adminArea1;
         } else if (street.isEmpty()) {
             return postalCode + " " + adminArea5 + ", " + adminArea1;
         } else {
-            return street + ", " + postalCode + " " + adminArea5  + ", " + adminArea1;
+            return street + ", " + postalCode + " " + adminArea5 + ", " + adminArea1;
         }
     }
 }

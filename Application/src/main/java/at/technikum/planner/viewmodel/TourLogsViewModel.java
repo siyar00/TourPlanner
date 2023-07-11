@@ -13,12 +13,15 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Data
 public class TourLogsViewModel {
     public interface SelectionChangedListener {
         void logChanged(TourLog log);
     }
+
+    Logger LOGGER = Logger.getLogger(TourLogsViewModel.class.getName());
 
     private final List<SelectionChangedListener> listeners = new ArrayList<>();
     private final ObservableList<TourLog> observableTourLogs = FXCollections.observableArrayList();
@@ -75,7 +78,7 @@ public class TourLogsViewModel {
             viewModel.addLog(tour, tourLog);
             observableTourLogs.add(tourLog);
         });
-        task.setOnFailed(event -> System.out.println("Add TourLogBl failed: " + event.getSource().getException().getMessage()));
+        task.setOnFailed(event -> LOGGER.warning("Insert TourLog failed: " + event.getSource().getException().getMessage()));
         new Thread(task).start();
     }
 
@@ -91,7 +94,7 @@ public class TourLogsViewModel {
             viewModel.updateLog(tour, newLog, oldLog);
             observableTourLogs.set(observableTourLogs.indexOf(oldLog), newLog);
         });
-        task.setOnFailed(event -> System.out.println("Update TourLogBl failed: " + event.getSource().getException().getMessage()));
+        task.setOnFailed(event -> LOGGER.warning("Update TourLog failed: " + event.getSource().getException().getMessage()));
         new Thread(task).start();
     }
 
@@ -107,7 +110,7 @@ public class TourLogsViewModel {
             viewModel.removeLog(tour, tourLog);
             observableTourLogs.remove(tourLog);
         });
-        task.setOnFailed(event -> System.out.println("Delete TourLogBl failed: " + event.getSource().getException().getMessage()));
+        task.setOnFailed(event -> LOGGER.warning("Delete TourLog failed: " + event.getSource().getException().getMessage()));
         new Thread(task).start();
     }
 }

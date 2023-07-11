@@ -13,8 +13,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 public class RouteServiceImpl implements RouteService {
+    static Logger LOGGER = Logger.getLogger(RouteServiceImpl.class.getName());
 
     private final MapAPI api;
 
@@ -31,6 +33,7 @@ public class RouteServiceImpl implements RouteService {
             assert Objects.requireNonNull(response.body()).getRoute() != null;
             return response.body().getRoute();
         } catch (IOException e) {
+            LOGGER.severe(e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -45,6 +48,7 @@ public class RouteServiceImpl implements RouteService {
                 response = api.getMap(sessionId, boundingBox.toString(), "v2wMZ8xEjaxfK77wG7lijMRNCEH47yxz").execute();
             return storeResponseInFile(response);
         } catch (IOException e) {
+            LOGGER.severe(e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -59,6 +63,7 @@ public class RouteServiceImpl implements RouteService {
             fos.close();
             return uuid;
         } catch (IOException e) {
+            LOGGER.severe(e.getMessage());
             throw new RuntimeException(e);
         }
     }

@@ -15,28 +15,31 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
 @Setter
 @Getter
 @NoArgsConstructor
 public class TourListDialogController {
     @FXML
-    ComboBox<String> transportComboBox;
+    private ComboBox<String> transportComboBox;
     @FXML
-    TextArea tourDescription;
+    private TextArea tourDescription;
     @FXML
-    TextField tourName;
+    private TextField tourName;
     @FXML
-    TextField tourStartAddress;
+    private TextField tourStartAddress;
     @FXML
-    TextField tourEndAddress;
+    private TextField tourEndAddress;
     @FXML
-    Button okayButton;
+    private Button okayButton;
     @FXML
-    Button exitButton;
-    Tour tour;
-    ResourceBundle bundle;
-    TourListDialogViewModel viewModel;
+    private Button exitButton;
+    private Tour tour;
+    private ResourceBundle bundle;
+    private TourListDialogViewModel viewModel;
+    Logger LOGGER = Logger.getLogger(TourListDialogController.class.getName());
+
 
     public TourListDialogController(TourListDialogViewModel tourListDialogViewModel) {
         this.viewModel = tourListDialogViewModel;
@@ -48,6 +51,7 @@ public class TourListDialogController {
         transportComboBox.getItems().addAll(bundle.getString("RouteType_CarFastest"),
                 bundle.getString("RouteType_CarShortest"), bundle.getString("RouteType_Pedestrian"),
                 bundle.getString("RouteType_Bicycle"));
+        LOGGER.info("TourListDialogController initialized");
     }
 
     @FXML
@@ -56,6 +60,7 @@ public class TourListDialogController {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
+                LOGGER.severe(e.getMessage());
                 throw new RuntimeException(e);
             }
             if (keyEvent.getTarget().equals(tourDescription) && keyEvent.getCode().equals(KeyCode.ENTER)) return;
@@ -85,12 +90,16 @@ public class TourListDialogController {
     void onOkayButton() {
         if (tourName.getText().trim().isEmpty()) {
             alert(bundle.getString("TourModal_NameError"));
+            LOGGER.info("There is not tour name entered");
         } else if (transportComboBox.getValue() == null) {
             alert(bundle.getString("TourModal_TransportError"));
+            LOGGER.info("There is not tour transportation entered");
         } else if (tourStartAddress.getText().trim().isEmpty()) {
             alert(bundle.getString("TourModal_StartAddressError"));
+            LOGGER.info("There is not tour start address entered");
         } else if (tourEndAddress.getText().trim().isEmpty()) {
             alert(bundle.getString("TourModal_EndAddressError"));
+            LOGGER.info("There is not tour end address entered");
         } else {
             this.tour = Tour.builder().name(tourName.getText().trim())
                     .tourDescription(tourDescription.getText().trim())
@@ -135,6 +144,4 @@ public class TourListDialogController {
         tourEndAddress.setText(tour.getEndAddress());
         transportComboBox.getSelectionModel().select(RouteTypeTransformer.getBundleFromRouteType(tour.getTransportation(), bundle));
     }
-
-
 }

@@ -6,6 +6,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import lombok.Data;
 
+import java.util.logging.Logger;
+
 @Data
 public class SearchBarController {
 
@@ -14,6 +16,7 @@ public class SearchBarController {
     @FXML
     private TextField searchTextField;
     private final SearchBarViewModel searchBarViewModel;
+    Logger LOGGER = Logger.getLogger(SearchBarController.class.getName());
 
     public SearchBarController(SearchBarViewModel searchBarViewModel) {
         this.searchBarViewModel = searchBarViewModel;

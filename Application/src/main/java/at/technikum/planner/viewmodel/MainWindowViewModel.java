@@ -4,21 +4,24 @@ import at.technikum.planner.model.Tour;
 import at.technikum.planner.model.TourFile;
 import at.technikum.planner.transformer.TourFileToTourTransformer;
 import at.technikum.planner.transformer.TourToTourFileTransformer;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class MainWindowViewModel {
+    Logger LOGGER = Logger.getLogger(MainWindowViewModel.class.getName());
     private final TourListViewModel tourListViewModel;
     private final SearchBarViewModel searchBarViewModel;
     private final TourLogsViewModel tourLogsViewModel;
@@ -45,7 +48,8 @@ public class MainWindowViewModel {
             var tours = objectMapper.readValue(file, TourFile[].class);
             return tourListViewModel.setTours(Arrays.stream(tours).map(tourFile -> new TourFileToTourTransformer().apply(tourFile)).collect(Collectors.toList()));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            LOGGER.severe(e.getMessage());
+            return new ArrayList<>();
         }
     }
 
@@ -55,10 +59,8 @@ public class MainWindowViewModel {
             var jsonFile = objectMapper.writeValueAsBytes(tourListViewModel.getObservableTours().stream().map(tour -> new TourToTourFileTransformer().apply(tour)).toList());
             Path path = Paths.get(directory.getAbsolutePath() + File.separator + "tour_"+ LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy!!HH+mm+ss_")) + UUID.randomUUID() + ".json");
             Files.write(path, jsonFile);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            LOGGER.severe(e.getMessage());
         }
     }
 }

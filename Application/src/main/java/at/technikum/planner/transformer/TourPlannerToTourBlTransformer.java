@@ -17,7 +17,7 @@ public class TourPlannerToTourBlTransformer implements Function<Tour, TourBl> {
                 .difficulty(tourLog.getDifficulty())
                 .rating(tourLog.getRating())
                 .build()).toList();
-    return TourBl.builder()
+        return TourBl.builder()
                 .name(tour.getName())
                 .tourDescription(tour.getTourDescription())
                 .startAddress(tour.getStartAddress())

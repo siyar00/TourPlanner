@@ -12,6 +12,7 @@ import lombok.Getter;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
 @Getter
 public class TourListController {
@@ -21,6 +22,7 @@ public class TourListController {
     private ListView<Tour> tourNameListView = new ListView<>();
     final ResourceBundle bundle;
     final TourListViewModel viewModel;
+    Logger LOGGER = Logger.getLogger(TourListController.class.getName());
 
     public TourListController(TourListViewModel tourListViewModell, ResourceBundle bundle) {
         this.viewModel = tourListViewModell;
@@ -32,6 +34,7 @@ public class TourListController {
         tourNameListView.setItems(viewModel.getObservableToursFromDatabase());
         tourNameListView.getSelectionModel().selectedItemProperty().addListener(viewModel.getChangeListener());
         updateListView();
+        LOGGER.info("TourListController initialized");
     }
 
     public void onButtonAdd() throws IOException {
@@ -49,6 +52,7 @@ public class TourListController {
                 alert.setHeaderText(null);
                 alert.setContentText(bundle.getString("TourList_ExistingText"));
                 alert.showAndWait();
+                LOGGER.info("Tour already exists");
                 return;
             }
             viewModel.addNewTour(tour);

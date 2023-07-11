@@ -5,7 +5,7 @@ import at.technikum.planner.model.Tour;
 
 import java.util.function.Function;
 
-public class TourToTourDaoTransformer implements Function<Tour, TourDao>{
+public class TourToTourDaoTransformer implements Function<Tour, TourDao> {
     @Override
     public TourDao apply(Tour tour) {
         return TourDao.builder()
