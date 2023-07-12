@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.test.context.event.annotation.AfterTestClass;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
@@ -90,5 +91,11 @@ public class AddTest {
         TourDaoRepository tourDaoRepository = context.getBean(TourDaoRepository.class);
         tourDaoRepository.deleteByName(testName.toString());
         FileUtils.deleteRecursive(System.getProperty("user.dir").concat("/downloads"), true);
+    }
+
+    @AfterTestClass
+    public void tearDown() {
+        FileUtils.deleteRecursive(System.getProperty("user.dir").concat("/downloads"), true);
+        context.close();
     }
 }

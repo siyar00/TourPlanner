@@ -2,19 +2,15 @@ package at.technikum.planner.functionality;
 
 import at.technikum.bl.RouteService;
 import at.technikum.bl.RouteServiceImpl;
-import at.technikum.dal.dto.BoundingBoxDto;
-import at.technikum.dal.dto.CoordinatesDto;
 import at.technikum.dal.dto.RouteDto;
 import at.technikum.dal.dto.RouteResponse;
 import at.technikum.dal.repository.MapAPI;
-import okhttp3.ResponseBody;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import retrofit2.Call;
 import retrofit2.Response;
 
 import java.io.IOException;
-import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;

@@ -2,25 +2,17 @@ package at.technikum.planner.functionality;
 
 import at.technikum.bl.WeatherServiceImpl;
 import at.technikum.dal.dto.CoordinatesDto;
-import at.technikum.dal.dto.GeoCodingResponse;
 import at.technikum.dal.dto.WeatherResponse;
 import at.technikum.dal.repository.WeatherAPI;
-import okhttp3.MediaType;
-import okhttp3.ResponseBody;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import retrofit2.Call;
-import retrofit2.Response;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 public class WeatherServiceImplTest {

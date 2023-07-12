@@ -81,6 +81,8 @@ public class TourListViewModel {
                 for (TourLog tourLog : tour.getTourLog()) {
                     if (tourLogsDaoRepository.findByTourId(tour.getId()).isEmpty()) {
                         tourLog.setLogId(tourLogsDaoRepository.insertTourLog(tour.getId(), tourLog.getDate(), tourLog.getDuration(), tourLog.getComment(), tourLog.getDifficulty(), tourLog.getRating()).orElse(0L));
+                    } else if (tourLogsDaoRepository.findByLogsId(tourLog.getLogId(), tour.getId()).isEmpty()) {
+                        tourLog.setLogId(tourLogsDaoRepository.insertTourLog(tour.getId(), tourLog.getDate(), tourLog.getDuration(), tourLog.getComment(), tourLog.getDifficulty(), tourLog.getRating()).orElse(0L));
                     } else {
                         tourLogsDaoRepository.updateAllById(tour.getId(), tourLog.getDate(), tourLog.getDuration(), tourLog.getComment(), tourLog.getDifficulty(), tourLog.getRating(), tourLog.getLogId());
                     }

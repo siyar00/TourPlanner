@@ -10,8 +10,8 @@ import org.mockito.MockitoAnnotations;
 import retrofit2.Call;
 import retrofit2.Response;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 public class MapAPITest {

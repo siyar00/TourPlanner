@@ -67,6 +67,7 @@ public class MainWindowViewModel {
             var jsonFile = objectMapper.writeValueAsBytes(tourListViewModel.getObservableTours().stream().map(tour -> new TourToTourFileTransformer().apply(tour)).toList());
             Path path = Paths.get(directory.getAbsolutePath() + File.separator + "tour_"+ LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy!!HH+mm+ss_")) + UUID.randomUUID() + ".json");
             Files.write(path, jsonFile);
+            LOGGER.info("Exported successfully tour to " + path);
         } catch (IOException e) {
             LOGGER.severe(e.getMessage());
         }

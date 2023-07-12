@@ -1,4 +1,5 @@
 package at.technikum.planner.functionality;
+
 import at.technikum.planner.view.*;
 import at.technikum.planner.view.dialog.TourListDialogController;
 import at.technikum.planner.view.dialog.TourLogsDialogController;
@@ -11,7 +12,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 import java.util.ResourceBundle;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 class ControllerFactoryTest {
     @Mock

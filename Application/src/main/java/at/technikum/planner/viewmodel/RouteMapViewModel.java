@@ -113,6 +113,10 @@ public class RouteMapViewModel {
         distance.setValue(tour.getDistance().contains("km") ? tour.getDistance() : tour.getDistance() + " km");
         transportation.setValue(RouteTypeTransformer.getBundleFromRouteType(tour.getTransportation(), bundle));
         mapImageProperty.setValue(tour.getMap());
+        if(tour.getChildFriendly() == null) tour.setChildFriendly("");
+        childFriendly.set(tour.getChildFriendly().equals("") ? "" : tour.getChildFriendly());
+        if(tour.getPopularity() == null) tour.setPopularity("");
+        popularity.set(tour.getPopularity().equals("") ? "" : tour.getPopularity());
         LOGGER.fine("Tour set to " + tour.getName());
         isInitValue = false;
     }
@@ -177,7 +181,6 @@ public class RouteMapViewModel {
             childFriendly.set(bundle.getString("NotChildFriendly"));
         }
         tourDaoRepository.updateChildFriendlyById(childFriendly.get(), tour.getId());
-        LOGGER.info("ChildFriendliness: " + childFriendliness);
     }
 
     private void findPopularity(List<TourLog> tourLog, List<Tour> allTours) {

@@ -24,9 +24,12 @@ public interface TourLogsDaoRepository extends JpaRepository<TourLogsDao, Long> 
     void updateAllById(Long tour_id, String date, String duration, String comment, Integer difficulty, Float rating, Long logId);
 
     @Transactional
+    @Query(nativeQuery = true, value = "SELECT * FROM logs WHERE log_id = :log_id AND tour_id = :tour_id")
+    List<TourLogsDao> findByLogsId(@Param("log_id") Long log_id, @Param("tour_id") Long tour_id);
+
+    @Transactional
     @Query(nativeQuery = true, value = "SELECT * FROM logs WHERE tour_id = :tour_id")
     List<TourLogsDao> findByTourId(@Param("tour_id") Long tour_id);
-
 
     @SuppressWarnings("all")
     @Transactional

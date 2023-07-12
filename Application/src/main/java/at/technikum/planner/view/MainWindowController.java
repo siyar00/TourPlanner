@@ -82,6 +82,7 @@ public class MainWindowController {
         var file = fileChooser.showOpenDialog(scene.getScene().getWindow());
         if (file != null) {
             alert(mainWindowViewModel.importTour(file));
+            LOGGER.info("Imported file successfully");
         }
     }
 
@@ -114,6 +115,7 @@ public class MainWindowController {
         }
     }
 
+    @SuppressWarnings("unused")
     @FXML
     void onDragged(MouseEvent mouseEvent) {
 //        Stage stage = (Stage) scene.getScene().getWindow();
@@ -121,6 +123,7 @@ public class MainWindowController {
 //        stage.setY(mouseEvent.getScreenY() - y);
     }
 
+    @SuppressWarnings("unused")
     @FXML
     void onMousePressed(MouseEvent mouseEvent) {
 //        x = mouseEvent.getSceneX();
@@ -146,6 +149,7 @@ public class MainWindowController {
         alert.setHeaderText(null);
         if (success) {
             alert.setContentText("Report wurde erfolgreich erstellt.");
+            LOGGER.info("Report created successfully");
         } else {
             LOGGER.warning("Could not create report");
             alert.setContentText("Report konnte nicht erstellt werden.");

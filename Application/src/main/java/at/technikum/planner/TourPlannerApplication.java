@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import jfxtras.styles.jmetro.JMetro;
 import jfxtras.styles.jmetro.Style;
+import org.h2.store.fs.FileUtils;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -47,6 +48,10 @@ public class TourPlannerApplication extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        FileUtils.createDirectories(System.getProperty("user.dir").concat("/downloads"));
+        FileUtils.createDirectories(System.getProperty("user.dir").concat("/logs"));
+        FileUtils.createDirectories(System.getProperty("user.dir").concat("/PDF"));
+
         Parent root = FXMLDependencyInjection.load("MainWindow.fxml", Locale.forLanguageTag(System.getProperties().getProperty("user.language")), applicationContext);
         Scene scene = new Scene(root);
         JMetro jMetro = new JMetro(Style.DARK);

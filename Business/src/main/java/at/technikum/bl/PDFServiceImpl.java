@@ -89,7 +89,7 @@ public class PDFServiceImpl implements PDFService {
             long avgTime = (long) timeList.stream().mapToLong(LocalTime::toSecondOfDay).average().orElse(0.0);
 
             table.addCell(LocalTime.ofSecondOfDay(avgTime).toString());
-            table.addCell(Float.toString((float) tourBl.getTourLogBl().stream().mapToDouble(TourLogBl::getDifficulty).average().orElse(0.0)));
+            table.addCell(String.format("%.2f", (float) tourBl.getTourLogBl().stream().mapToDouble(TourLogBl::getDifficulty).average().orElse(0.0)));
             table.addCell(String.format("%.2f", (float) tourBl.getTourLogBl().stream().mapToDouble(TourLogBl::getRating).average().orElse(0.0)));
         }
         return table;

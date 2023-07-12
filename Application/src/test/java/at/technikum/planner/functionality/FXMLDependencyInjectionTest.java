@@ -11,12 +11,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
 
 class FXMLDependencyInjectionTest {
     @Mock
@@ -65,6 +64,7 @@ class FXMLDependencyInjectionTest {
     }
 
     // Helper class for testing
+    @SuppressWarnings("unused")
     private static class ParentStub extends Parent {
     }
 }
