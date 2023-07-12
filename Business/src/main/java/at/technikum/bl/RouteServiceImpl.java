@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 public class RouteServiceImpl implements RouteService {
     static Logger LOGGER = Logger.getLogger(RouteServiceImpl.class.getName());
 
-    private final MapAPI api;
+    public MapAPI api;
 
     public RouteServiceImpl() {
         this.api = new Retrofit.Builder().baseUrl("https://www.mapquestapi.com/")

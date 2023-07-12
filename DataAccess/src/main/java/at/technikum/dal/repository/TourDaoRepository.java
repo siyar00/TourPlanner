@@ -10,6 +10,14 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TourDaoRepository extends JpaRepository<TourDao, Long> {
+    @Transactional
+    @Modifying
+    @Query("update TourDao t set t.childFriendly = ?1 where t.id = ?2")
+    void updateChildFriendlyById(String childFriendly, Long id);
+    @Transactional
+    @Modifying
+    @Query("update TourDao t set t.popularity = ?1 where t.id = ?2")
+    void updatePopularityById(String popularity, Long id);
 
     @Transactional
     @Modifying
