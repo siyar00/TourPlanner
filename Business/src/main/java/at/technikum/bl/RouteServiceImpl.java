@@ -58,7 +58,7 @@ public class RouteServiceImpl implements RouteService {
             @SuppressWarnings("ConstantConditions")
             byte[] bytes = body.bytes();
             String uuid = UUID.randomUUID().toString();
-            FileOutputStream fos = new FileOutputStream("downloads/" + uuid + ".png");
+            FileOutputStream fos = new FileOutputStream(System.getProperty("user.dir") + "/downloads/" + uuid + ".png");
             fos.write(bytes);
             fos.close();
             return uuid;

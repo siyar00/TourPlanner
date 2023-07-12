@@ -101,7 +101,7 @@ public class TourListViewModel {
             protected Void call() {
                 try {
                     RouteDto route = routeService.getRoute(tour.getStartAddress(), tour.getEndAddress(), tour.getTransportation().getType());
-                    String path = "downloads/" + routeService.getImage(route.getSessionId(), route.getBoundingBox()) + ".png";
+                    String path = System.getProperty("user.dir") + "/downloads/" + routeService.getImage(route.getSessionId(), route.getBoundingBox()) + ".png";
                     tour.setId(tourDaoRepository.saveAndFlush(getTourDaoAndSetTour(tour, tour, route, path)).getId());
                     LOGGER.fine("Saved tour with id: " + tour.getId());
                 } catch (IOException e) {
@@ -139,7 +139,7 @@ public class TourListViewModel {
                     try {
                         System.out.println("Updating tour");
                         RouteDto route = routeService.getRoute(tour.getStartAddress(), tour.getEndAddress(), tour.getTransportation().getType());
-                        String path = "downloads/" + routeService.getImage(route.getSessionId(), route.getBoundingBox()) + ".png";
+                        String path = System.getProperty("user.dir") + "/downloads/" + routeService.getImage(route.getSessionId(), route.getBoundingBox()) + ".png";
                         TourDao tourDao = getTourDaoAndSetTour(tour, oldTour, route, path);
                         tourDaoRepository.updateTourDaoById(tourDao.getName(), tourDao.getStart(), tourDao.getDestination(), tourDao.getDistance(), tourDao.getTime(), tourDao.getHasTollRoad(), tourDao.getHasHighway(), tourDao.getTransportation(), tourDao.getImage(), tourDao.getDescription(), tourDao.getStartLat(), tourDao.getStartLng(), tourDao.getEndLat(), tourDao.getEndLng(), oldTour.getId());
                         LOGGER.fine("Updated tour with id: " + tour.getId());

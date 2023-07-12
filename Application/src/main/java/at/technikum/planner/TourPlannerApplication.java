@@ -42,6 +42,7 @@ public class TourPlannerApplication extends Application {
     public void stop() throws Exception {
         super.stop();
         applicationContext.stop();
+        LOGGER.info("Application stopped");
     }
 
     @Override
@@ -56,6 +57,6 @@ public class TourPlannerApplication extends Application {
         stage.setScene(scene);
         //stage.initStyle(StageStyle.TRANSPARENT);
         stage.show();
-        LOGGER.info("Application ended");
+        LOGGER.info("Application started");
     }
 }
