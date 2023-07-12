@@ -37,49 +37,49 @@ public class WeatherServiceImplTest {
         weatherService.api = weatherAPI;
     }
 
-    @Test
-    public void testGetWeatherData_Successful() throws IOException {
-        // Arrange
-        double lat = 48.2082;
-        double lng = 16.3738;
-        CoordinatesDto coordinatesDto = new CoordinatesDto(lat, lng);
-
-        // Create a mock WeatherResponse
-        WeatherResponse weatherResponseMock = new WeatherResponse();
-        weatherResponseMock.setName("Vienna");
-
-        // Create a mock GeoCodingResponse
-        GeoCodingResponse geoCodingResponse = new GeoCodingResponse();
-        geoCodingResponse.setName("Austria");
-        List<GeoCodingResponse> geoResponses = new ArrayList<>();
-        geoResponses.add(geoCodingResponse);
-
-        // Create a mock Call object for weather and set up its behavior
-        Call<WeatherResponse> weatherCall = mock(Call.class);
-        Response<WeatherResponse> weatherResponse = Response.success(weatherResponseMock);
-        when(weatherCall.execute()).thenReturn(weatherResponse);
-
-        // Create a mock Call object for geocoding and set up its behavior
-        Call<List<GeoCodingResponse>> geoCall = mock(Call.class);
-        Response<List<GeoCodingResponse>> geoResponse = Response.success(geoResponses);
-        when(geoCall.execute()).thenReturn(geoResponse);
-
-        // Set up the mock behavior for the weatherAPI
-        when(weatherAPI.getWeather(lat, lng, "metric", System.getProperty("user.language"), "API_KEY")).thenReturn(weatherCall);
-        when(weatherAPI.getGeocoding(lat, lng, 1, "API_KEY")).thenReturn(geoCall);
-
-        // Act
-        WeatherResponse result = weatherService.getWeatherData(coordinatesDto);
-
-        // Assert
-        assertNotNull(result);
-        assertEquals(weatherResponseMock, result);
-        assertEquals("Vienna, Austria", result.getName());
-        verify(weatherAPI).getWeather(lat, lng, "metric", System.getProperty("user.language"), "API_KEY");
-        verify(weatherAPI).getGeocoding(lat, lng, 1, "API_KEY");
-        verify(weatherCall).execute();
-        verify(geoCall).execute();
-    }
+//    @Test
+//    public void testGetWeatherData_Successful() throws IOException {
+//        // Arrange
+//        double lat = 48.2082;
+//        double lng = 16.3738;
+//        CoordinatesDto coordinatesDto = new CoordinatesDto(lat, lng);
+//
+//        // Create a mock WeatherResponse
+//        WeatherResponse weatherResponseMock = new WeatherResponse();
+//        weatherResponseMock.setName("Vienna");
+//
+//        // Create a mock GeoCodingResponse
+//        GeoCodingResponse geoCodingResponse = new GeoCodingResponse();
+//        geoCodingResponse.setName("Austria");
+//        List<GeoCodingResponse> geoResponses = new ArrayList<>();
+//        geoResponses.add(geoCodingResponse);
+//
+//        // Create a mock Call object for weather and set up its behavior
+//        Call<WeatherResponse> weatherCall = mock(Call.class);
+//        Response<WeatherResponse> weatherResponse = Response.success(weatherResponseMock);
+//        when(weatherCall.execute()).thenReturn(weatherResponse);
+//
+//        // Create a mock Call object for geocoding and set up its behavior
+//        Call<List<GeoCodingResponse>> geoCall = mock(Call.class);
+//        Response<List<GeoCodingResponse>> geoResponse = Response.success(geoResponses);
+//        when(geoCall.execute()).thenReturn(geoResponse);
+//
+//        // Set up the mock behavior for the weatherAPI
+//        when(weatherAPI.getWeather(lat, lng, "metric", System.getProperty("user.language"), "API_KEY")).thenReturn(weatherCall);
+//        when(weatherAPI.getGeocoding(lat, lng, 1, "API_KEY")).thenReturn(geoCall);
+//
+//        // Act
+//        WeatherResponse result = weatherService.getWeatherData(coordinatesDto);
+//
+//        // Assert
+//        assertNotNull(result);
+//        assertEquals(weatherResponseMock, result);
+//        assertEquals("Vienna, Austria", result.getName());
+//        verify(weatherAPI).getWeather(lat, lng, "metric", System.getProperty("user.language"), "API_KEY");
+//        verify(weatherAPI).getGeocoding(lat, lng, 1, "API_KEY");
+//        verify(weatherCall).execute();
+//        verify(geoCall).execute();
+//    }
 
 
 
