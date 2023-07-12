@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 public class WeatherServiceImpl implements WeatherService {
     Logger LOGGER = Logger.getLogger(WeatherServiceImpl.class.getName());
 
-    private final WeatherAPI api;
+    public WeatherAPI api;
 
     public WeatherServiceImpl() {
         this.api = new Retrofit.Builder().baseUrl("https://api.openweathermap.org/")

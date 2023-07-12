@@ -28,7 +28,7 @@ public class TourPlannerApplication extends Application {
     }
 
     Logger LOGGER = Logger.getLogger(TourPlannerApplication.class.getName());
-    private ConfigurableApplicationContext applicationContext;
+    ConfigurableApplicationContext applicationContext;
 
     @Override
     public void init() {
