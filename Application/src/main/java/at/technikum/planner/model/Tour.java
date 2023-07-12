@@ -28,6 +28,8 @@ public class Tour implements Serializable {
     private double startLng;
     private double endLat;
     private double endLng;
+    private String popularity;
+    private String childFriendly;
 
     @Override
     public boolean equals(Object obj) {

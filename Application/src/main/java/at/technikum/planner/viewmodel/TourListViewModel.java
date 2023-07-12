@@ -21,6 +21,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Data
@@ -52,6 +53,25 @@ public class TourListViewModel {
         return observableTours;
     }
 
+    public ChangeListener<Tour> getChangeListener() {
+        return (observableValue, oldValue, newValue) -> notifyListeners(newValue);
+    }
+
+    private void notifyListeners(Tour newValue) {
+        for (var listener : listeners) {
+            listener.tourChanged(newValue);
+        }
+    }
+
+    public void addSelectionChangedListener(SelectionChangedListener listener) {
+        listeners.add(listener);
+    }
+
+    @SuppressWarnings("unused")
+    public void removeSelectionChangedListener(SelectionChangedListener listener) {
+        listeners.remove(listener);
+    }
+
     public List<String> setTours(List<Tour> tours) {
         List<String> tourNames = new ArrayList<>();
         tours.forEach(tour -> {
@@ -75,25 +95,6 @@ public class TourListViewModel {
         return tourNames;
     }
 
-    public ChangeListener<Tour> getChangeListener() {
-        return (observableValue, oldValue, newValue) -> notifyListeners(newValue);
-    }
-
-    private void notifyListeners(Tour newValue) {
-        for (var listener : listeners) {
-            listener.tourChanged(newValue);
-        }
-    }
-
-    public void addSelectionChangedListener(SelectionChangedListener listener) {
-        listeners.add(listener);
-    }
-
-    @SuppressWarnings("unused")
-    public void removeSelectionChangedListener(SelectionChangedListener listener) {
-        listeners.remove(listener);
-    }
-
     public void addNewTour(Tour tour) {
         Task<Void> task = new Task<>() {
             @Override
@@ -102,6 +103,7 @@ public class TourListViewModel {
                     RouteDto route = routeService.getRoute(tour.getStartAddress(), tour.getEndAddress(), tour.getTransportation().getType());
                     String path = "downloads/" + routeService.getImage(route.getSessionId(), route.getBoundingBox()) + ".png";
                     tour.setId(tourDaoRepository.saveAndFlush(getTourDaoAndSetTour(tour, tour, route, path)).getId());
+                    LOGGER.fine("Saved tour with id: " + tour.getId());
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -109,7 +111,7 @@ public class TourListViewModel {
             }
         };
         task.setOnSucceeded(event -> observableTours.add(tour));
-        task.setOnFailed(event -> System.out.println("Failed" + event.getSource().getException()));
+        task.setOnFailed(event -> LOGGER.log(Level.WARNING, "Failed: " + event.getSource().getException()));
         new Thread(task).start();
     }
 
@@ -140,6 +142,7 @@ public class TourListViewModel {
                         String path = "downloads/" + routeService.getImage(route.getSessionId(), route.getBoundingBox()) + ".png";
                         TourDao tourDao = getTourDaoAndSetTour(tour, oldTour, route, path);
                         tourDaoRepository.updateTourDaoById(tourDao.getName(), tourDao.getStart(), tourDao.getDestination(), tourDao.getDistance(), tourDao.getTime(), tourDao.getHasTollRoad(), tourDao.getHasHighway(), tourDao.getTransportation(), tourDao.getImage(), tourDao.getDescription(), tourDao.getStartLat(), tourDao.getStartLng(), tourDao.getEndLat(), tourDao.getEndLng(), oldTour.getId());
+                        LOGGER.fine("Updated tour with id: " + tour.getId());
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -147,7 +150,7 @@ public class TourListViewModel {
                 }
             };
             task.setOnSucceeded(event -> observableTours.set(observableTours.indexOf(oldTour), tour));
-            task.setOnFailed(event -> System.out.println("Failed" + event.getSource().getException()));
+            task.setOnFailed(event -> LOGGER.warning("Failed: " + event.getSource().getException()));
             new Thread(task).start();
         }
     }
@@ -157,11 +160,12 @@ public class TourListViewModel {
             @Override
             protected Void call() {
                 tourDaoRepository.deleteById(tour.getId());
+                LOGGER.fine("Deleted tour with id: " + tour.getId());
                 return null;
             }
         };
         task.setOnSucceeded(event -> observableTours.remove(tour));
-        task.setOnFailed(event -> System.out.println("Failed" + event.getSource().getException()));
+        task.setOnFailed(event -> LOGGER.warning("Failed: " + event.getSource().getException()));
         new Thread(task).start();
     }
 

@@ -14,6 +14,10 @@ import java.util.logging.Logger;
 public class RouteMapController {
 
     @FXML
+    private Label childFriendlyLabel;
+    @FXML
+    private Label popularityLabel;
+    @FXML
     private Label tourDescriptionLabel;
     @FXML
     private Label startingAddressLabel;
@@ -30,7 +34,7 @@ public class RouteMapController {
     @FXML
     private Label transportationLabel;
     @FXML
-    private  Text transportation;
+    private Text transportation;
     @FXML
     private Text toll;
     @FXML
@@ -45,6 +49,10 @@ public class RouteMapController {
     private Text startingAddress;
     @FXML
     private Text tourDescription;
+    @FXML
+    private Text popularity;
+    @FXML
+    private Text childFriendly;
     @FXML
     private ImageView mapImage;
     @FXML
@@ -71,6 +79,9 @@ public class RouteMapController {
         transportation.textProperty().bindBidirectional(viewModel.getTransportation());
         mapImage.imageProperty().bindBidirectional(viewModel.mapImageProperty());
         tourDescription.textProperty().bindBidirectional(viewModel.getTourDescription());
+        popularity.textProperty().bindBidirectional(viewModel.getPopularity());
+        childFriendly.textProperty().bindBidirectional(viewModel.getChildFriendly());
+
         tourDescriptionLabel.visibleProperty().bindBidirectional(viewModel.getTourDescriptionLabel());
         startingAddressLabel.visibleProperty().bindBidirectional(viewModel.getStartingAddressLabel());
         destinationAddressLabel.visibleProperty().bindBidirectional(viewModel.getDestinationAddressLabel());
@@ -79,10 +90,12 @@ public class RouteMapController {
         highwayLabel.visibleProperty().bindBidirectional(viewModel.getHighwayLabel());
         tollLabel.visibleProperty().bindBidirectional(viewModel.getTollLabel());
         transportationLabel.visibleProperty().bindBidirectional(viewModel.getTransportationLabel());
+        popularityLabel.visibleProperty().bindBidirectional(viewModel.getPopularityLabel());
+        childFriendlyLabel.visibleProperty().bindBidirectional(viewModel.getChildFriendlyLabel());
 
         ChangeListener<Number> sizeChangeListener = (observable, oldValue, newValue) -> {
-            mapImage.setFitWidth(borderPane.getScene().getWidth()-200);
-            mapImage.setFitHeight(borderPane.getScene().getHeight()-150);
+            mapImage.setFitWidth(borderPane.getScene().getWidth() - 200);
+            mapImage.setFitHeight(borderPane.getScene().getHeight() - 150);
         };
         borderPane.sceneProperty().addListener((obs, oldScene, newScene) -> {
             if (newScene != null) {

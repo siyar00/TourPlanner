@@ -12,15 +12,11 @@
             <MenuItem onAction="#onGenerateSummarizeReport" text="%Menu_PDF_SummaryReport"/>
             <MenuItem onAction="#onMenuFileQuitClicked" text="%Menu_File_Quit"/>
         </Menu>
-        <Menu text="%Menu_Edit">
-            <MenuItem text="%Menu_Edit_Duplicate"/>
-        </Menu>
-        <Menu text="%Menu_Options">
+        <Menu text="%Menu_Options_Settings">
             <Menu text="Themen">
                 <MenuItem onAction="#changeTheme" mnemonicParsing="false" text="Dark-Theme"/>
                 <MenuItem onAction="#changeTheme" mnemonicParsing="false" text="Light-Theme"/>
             </Menu>
-            <MenuItem mnemonicParsing="false" text="%Menu_Options_Settings"/>
         </Menu>
         <Menu text="%Menu_Help">
             <MenuItem onAction="#onMenuHelpAboutClicked" text="%Menu_Help_About"/>

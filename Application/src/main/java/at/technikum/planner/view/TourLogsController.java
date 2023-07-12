@@ -50,6 +50,7 @@ public class TourLogsController {
         difficultyColumn.setCellValueFactory(viewModel.getDifficultyColumnProperty());
         ratingColumn.setCellValueFactory(viewModel.getRatingColumnProperty());
         tourLogsTableView.setItems(viewModel.getObservableTourLogs());
+        tourLogsTableView.getItems().addListener(viewModel.getChangeListener());
         LOGGER.info("TourLogsController initialized");
     }
 
