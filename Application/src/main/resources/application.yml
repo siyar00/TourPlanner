@@ -22,7 +22,7 @@ log4j:
         file:
         type: File
         name: fileLogger
-        fileName: TourPlanner.log
+        fileName: logs/TourPlanner.log
         append: true
         layout:
             type: PatternLayout
@@ -35,6 +35,6 @@ log4j:
         springframework: DEBUG
 logging:
   file:
-    name: TourPlanner.log
+    name: logs/TourPlanner.log
     path: logs
     level: DEBUG

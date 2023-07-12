@@ -14,7 +14,7 @@
                 <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
             </padding>
         </Button>
-        <Button accessibleText="Delete" onAction="#onButtonRemove" text="-">
+        <Button fx:id="removeButton" accessibleText="Delete" onAction="#onButtonRemove" text="-">
             <padding>
                 <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
             </padding>

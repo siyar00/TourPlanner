@@ -17,6 +17,8 @@ import java.util.logging.Logger;
 @Getter
 public class TourListController {
     @FXML
+    private Button removeButton;
+    @FXML
     private Button addButton;
     @FXML
     private ListView<Tour> tourNameListView = new ListView<>();
@@ -69,11 +71,11 @@ public class TourListController {
             confirmationAlert.setTitle(bundle.getString("TourList_DeleteTitle"));
             confirmationAlert.setHeaderText(null);
             confirmationAlert.setContentText(bundle.getString("TourList_DeleteText"));
-            ButtonType deleteButton = new ButtonType(bundle.getString("Delete"));
+            //ButtonType deleteButton = new ButtonType(ButtonType.OK);
             ButtonType cancelButton = new ButtonType(bundle.getString("Cancel"));
-            confirmationAlert.getButtonTypes().setAll(deleteButton, cancelButton);
+            confirmationAlert.getButtonTypes().setAll(ButtonType.OK, cancelButton);
             confirmationAlert.showAndWait().ifPresent(response -> {
-                if (response == deleteButton) {
+                if (response == ButtonType.OK) {
                     viewModel.removeTour(tourNameListView.getSelectionModel().getSelectedItem());
                 }
             });
