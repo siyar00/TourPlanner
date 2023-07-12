@@ -34,7 +34,7 @@ Es enthält die Main Klasse, welche die Applikation startet. In dieser Schicht h
 'architectural pattern' MVVM (Model-View-ViewModel) verwendet, damit die Business
 Logic der Anwendung sauber von dem User-Interface getrennt werden kann. 
 
-Diese Schicht ist gegliedert in:
+Die Application-Schicht ist gegliedert in:
 
 #### - Model
 Das Model enthält die Klassen, welche die Daten der Applikation repräsentieren.
@@ -72,16 +72,32 @@ und der eigentlichen Datenbank dar.
 
 ## USE CASE DIAGRAM
 ![Use Case Diagram](Application/src/main/resources/at/technikum/planner/images/UseCase_Tourplanner.jpg)
-
+[_präsentiert am 15.5.2023_]
 ## UX - WIREFRAME 
 ![Wireframe](Application/src/main/resources/at/technikum/planner/images/Wireframe_Tourplanner.jpg)
+[_präsentiert am 15.5.2023_]
+
+
 Tatsächlich haben wir uns relativ genau an das Wireframe gehalten. Wir haben
 uns an die Positionierung der einzelnen Elemente gehalten und auch die Farben
 sind relativ ähnlich. Allerdings haben wir uns dazu entschieden, einen Dark-Mode
 einzuimplementieren, da wir der Meinung sind, dass dieser besser aussieht.
 
 ## LIBRARY DECISIONS
+Wir haben uns vorrangig an die vorgeschlagenen Libraries aus dem Moodle Kurs gehalten.
+Zum Beispiel haben wir wie vorgeschlagen die **itextpdf** Library verwendet, um PDFs zu generieren.
+Auch **Slf4j** haben wir verwendet, um die Logs zu verwalten. Sowie **Hibernate**, um die Datenbankanfragen
+zu verarbeiten.
 
+Zusätzliche Libraries, die wir verwendet haben, sind:
+- **controlsfx** - eine JavaFX Library, welche zusätzliche Controls zur Verfügung stellt
+- **jMetro** - eine JavaFX Flat Design Library
+- **tornadofx** - eine JavaFX Library, welche die Entwicklung von JavaFX Applikationen vereinfacht
+
+weil wir zusätzliche UI-Elemente benötigt haben und die Applikation mit einem Flat Design, sowie einem Dark-Mode
+verschönern wollten.
+
+Zusätzlich haben wir fürs Testen auch die **testfx** Library verwendet.
 
 ## DESIGN PATTERNS
 Zum einen verwenden wir das **MVVM** Pattern, um die Business Logic von dem User-Interface
@@ -92,26 +108,72 @@ Das Factory Pattern ermöglicht die Abstraktion der Objekterzeugung, indem es ei
 Erstellung von Objekten definiert, anstatt sie direkt im Code zu instanziieren.
 (siehe Klasse _ControllerFactory_)
 
-Zudem verwenden wir das Oberserver Pattern, um die Views zu aktualisieren, wenn sich die Daten ändern.
+Zudem verwenden wir das **Oberserver** Pattern, um die Views zu aktualisieren, wenn sich die Daten ändern.
 Das Observer Pattern ist ein Entwurfsmuster, das aus einem Objekt, dem sogenannten Subjekt, und einer Liste von
 abhängigen Objekten, den sogenannten Beobachtern, besteht. Ein Beobachter kann sich bei einem Subjekt registrieren,
 um über Änderungen informiert zu werden. (siehe Klasse _TourLogViewModel_)
 
 ## UNIT TESTS
+Wir haben uns dazu entschieden, einerseits die einzelnen Services, Funktionalitäten und die
+Transformerklassen zu testen, um sicherzustellen, dass diese korrekt funktionieren.
+
+Dazu zählen die Klassen:
+- _ApplicationConfigPropertiesTest_ - dadurch können wir sicherstellen, dass die Konfigurationseinstellungen korrekt 
+geladen werden und dass die Abhängigkeiten ordnungsgemäß verdrahtet sind.
 
 
+- _ControllerFactoryTest_ - für die korrekte Instanziierung von den Controller-Klassen, dadurch können wir 
+sicherstellen, dass die richtigen Controller-Typen erzeugt werden
+
+
+- _FXMLDependencyInjectionTest_ - durch das Testen dieser Klasse können wir sicherstellen, dass die Abhängigkeiten
+korrekt erkannt und injiziert werden, um eine reibungslose Interaktion zwischen den FXML-Dateien und den Controllern 
+zu ermöglichen.
+
+
+- _MapAPITest_ - um die Funktionaliät und Korrektheit der API zu testen
+
+
+- _RouteServiceImplTest_ - um die Funktionaliät und Korrektheit der RouteService-Klasse zu testen
+
+
+- _WeatherServiceImplTest_ - um die Funktionaliät und Korrektheit der WeatherService-Klasse zu testen
+
+
+- Die Transformer-Klassen - Durch das Testen der Transformer-Klassen können wir sicherstellen, dass die konvertierten
+Daten die erwartete Konsistenz aufweisen. Das bedeutet, dass die konvertierten Daten die gleichen Informationen 
+enthalten und in der richtigen Struktur vorliegen, unabhängig vom Ausgangsformat.
+
+Anderseits haben wir aber auch das User-Interface getestet, da wir erstmals eine JavaFX Applikation
+geschrieben haben und sicherstellen wollten, dass die einzelnen Views korrekt funktionieren.
+
+Dazu zählen die Klassen:
+- _SearchTest_ - für das Suchen der einzelnen Touren und Logs - Testen der Funktionalität der Suchfunktion
+
+
+- _UiTest_ - für das Testen der einzelnen Views - Testen der Funktionalität der Views -> für die Interaktion mit dem User
 
 ## UNIQUE FEATURES
-Zum einen haben wir wie bereits erwähnt einen Dark-Mode implementiert.
+Unser TourPlanner Projekt verfügt über zwei einzigartige Features - diese da wären der Dark-Mode
+sowie die Integration einer Wetter-API.
 
-Zudem haben wir aber auch eine Wetter-API eingebunden, die das Wetter der
-jeweiligen Tour anzeigt.
+### Dark-Mode
+Um den persönlichen Präferenzen der Benutzer gerecht zu werden, haben wir einen Dark-Mode implementiert. Der Dark-Mode
+bietet eine alternative visuelle Darstellung der Anwendung, indem er dunkle Farbtöne und Kontraste verwendet. Dies 
+ermöglicht es Benutzern, die Anwendung auch in Umgebungen mit wenig Licht komfortabel zu nutzen und gleichzeitig ihre 
+Augen zu schonen. Der Dark-Mode kann in den Einstellungen aktiviert/deaktiviert werden. Mittels der JMetro Library
+implementiert.
+
+### Wetter-API mit openweathermap.org
+Diese API ermöglicht es uns, Echtzeit-Wetterinformationen für jede einzelne Tour anzuzeigen. Durch die Abfrage der
+Wetterdaten basierend auf dem Start- und Zielort der Tour erhalten die Benutzer Informationen über das aktuelle Wetter 
+während der geplanten Aktivität.
 
 ## ZEIT MANAGEMENT (+tracked time)
-Wir haben zwei Wochen vor Abgabe intensiv begonnen, an dem Projekt zu arbeiten.
-Seit Projektbeginn haben wir jeden Tag ca. 4-6 Stunden an dem Projekt gearbeitet.
+Wir haben drei Wochen vor Abgabe intensiv begonnen, an dem Projekt zu arbeiten.
+Seit Projektbeginn haben wir jeden Tag ca. 6-8 Stunden an dem Projekt gearbeitet.
 
-Geschätzter Zeitaufwand: 80 Stunden
+Geschätzter Zeitaufwand: 120 Stunden
 
 ## LESSONS LEARNED
 Wir haben einige Sachen mitnehmen können, vor allem was die Planung der Software
