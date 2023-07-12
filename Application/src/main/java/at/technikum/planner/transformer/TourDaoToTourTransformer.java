@@ -12,6 +12,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class TourDaoToTourTransformer implements Function<TourDao, Tour> {
+
     @Override
     public Tour apply(TourDao tourDao) {
         List<TourLog> tourLogs = tourDao.getTourLogsDao().stream().map(t -> new TourLogDaoToTourLogTransformer().apply(t)).collect(Collectors.toList());
@@ -32,6 +33,8 @@ public class TourDaoToTourTransformer implements Function<TourDao, Tour> {
                 .startLng(tourDao.getStartLng())
                 .endLat(tourDao.getEndLat())
                 .endLng(tourDao.getEndLng())
+                .popularity(tourDao.getPopularity() == null ? "" : tourDao.getPopularity())
+                .childFriendly(tourDao.getChildFriendly() == null ? "" : tourDao.getChildFriendly())
                 .tourLog(tourLogs).build();
     }
 }

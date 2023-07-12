@@ -32,6 +32,8 @@ public class TourDao {
     private double startLng;
     private double endLat;
     private double endLng;
+    private String popularity;
+    private String childFriendly;
 
     @OneToMany(cascade = { CascadeType.REMOVE }, targetEntity = TourLogsDao.class, fetch = FetchType.LAZY, mappedBy = "tourDao")
     private List<TourLogsDao> tourLogsDao;
