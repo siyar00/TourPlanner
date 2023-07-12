@@ -188,8 +188,8 @@ Auch haben wir das gemeinsame Arbeiten mit Git verbessert und haben gelernt, wie
 mit Git effizient im Team arbeitet.
 
 ## GIT
-Da unser GitHub Repository, das wir für unser Projekt verwendet haben, 
-auf privat gestellt ist, haben wir Sie als contributor eingeladen. 
-Sie müssten eine Mail bekommen haben und können die Einladung akzeptieren.
+Da unser Repository, das wir für unser Projekt verwendet haben, ursprünglich privat war und wir es nun öffentlich machen 
+möchten, ändern wir den Zugriffsstatus des Repositories. Es wird nun für alle sichtbar und zugänglich sein. Alle interessierten 
+Entwickler können den Code einsehen und dazu beitragen.
 
 https://github.com/siyar00/TourPlanner.git
