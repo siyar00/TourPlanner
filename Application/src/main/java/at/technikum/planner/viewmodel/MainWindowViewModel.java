@@ -2,9 +2,11 @@ package at.technikum.planner.viewmodel;
 
 import at.technikum.planner.model.Tour;
 import at.technikum.planner.model.TourFile;
+import at.technikum.planner.model.TourLog;
 import at.technikum.planner.transformer.TourFileToTourTransformer;
 import at.technikum.planner.transformer.TourToTourFileTransformer;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Data;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +22,7 @@ import java.util.UUID;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+@Data
 public class MainWindowViewModel {
     Logger LOGGER = Logger.getLogger(MainWindowViewModel.class.getName());
     private final TourListViewModel tourListViewModel;
@@ -36,6 +39,11 @@ public class MainWindowViewModel {
         this.routeMapViewModel = routeMapViewModel;
         
         this.tourListViewModel.addSelectionChangedListener(this::selectTour);
+        this.tourLogsViewModel.addListener(this::added);
+    }
+
+    private void added(List<TourLog> tourLog) {
+        routeMapViewModel.logAdded(tourLog);
     }
 
     private void selectTour(Tour selectedTour) {

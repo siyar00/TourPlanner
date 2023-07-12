@@ -43,7 +43,9 @@ public class SearchBarViewModel {
                     String transportation = RouteTypeTransformer.getBundleFromRouteType(tour.getTransportation(), bundle).toLowerCase();
                     String time = tour.getTime().toLowerCase();
                     String distance = tour.getDistance().toLowerCase();
-                    return tourName.contains(filter) || tourDescription.contains(filter) || startAddress.contains(filter) || endAddress.contains(filter) || transportation.contains(filter) || time.contains(filter) || distance.contains(filter)
+                    String popularity = tour.getPopularity().toLowerCase();
+                    String childFriendly = tour.getChildFriendly().toLowerCase();
+                    return popularity.contains(filter) || childFriendly.contains(filter) || tourName.contains(filter) || tourDescription.contains(filter) || startAddress.contains(filter) || endAddress.contains(filter) || transportation.contains(filter) || time.contains(filter) || distance.contains(filter)
                             || tour.getTourLog().stream().anyMatch(tourLog -> {
                         String date = tourLog.getDate().toLowerCase();
                         String duration = tourLog.getDuration().toLowerCase();
@@ -55,5 +57,6 @@ public class SearchBarViewModel {
                     });
                 }).toList();
         viewModel.getObservableTours().addAll(filteredTours);
+        LOGGER.fine("Search successfully executed.");
     }
 }

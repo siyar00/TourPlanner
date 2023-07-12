@@ -1,5 +1,6 @@
 package at.technikum.planner;
 
+import at.technikum.planner.config.ApplicationConfigProperties;
 import at.technikum.planner.view.ControllerFactory;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
@@ -22,6 +23,7 @@ public class FXMLDependencyInjection {
 
     public static FXMLLoader getLoader(String location, Locale locale, ConfigurableApplicationContext context) {
         ResourceBundle bundle = ResourceBundle.getBundle("at.technikum.planner.gui_strings", locale);
+        context.getBean(ApplicationConfigProperties.class).setBundle(bundle);
         return new FXMLLoader(
                 FXMLDependencyInjection.class.getResource("/at/technikum/planner/view/" + location), bundle,
                 new JavaFXBuilderFactory(),

@@ -31,8 +31,8 @@ public class ControllerFactory {
         WeatherServiceImpl weatherService = new WeatherServiceImpl();
         TourDaoRepository tourDaoRepository = applicationContext.getBean(TourDaoRepository.class);
         TourLogsDaoRepository tourLogsDaoRepository = applicationContext.getBean(TourLogsDaoRepository.class);
-        routeMapViewModel = new RouteMapViewModel(bundle);
         tourListViewModel = new TourListViewModel(routeService, tourDaoRepository, tourLogsDaoRepository);
+        routeMapViewModel = new RouteMapViewModel(tourLogsDaoRepository, tourDaoRepository, bundle);
         tourLogsViewModel = new TourLogsViewModel(tourListViewModel, tourLogsDaoRepository, tourDaoRepository, weatherService);
         searchBarViewModel = new SearchBarViewModel(tourListViewModel, tourLogsDaoRepository, tourDaoRepository, bundle);
         tourListDialogViewModel = new TourListDialogViewModel();

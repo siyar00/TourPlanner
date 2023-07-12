@@ -7,8 +7,8 @@ import at.technikum.dal.repository.TourDaoRepository;
 import at.technikum.dal.repository.TourLogsDaoRepository;
 import at.technikum.planner.model.Tour;
 import at.technikum.planner.model.TourLog;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -16,17 +16,18 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Data
 public class TourLogsViewModel {
-    public interface SelectionChangedListener {
-        void logChanged(TourLog log);
+    public interface AddedTourLogListener {
+        void logAdded(List<TourLog> log);
     }
 
     Logger LOGGER = Logger.getLogger(TourLogsViewModel.class.getName());
 
-    private final List<SelectionChangedListener> listeners = new ArrayList<>();
+    private final List<AddedTourLogListener> listeners = new ArrayList<>();
     private final ObservableList<TourLog> observableTourLogs = FXCollections.observableArrayList();
     private final PropertyValueFactory<TourLog, Integer> idColumnProperty = new PropertyValueFactory<>("id");
     private final PropertyValueFactory<TourLog, String> dateColumnProperty = new PropertyValueFactory<>("date");
@@ -60,15 +61,26 @@ public class TourLogsViewModel {
         return observableTourLogs;
     }
 
-    @SuppressWarnings("unused")
-    public ChangeListener<TourLog> getChangeListener() {
-        return (observableValue, oldValue, newValue) -> notifyListeners(newValue);
+    public ListChangeListener<TourLog> getChangeListener() {
+        return this::notifyListeners;
     }
 
-    private void notifyListeners(TourLog newValue) {
+    private void notifyListeners(ListChangeListener.Change<? extends TourLog> newValue) {
         for (var listener : listeners) {
-            listener.logChanged(newValue);
+            if(newValue.getList().isEmpty()) return;
+            List<TourLog> test = new ArrayList<>(newValue.getList());
+            listener.logAdded(test);
+            LOGGER.info("Notify listener: " + listener.getClass().getName());
         }
+    }
+
+    public void addListener(AddedTourLogListener listener) {
+        listeners.add(listener);
+    }
+
+    @SuppressWarnings("unused")
+    public void removeListener(AddedTourLogListener listener) {
+        listeners.remove(listener);
     }
 
     public void addTourLog(TourLog tourLog) {
@@ -80,8 +92,10 @@ public class TourLogsViewModel {
         };
         task.setOnSucceeded(event -> {
             tourLog.setLogId(task.getValue());
+            tourLog.setTourId(tour.getId());
             viewModel.addLog(tour, tourLog);
             observableTourLogs.add(tourLog);
+            LOGGER.log(Level.FINEST, "Insert TourLog successful");
         });
         task.setOnFailed(event -> LOGGER.warning("Insert TourLog failed: " + event.getSource().getException().getMessage()));
         new Thread(task).start();

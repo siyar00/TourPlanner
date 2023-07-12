@@ -87,6 +87,28 @@
                             <Text fx:id="transportation" strokeType="OUTSIDE" strokeWidth="0.0"/>
                         </TextFlow>
                     </HBox>
+                    <HBox prefHeight="50.0" prefWidth="200.0">
+                        <Label fx:id="popularityLabel" minWidth="-Infinity" prefWidth="150.0"
+                               text="%TourModal_Popularity">
+                            <HBox.margin>
+                                <Insets left="10.0"/>
+                            </HBox.margin>
+                        </Label>
+                        <TextFlow>
+                            <Text fx:id="popularity" strokeType="OUTSIDE" strokeWidth="0.0"/>
+                        </TextFlow>
+                    </HBox>
+                    <HBox prefHeight="50.0" prefWidth="200.0">
+                        <Label fx:id="childFriendlyLabel" minWidth="-Infinity" prefWidth="150.0"
+                               text="%TourModal_ChildFriendly">
+                            <HBox.margin>
+                                <Insets left="10.0"/>
+                            </HBox.margin>
+                        </Label>
+                        <TextFlow>
+                            <Text fx:id="childFriendly" strokeType="OUTSIDE" strokeWidth="0.0"/>
+                        </TextFlow>
+                    </HBox>
                     <HBox prefHeight="100.0">
                         <Label fx:id="tourDescriptionLabel" minWidth="-Infinity" prefWidth="150.0"
                                text="%TourModal_Description">
